@@ -1,6 +1,15 @@
-# Server
+## Server
+### local
 
 ```terminal
+cd server
 npm i
-npm run start
+npm start
+```
+
+### Docker
+
+```terminal
+cd server
+docker build .
 ```
