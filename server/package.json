@@ -1,0 +1,22 @@
+{
+  "name": "otakutime",
+  "version": "1.0.0",
+  "description": "otaku time server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "otaku",
+    "anime",
+    "manga"
+  ],
+  "author": "lui2mi",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.25.0",
+    "cheerio": "^1.0.0-rc.10",
+    "dotenv": "^14.2.0",
+    "express": "^4.17.2"
+  }
+}
