@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const axios = require('axios')
+const cors = require('cors');
 const animekb = require('./anime/animekb')
 const animeid = require('./anime/animeid')
 const jkanime = require('./anime/jkanime')
@@ -8,6 +9,9 @@ require('dotenv').config()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cors({
+    origin: '*'
+}));
 
 servers = {
     animekb,
@@ -46,6 +50,13 @@ app.post('/anime', async (req, res) => {
         res.json({ success: false });
     }
 
+});
+app.get('/anime', async (req, res) => {
+    res.json({success:true, data:[
+        {name:'AnimeKB',server:'animekb',logo:'https://i.imgur.com/ptPVBLU.png'},
+        {name:'AnimeID',server:'animeid',logo:'https://static.animeid.tv/img/logo.png'},
+        {name:'JKAnime',server:'jkanime',logo:'https://cdn.jkanime.net/assets2/css/img/logo.png'},
+    ]})
 });
 const _axios = (url) => {
     return new Promise((res, rej) => {

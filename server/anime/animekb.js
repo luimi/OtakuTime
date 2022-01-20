@@ -20,6 +20,7 @@ const episodes = (html) => {
     let poster = $('.imgthumb').find('img').attr('src')
     let title = $('.entry-title').text().trim()
     let synopsis = $('.content-squ').find('p').text()
+    
     $('#sidebar').find('div').each((index, element) => {
         let e = $(element)
         switch (index) {
@@ -32,7 +33,9 @@ const episodes = (html) => {
                 texts.forEach(val => {
                     if (val.trim() !== "") {
                         let splitted = val.split(":");
-                        extras.push({ title: splitted[0].trim(), content: splitted[1].trim() });
+                        try{
+                            extras.push({ title: splitted[0].trim(), content: splitted[1].trim() });
+                        }catch(e){}
                     }
                 });
                 break;
