@@ -70,4 +70,6 @@ const _axios = (url) => {
 
 }
 
-app.listen(process.env.PORT);
+app.listen(process.env.PORT, () => {
+    console.log("OtakuTime server ready");
+});
