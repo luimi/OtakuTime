@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Ultimos capitulos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="dark" routerLink="/tabs">
+        <ion-icon slot="icon-only" name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-searchbar placeholder="Buscar anime..." [(ngModel)]="query" (ionChange)="search($event)" enterkeyhint="search" debounce="3000" autocomplete="on"></ion-searchbar>
+  <ion-list>
+    <ion-item *ngFor="let episode of latest" [routerLink]="['/episode',server, episode.url]">
+      <ion-thumbnail slot="start">
+        <ion-img [src]="episode.poster"></ion-img>
+      </ion-thumbnail>
+      <ion-label>{{episode.title}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

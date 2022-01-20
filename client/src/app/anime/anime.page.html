@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Servidores</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let server of servers" [routerLink]="['/latest',server.server]">
+      <ion-label>{{server.name}}</ion-label>
+      <ion-thumbnail slot="end">
+        <ion-img [src]="server.logo"></ion-img>
+      </ion-thumbnail>
+    </ion-item>
+  </ion-list>
+</ion-content>

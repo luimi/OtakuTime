@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{anime?.title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="dark" routerLink="/tabs">
+        <ion-icon slot="icon-only" name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <img [src]="anime?.poster">
+      </ion-col>
+      <ion-col size="6">
+        <div>
+          <ion-chip color="secondary" *ngFor="let category of anime?.categories">
+            <ion-label color="dark">{{category}}</ion-label>
+          </ion-chip>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="ion-padding" *ngIf="anime">
+    <ion-button color="dark" expand="full" (click)="this.favorites.addRemove(this.server, this.url, this.anime)">
+      <span [hidden]="this.favorites.isAdded(this.server,this.url)">Agregar favorito <ion-icon name="star"></ion-icon>
+        </span>
+      <span [hidden]="!this.favorites.isAdded(this.server,this.url)">Qutar favorito <ion-icon name="close"></ion-icon>
+        </span>
+    </ion-button>
+    <p>{{anime?.synopsis}}</p>
+  </div>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let extra of anime?.extras">
+        {{extra.title}}: {{extra.content}}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-list *ngIf="anime">
+    <ion-list-header>
+      <ion-label>
+        <h1>Episodios</h1>
+      </ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let episode of anime?.episodes" [routerLink]="['/episode',server, episode.url]">
+      <ion-label>{{episode.title}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

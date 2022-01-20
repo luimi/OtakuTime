@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "OtakuTime",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Favoritos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item-sliding *ngFor="let favorite of favorites">
+      <ion-item [routerLink]="['/episodes',favorite.server,favorite.url]">
+        <ion-thumbnail slot="start">
+          <ion-img [src]="favorite.poster"></ion-img>
+        </ion-thumbnail>
+        <ion-label>
+          {{favorite.title}}
+        </ion-label>
+      </ion-item>
+      <ion-item-options>
+        <ion-item-option color="danger" (click)="remove(favorite.server, favorite.url)">
+          Quitar
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

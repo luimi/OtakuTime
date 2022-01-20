@@ -1,0 +1,7 @@
+{
+  "name": "OtakuTime",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
