@@ -20,7 +20,7 @@ servers = {
 }
 
 app.get('/', async (req, res) => {
-
+    res.json({success:true});
 });
 app.post('/anime', async (req, res) => {
     let body = req.body;
