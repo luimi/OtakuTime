@@ -5,6 +5,7 @@ const cors = require('cors');
 const animekb = require('./anime/animekb')
 const animeid = require('./anime/animeid')
 const jkanime = require('./anime/jkanime')
+const hitokin = require('./anime/hitokin')
 require('dotenv').config()
 
 app.use(express.json())
@@ -16,7 +17,8 @@ app.use(cors({
 servers = {
     animekb,
     animeid,
-    jkanime
+    jkanime,
+    hitokin
 }
 
 app.get('/', async (req, res) => {
@@ -41,7 +43,7 @@ app.post('/anime', async (req, res) => {
         }
         try {
             let html = await _axios(url);
-            let response = server[body.action](html);
+            let response = await server[body.action](html);
             res.json({ success: true, data: response });
         } catch (e) {
             res.json({ success: false, error: e });
@@ -56,6 +58,7 @@ app.get('/anime', async (req, res) => {
         {name:'AnimeKB',server:'animekb',logo:'https://i.imgur.com/ptPVBLU.png'},
         {name:'AnimeID',server:'animeid',logo:'https://static.animeid.tv/img/logo.png'},
         {name:'JKAnime',server:'jkanime',logo:'https://cdn.jkanime.net/assets2/css/img/logo.png'},
+        {name:'Hitokin',server:'hitokin',logo:'https://cdn.jkanime.net/assets2/css/img/logo.png'},
     ]})
 });
 const _axios = (url) => {

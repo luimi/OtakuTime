@@ -15,7 +15,7 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col size="6">
+      <ion-col size="6" *ngIf="anime?.poster">
         <img [src]="anime?.poster">
       </ion-col>
       <ion-col size="6">

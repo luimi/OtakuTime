@@ -15,7 +15,7 @@
 
 <ion-content>
   <ion-card *ngIf="episode">
-    <img [src]="episode.poster" />
+    <img [src]="episode.poster" *ngIf="episode.poster"/>
     <ion-card-header>
       <ion-card-title>{{episode.title}}</ion-card-title>
     </ion-card-header>
