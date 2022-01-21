@@ -11,9 +11,13 @@ require('dotenv').config()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-    origin: '*'
+    origin: 'https://otakutime.netlify.app'
 }));
-
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "https://otakutime.netlify.app");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 servers = {
     animekb,
     animeid,
@@ -22,7 +26,7 @@ servers = {
 }
 
 app.get('/', async (req, res) => {
-    res.json({success:true});
+    res.json({ success: true });
 });
 app.post('/anime', async (req, res) => {
     let body = req.body;
@@ -54,12 +58,14 @@ app.post('/anime', async (req, res) => {
 
 });
 app.get('/anime', async (req, res) => {
-    res.json({success:true, data:[
-        {name:'AnimeKB',server:'animekb',logo:'https://i.imgur.com/ptPVBLU.png'},
-        {name:'AnimeID',server:'animeid',logo:'https://static.animeid.tv/img/logo.png'},
-        {name:'JKAnime',server:'jkanime',logo:'https://cdn.jkanime.net/assets2/css/img/logo.png'},
-        {name:'Hitokin',server:'hitokin',logo:'https://cdn.jkanime.net/assets2/css/img/logo.png'},
-    ]})
+    res.json({
+        success: true, data: [
+            { name: 'AnimeKB', server: 'animekb', logo: 'https://i.imgur.com/ptPVBLU.png' },
+            { name: 'AnimeID', server: 'animeid', logo: 'https://static.animeid.tv/img/logo.png' },
+            { name: 'JKAnime', server: 'jkanime', logo: 'https://cdn.jkanime.net/assets2/css/img/logo.png' },
+            { name: 'Hitokin', server: 'hitokin', logo: 'https://cdn.jkanime.net/assets2/css/img/logo.png' },
+        ]
+    })
 });
 const _axios = (url) => {
     return new Promise((res, rej) => {
