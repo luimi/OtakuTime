@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  server:"https://otakutime-production.up.railway.app/"
+  server:"https://otakutime-production.up.railway.app"
 };
 
 /*
