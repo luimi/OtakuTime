@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  server:"http://192.168.20.32:8000"
+  server:"https://otakutime-production.up.railway.app/"
 };
 
 /*
