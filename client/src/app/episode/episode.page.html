@@ -1,11 +1,12 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar mode="ios" color="dark">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button text=""> </ion-back-button>
     </ion-buttons>
     <ion-title></ion-title>
     <ion-buttons slot="end">
-      <ion-button color="dark" routerLink="/tabs">
+      <ion-spinner name="crescent" [hidden]="!isLoading" color="light"></ion-spinner>
+      <ion-button color="light" routerLink="/tabs">
         <ion-icon slot="icon-only" name="home-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -33,7 +34,7 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-      <ion-list>
+      <ion-list *ngIf="episode.streams && episode.streams.length>0">
         <ion-list-header>
           <ion-label><h1>Ver</h1></ion-label>
         </ion-list-header>
@@ -49,7 +50,7 @@
 
         </ion-item>
       </ion-list>
-      <ion-list>
+      <ion-list *ngIf="episode.links && episode.links.length>0">
         <ion-list-header>
           <ion-label><h1>Descargar</h1></ion-label>
         </ion-list-header>

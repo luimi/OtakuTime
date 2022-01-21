@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { AnimeService } from '../api/anime.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class EpisodePage implements OnInit {
   server;
   url;
   episode;
-  constructor(private aRoute: ActivatedRoute, private anime: AnimeService) { }
+  constructor(private aRoute: ActivatedRoute, private anime: AnimeService, private toastCtrl: ToastController) { }
 
   async ngOnInit() {
     this.server = this.aRoute.snapshot.paramMap.get('server');
@@ -39,5 +40,13 @@ export class EpisodePage implements OnInit {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
+    this.presentToast();
+  }
+  async presentToast() {
+    const toast = await this.toastCtrl.create({
+      message: 'Link copiado al clipboard',
+      duration: 2000
+    });
+    toast.present();
   }
 }

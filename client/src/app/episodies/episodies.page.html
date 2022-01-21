@@ -1,11 +1,12 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar mode="ios" color="dark">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button text=""> </ion-back-button>
     </ion-buttons>
     <ion-title>{{anime?.title}}</ion-title>
     <ion-buttons slot="end">
-      <ion-button color="dark" routerLink="/tabs">
+      <ion-spinner name="crescent" [hidden]="!isLoading" color="light"></ion-spinner>
+      <ion-button color="light" routerLink="/tabs">
         <ion-icon slot="icon-only" name="home-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -27,22 +28,21 @@
     </ion-row>
   </ion-grid>
   <div class="ion-padding" *ngIf="anime">
-    <ion-button color="dark" expand="full" (click)="this.favorites.addRemove(this.server, this.url, this.anime)">
-      <span [hidden]="this.favorites.isAdded(this.server,this.url)">Agregar favorito <ion-icon name="star"></ion-icon>
+    <ion-button [color]="this.favorites.isAdded(this.server,this.url)?'danger':'dark'" expand="block" (click)="this.favorites.addRemove(this.server, this.url, this.anime)">
+      <span [hidden]="this.favorites.isAdded(this.server,this.url)">Agregar favorito 
         </span>
-      <span [hidden]="!this.favorites.isAdded(this.server,this.url)">Qutar favorito <ion-icon name="close"></ion-icon>
+      <span [hidden]="!this.favorites.isAdded(this.server,this.url)">Quitar favorito
         </span>
     </ion-button>
     <p>{{anime?.synopsis}}</p>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" *ngFor="let extra of anime?.extras">
+          {{extra.title}}: {{extra.content}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
-
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6" *ngFor="let extra of anime?.extras">
-        {{extra.title}}: {{extra.content}}
-      </ion-col>
-    </ion-row>
-  </ion-grid>
   <ion-list *ngIf="anime">
     <ion-list-header>
       <ion-label>

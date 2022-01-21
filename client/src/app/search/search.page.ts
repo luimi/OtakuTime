@@ -11,16 +11,19 @@ export class SearchPage implements OnInit {
   server :string;
   query: string;
   animes = [];
+  isLoading = false;
   constructor(private aRoute: ActivatedRoute, private anime: AnimeService) { }
 
   async ngOnInit() {
     this.server = this.aRoute.snapshot.paramMap.get('server');
     this.query = this.aRoute.snapshot.paramMap.get('query');
     if(this.server && this.query){
+      this.isLoading = true;
       let response:any = await this.anime.getSearch(this.server, this.query);
       if(response && response.success){
         this.animes = response.data;
       }
+      this.isLoading = false;
     }
   }
 
