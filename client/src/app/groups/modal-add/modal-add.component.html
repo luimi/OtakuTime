@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="dark" mode="ios">
+    <ion-title>Nuevo grupo</ion-title>
+    <ion-buttons slot="end">
+      <ion-spinner name="crescent" [hidden]="!isLoading" color="light"></ion-spinner>
+      <ion-button color="light" (click)="close()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-searchbar placeholder="Buscar anime..." [(ngModel)]="query" (ionChange)="search($event)" enterkeyhint="search" autocomplete="on"></ion-searchbar>
+  <ion-list *ngFor="let server of servers">
+    <ion-list-header>
+      <ion-label><h1>{{server.name}}</h1></ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let anime of results[server.server]">
+      <ion-thumbnail slot="start" *ngIf="anime.poster">
+        <ion-img [src]="anime.poster"></ion-img>
+      </ion-thumbnail>
+      <ion-label>{{anime.title}}</ion-label>
+      <ion-checkbox color="dark" slot="end" [(ngModel)]="anime.selected"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="full" color="dark" (click)="save()">Guardar grupo</ion-button>
+  </ion-toolbar>
+</ion-footer>

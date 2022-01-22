@@ -28,6 +28,10 @@ const routes: Routes = [
         loadChildren: () => import('../favorites/favorites.module').then(m => m.FavoritesPageModule)
       },
       {
+        path: 'groups',
+        loadChildren: () => import('../groups/groups.module').then(m => m.GroupsPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/anime',
         pathMatch: 'full'

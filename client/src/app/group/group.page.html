@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar mode="ios" color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button text=""> </ion-back-button>
+    </ion-buttons>
+    <ion-title>{{group?.title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-spinner name="crescent" [hidden]="!isLoading" color="light"></ion-spinner>
+      <ion-button color="light" (click)="getEpisodes()">
+        <ion-icon slote="icon-only" name="sync-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="group">
+    <div id="poster" [ngStyle]="{'background-image': 'url(' + group.poster + ')'}"></div>
+    <ion-card-content>
+      <ion-list *ngFor="let server of group.selected">
+        <ion-list-header>
+          <ion-label><h1>{{server.name}}</h1></ion-label>
+        </ion-list-header>
+        <ion-item>
+          <ion-label>
+            {{episodes[server.server]?.episodes[0].title}}
+          </ion-label>
+
+          <ion-button [routerLink]="['/episode',server.server, episodes[server.server]?.episodes[0].url]" fill="clear" color="dark" target="_blank" slot="end"  class="action-btn"><ion-icon name="arrow-redo-outline"></ion-icon></ion-button>
+
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
