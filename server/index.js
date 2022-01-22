@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const axios = require('axios')
-const cors = require('cors');
 const animekb = require('./anime/animekb')
 const animeid = require('./anime/animeid')
 const jkanime = require('./anime/jkanime')
@@ -10,11 +9,9 @@ require('dotenv').config()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors({
-    origin: 'https://otakutime.netlify.app'
-}));
 app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://otakutime.netlify.app");
+    //res.header("Access-Control-Allow-Origin", "https://otakutime.netlify.app");
+    res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
