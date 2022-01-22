@@ -12,16 +12,19 @@ export class EpisodePage implements OnInit {
   server;
   url;
   episode;
+  isLoading = false;
   constructor(private aRoute: ActivatedRoute, private anime: AnimeService, private toastCtrl: ToastController) { }
 
   async ngOnInit() {
     this.server = this.aRoute.snapshot.paramMap.get('server');
     this.url = this.aRoute.snapshot.paramMap.get('url');
     if(this.server && this.url){
+      this.isLoading = true;
       let response:any = await this.anime.getEpisode(this.server,this.url);
       if(response && response.success){
         this.episode = response.data;
       }
+      this.isLoading = false;
     }
   }
   getDomain(url){

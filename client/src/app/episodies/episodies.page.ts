@@ -10,10 +10,10 @@ import { FavoritesService } from '../utils/favorites.service';
 })
 export class EpisodiesPage implements OnInit {
   server :string;
-  url: string;
+  public url: string;
   anime;
   isLoading = false;
-  constructor(private aRoute: ActivatedRoute, private _anime: AnimeService, private favorites: FavoritesService) { }
+  constructor(private aRoute: ActivatedRoute, private _anime: AnimeService, public favorites: FavoritesService) { }
 
   async ngOnInit() {
     this.server = this.aRoute.snapshot.paramMap.get('server');

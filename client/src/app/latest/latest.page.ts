@@ -28,7 +28,7 @@ export class LatestPage implements OnInit {
       this.isLoading = false;
     }
   }
-  search(){
+  search(evt){
     if(this.timeOut){
       window.clearTimeout(this.timeOut);
       this.timeOut = undefined;
