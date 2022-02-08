@@ -8,6 +8,7 @@ const jkanime = require("./anime/jkanime");
 const hitokin = require("./anime/hitokin");
 const animefenix = require("./anime/animefenix");
 const monoschinos2 = require("./anime/monoschinos2");
+const lectortmoorg = require("./manga/lectortmoorg");
 require("dotenv").config();
 
 app.use(express.json());
@@ -28,6 +29,7 @@ let servers = {
   hitokin,
   animefenix,
   monoschinos2,
+  lectortmoorg,
 };
 
 const _axios = (url) => {
@@ -59,34 +61,7 @@ app.get("/", async (req, res) => {
                                
 
 */
-app.post("/anime", async (req, res) => {
-  let body = req.body;
-  if (body && body.server && body.action) {
-    let server = servers[body.server];
-    let url = "";
-    switch (body.action) {
-      case "main":
-        url = server.mainUrl;
-        break;
-      case "search":
-        url = server.searchUrl(body.query);
-        break;
-      case "episodes":
-      case "episode":
-        url = body.url;
-        break;
-    }
-    try {
-      let html = await _axios(url);
-      let response = await server[body.action](html);
-      res.json({ success: true, data: response });
-    } catch (e) {
-      res.json({ success: false, error: e });
-    }
-  } else {
-    res.json({ success: false });
-  }
-});
+
 app.get("/anime", async (req, res) => {
   res.json({
     success: true,
@@ -121,6 +96,33 @@ app.get("/anime", async (req, res) => {
         server: "monoschinos2",
         logo: "https://cdn.jkanime.net/assets2/css/img/logo.png",
       },
+    ],
+  });
+});
+
+
+/*
+
+                                    
+                                    
+  _ __ ___   __ _ _ __   __ _  __ _ 
+ | '_ ` _ \ / _` | '_ \ / _` |/ _` |
+ | | | | | | (_| | | | | (_| | (_| |
+ |_| |_| |_|\__,_|_| |_|\__, |\__,_|
+                         __/ |      
+                        |___/       
+
+*/
+
+app.get("/manga", async (req, res) => {
+  res.json({
+    success: true,
+    data: [
+      {
+        name: "LectorTMO.org",
+        server: "lectortmoorg",
+        logo: "https://i.imgur.com/ptPVBLU.png",
+      }
     ],
   });
 });
@@ -185,6 +187,36 @@ app.get("/test", async (req, res) => {
 
 
 */
+
+app.post("/", async (req, res) => {
+  let body = req.body;
+  if (body && body.server && body.action) {
+    let server = servers[body.server];
+    let url = "";
+    switch (body.action) {
+      case "main":
+        url = server.mainUrl;
+        break;
+      case "search":
+        url = server.searchUrl(body.query);
+        break;
+      case "episodes":
+      case "episode":
+        url = body.url;
+        break;
+    }
+    try {
+      let html = await _axios(url);
+      let response = await server[body.action](html);
+      res.json({ success: true, data: response });
+    } catch (e) {
+      res.json({ success: false, error: e });
+    }
+  } else {
+    res.json({ success: false });
+  }
+});
+
 app.listen(process.env.PORT, () => {
   console.log("OtakuTime server ready");
 });
