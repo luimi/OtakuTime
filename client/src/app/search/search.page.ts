@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AnimeService } from '../api/anime.service';
+import { RestService } from '../api/rest.service';
 
 @Component({
   selector: 'app-search',
@@ -12,14 +12,14 @@ export class SearchPage implements OnInit {
   query: string;
   animes = [];
   isLoading = false;
-  constructor(private aRoute: ActivatedRoute, private anime: AnimeService) { }
+  constructor(private aRoute: ActivatedRoute, private rest: RestService) { }
 
   async ngOnInit() {
     this.server = this.aRoute.snapshot.paramMap.get('server');
     this.query = this.aRoute.snapshot.paramMap.get('query');
     if(this.server && this.query){
       this.isLoading = true;
-      let response:any = await this.anime.getSearch(this.server, this.query);
+      let response:any = await this.rest.getSearch(this.server, this.query);
       if(response && response.success){
         this.animes = response.data;
       }

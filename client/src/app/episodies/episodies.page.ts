@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AnimeService } from '../api/anime.service';
+import { RestService } from '../api/rest.service';
 import { FavoritesService } from '../utils/favorites.service';
 
 @Component({
@@ -13,14 +13,14 @@ export class EpisodiesPage implements OnInit {
   public url: string;
   anime;
   isLoading = false;
-  constructor(private aRoute: ActivatedRoute, private _anime: AnimeService, public favorites: FavoritesService) { }
+  constructor(private aRoute: ActivatedRoute, private rest: RestService, public favorites: FavoritesService) { }
 
   async ngOnInit() {
     this.server = this.aRoute.snapshot.paramMap.get('server');
     this.url = this.aRoute.snapshot.paramMap.get('url');
     if(this.server && this.url){
       this.isLoading = true;
-      let response:any = await this._anime.getEpisodes(this.server, this.url);
+      let response:any = await this.rest.getEpisodes(this.server, this.url);
       if(response && response.success){
         this.anime = response.data;
       }

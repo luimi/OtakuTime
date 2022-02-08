@@ -37,6 +37,10 @@ const routes: Routes = [
   {
     path: 'group/:index',
     loadChildren: () => import('./group/group.module').then( m => m.GroupPageModule)
+  },
+  {
+    path: 'manga',
+    loadChildren: () => import('./manga/manga.module').then( m => m.MangaPageModule)
   }
 ];
 @NgModule({

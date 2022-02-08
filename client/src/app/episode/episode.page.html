@@ -68,6 +68,23 @@
           
         </ion-item>
       </ion-list>
+      <ion-list *ngIf="episode.pages && episode.pages.length>0">
+        <img *ngFor="let page of episode.pages; let i = index" [src]="page" [alt]="'page-'+(i+1)">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <ion-button color="dark" expand="full" *ngIf="episode.previous" shape="round" [routerLink]="['/episode',server,episode.previous]">
+                <ion-icon name="chevron-back-outline"></ion-icon>
+              </ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button color="dark" expand="full" *ngIf="episode.next" shape="round" [routerLink]="['/episode',server,episode.next]">
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list>
     </ion-card-content>
   </ion-card>
 </ion-content>

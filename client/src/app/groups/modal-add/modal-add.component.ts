@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { AnimeService } from 'src/app/api/anime.service';
+import { RestService } from 'src/app/api/rest.service';
 import { GroupsService } from 'src/app/utils/groups.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class ModalAddComponent implements OnInit {
   timeOut;
   results : any = {};
   servers;
-  constructor(private modalCtrl: ModalController, private anime: AnimeService, private groups: GroupsService) { }
+  constructor(private modalCtrl: ModalController, private rest: RestService, private groups: GroupsService) { }
 
   ngOnInit() {}
   close(){
@@ -35,14 +35,14 @@ export class ModalAddComponent implements OnInit {
     },3000);
   }
   private async searchInServers(){
-    let response :any = await this.anime.getAnimes()
+    let response :any = await this.rest.getAnimes()
     if(!response.success){
       return
     }
     this.servers = response.data;
     for (let i = 0 ; i < this.servers.length ; i++){
       let server = this.servers[i].server
-      let result: any = await this.anime.getSearch(server,this.query)
+      let result: any = await this.rest.getSearch(server,this.query)
       if(result.success){
         this.results[server] = result.data
       }

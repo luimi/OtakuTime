@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AnimeService } from '../api/anime.service';
+import { RestService } from '../api/rest.service';
 
 @Component({
   selector: 'app-latest',
@@ -13,7 +13,7 @@ export class LatestPage implements OnInit {
   query: string;
   isLoading = false;
   timeOut;
-  constructor(private aRoute: ActivatedRoute, private anime: AnimeService, private router: Router) { 
+  constructor(private aRoute: ActivatedRoute, private rest: RestService, private router: Router) { 
     
   }
 
@@ -21,7 +21,7 @@ export class LatestPage implements OnInit {
     this.server = this.aRoute.snapshot.paramMap.get('server');
     if(this.server){
       this.isLoading = true;
-      let response: any = await this.anime.getLatest(this.server);
+      let response: any = await this.rest.getLatest(this.server);
       if(response && response.success) {
         this.latest = response.data;
       }

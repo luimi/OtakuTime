@@ -1,17 +1,25 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AnimeService {
+export class RestService {
 
+  
   constructor(private http: HttpClient) { }
 
   async getAnimes(){
     try{
       return await this.http.get(`${environment.server}/anime`).toPromise();
+    }catch(e){
+
+    }
+  }
+  async getMangas(){
+    try{
+      return await this.http.get(`${environment.server}/manga`).toPromise();
     }catch(e){
 
     }
@@ -30,7 +38,7 @@ export class AnimeService {
   }
   async postRequest(params: any){
     try{
-      return await this.http.post(`${environment.server}/anime`,params).toPromise();
+      return await this.http.post(`${environment.server}/`,params).toPromise();
     }catch(e){}
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import { AnimeService } from '../api/anime.service';
+import { RestService } from '../api/rest.service';
 
 @Component({
   selector: 'app-episode',
@@ -13,14 +13,14 @@ export class EpisodePage implements OnInit {
   url;
   episode;
   isLoading = false;
-  constructor(private aRoute: ActivatedRoute, private anime: AnimeService, private toastCtrl: ToastController) { }
+  constructor(private aRoute: ActivatedRoute, private rest: RestService, private toastCtrl: ToastController) { }
 
   async ngOnInit() {
     this.server = this.aRoute.snapshot.paramMap.get('server');
     this.url = this.aRoute.snapshot.paramMap.get('url');
     if(this.server && this.url){
       this.isLoading = true;
-      let response:any = await this.anime.getEpisode(this.server,this.url);
+      let response:any = await this.rest.getEpisode(this.server,this.url);
       if(response && response.success){
         this.episode = response.data;
       }

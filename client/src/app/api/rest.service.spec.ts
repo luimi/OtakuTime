@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AnimeService } from './anime.service';
+import { RestService } from './rest.service';
 
-describe('AnimeService', () => {
-  let service: AnimeService;
+describe('RestService', () => {
+  let service: RestService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AnimeService);
+    service = TestBed.inject(RestService);
   });
 
   it('should be created', () => {
