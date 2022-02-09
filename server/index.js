@@ -9,6 +9,7 @@ const hitokin = require("./anime/hitokin");
 const animefenix = require("./anime/animefenix");
 const monoschinos2 = require("./anime/monoschinos2");
 const lectortmoorg = require("./manga/lectortmoorg");
+const mangatemplo = require("./manga/mangatemplo");
 require("dotenv").config();
 
 app.use(express.json());
@@ -30,6 +31,7 @@ let servers = {
   animefenix,
   monoschinos2,
   lectortmoorg,
+  mangatemplo,
 };
 
 const _axios = (url) => {
@@ -122,7 +124,12 @@ app.get("/manga", async (req, res) => {
         name: "LectorTMO.org",
         server: "lectortmoorg",
         logo: "https://i.imgur.com/ptPVBLU.png",
-      }
+      },
+      {
+        name: "Manga Templo",
+        server: "mangatemplo",
+        logo: "https://i.imgur.com/ptPVBLU.png",
+      },
     ],
   });
 });
@@ -143,6 +150,7 @@ app.get("/manga", async (req, res) => {
 */
 
 app.post("/test", async (req, res) => {
+  let responses = [];
   try {
     let pages = [
       { name: "main", url: req.body.main },
@@ -150,7 +158,6 @@ app.post("/test", async (req, res) => {
       { name: "episodes", url: req.body.episodes },
       { name: "episode", url: req.body.episode },
     ];
-    let responses = [];
     for (let i = 0; i < pages.length; i++) {
       let response = await _axios(pages[i].url);
       if (response) {
@@ -160,7 +167,8 @@ app.post("/test", async (req, res) => {
     }
     res.json({ success: true, data: responses });
   } catch (e) {
-    res.json({ success: false, error: e });
+    console.log("error",e)
+    res.json({ success: false, error: e , responses});
   }
 });
 
