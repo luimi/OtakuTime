@@ -13,6 +13,8 @@ export class EpisodePage implements OnInit {
   url;
   episode;
   isLoading = false;
+  pages = []
+  lastPageAdded;
   constructor(private aRoute: ActivatedRoute, private rest: RestService, private toastCtrl: ToastController) { }
 
   async ngOnInit() {
@@ -23,6 +25,9 @@ export class EpisodePage implements OnInit {
       let response:any = await this.rest.getEpisode(this.server,this.url);
       if(response && response.success){
         this.episode = response.data;
+        if(this.episode.pages){
+          this.addPages()
+        }
       }
       this.isLoading = false;
     }
@@ -52,4 +57,23 @@ export class EpisodePage implements OnInit {
     });
     toast.present();
   }
+  addPages(event?){
+    let timeBetweenpages = 3000;
+    let pagesToAdd = 3;
+    if(event){
+      event.target.complete();
+    }
+    if(this.lastPageAdded && performance.now()-this.lastPageAdded<timeBetweenpages){
+      return
+    }
+    let current = this.pages.length
+    for(let i = current; i < current+pagesToAdd && i < this.episode.pages.length ; i++){
+      this.pages.push(this.episode.pages[i])
+    }
+    if(this.pages.length === this.episode.pages.length && event){
+      event.target.disabled = true;
+    }
+    this.lastPageAdded = performance.now();
+  }
+  
 }

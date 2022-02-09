@@ -68,8 +68,14 @@
           
         </ion-item>
       </ion-list>
-      <ion-list *ngIf="episode.pages && episode.pages.length>0">
-        <img *ngFor="let page of episode.pages; let i = index" [src]="page" [alt]="'page-'+(i+1)">
+      <ion-list *ngIf="pages.length>0">
+        <img *ngFor="let page of pages; let i = index" [src]="page" [alt]="'page-'+(i+1)">
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="addPages($event)">
+          <ion-infinite-scroll-content
+            loadingSpinner="bubbles"
+            loadingText="Cargando mas paginas...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
         <ion-grid>
           <ion-row>
             <ion-col size="6">
@@ -84,6 +90,7 @@
             </ion-col>
           </ion-row>
         </ion-grid>
+        
       </ion-list>
     </ion-card-content>
   </ion-card>
