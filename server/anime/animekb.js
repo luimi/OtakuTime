@@ -56,12 +56,24 @@ const episode = (html) => {
     let $ = cheerio.load(html)
     let poster = $('.separator').find('img').attr('src');
     let title = $('.entry-title').text().trim();
+    let episodes = undefined
+    $('body').find('link').each((index,element) => {
+      let e = $(element)
+      if(e.attr('rel') === "canonical"){
+        let splitedName = e.attr('href').split('/')[3].split('-')
+        let name = splitedName[0]
+        for (let i = 1 ; i < splitedName.length-1; i++){
+          name+= `-${splitedName[i]}`
+        }
+        episodes = `${root}/anime/${name}`
+      }
+    })
     $(".botondescarga").each((index, element) => {
         let url = element.parent.attribs.href
         links.push(url);
     });
     links.splice(links.length - 1, 1);
-    return { poster, title, links };
+    return { poster, title, links, episodes};
 };
 
 module.exports = {

@@ -62,6 +62,7 @@ const episode = async (html) => {
     let $ = cheerio.load(html)
     let title = $('h1.tv-title ').text().trim();
     let poster = $('#fondo_anime').attr('data-src')
+    let episodes = undefined
     /*$('meta').each((index, element) => {
         let e = $(element)
         if(e.attr('itemprop') === "image") poster = e.attr('content')
@@ -109,9 +110,11 @@ const episode = async (html) => {
     for (let i = 0; i < players.length; i++) {
         await postPlayer(players[i])
     }
+    episodes = $('.block-options').find('button').attr('onclick')
+      .replace('window.location.href=\'',"")
+      .replace('\'',"")
     
-    
-    return { title, links, streams, next, previous };
+    return { title, links, streams, next, previous, episodes};
 };
 
 module.exports = {

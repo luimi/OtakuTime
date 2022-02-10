@@ -47,6 +47,7 @@ const episode = (html) => {
     let info = $('#infoanime')
     let poster = info.find('figure').find('img').attr('src');
     let title = info.find('h1').find('strong').text();
+    let episodes = undefined
     $('.subtab').each((index, element) => {
         let data = $(element).find('.parte').attr("data");
         let datas = data.split('\\u0022');
@@ -64,12 +65,15 @@ const episode = (html) => {
             case 0:
                 previous = url;
                 break;
+            case 1:
+                episodes = url
+                break;
             case 2:
                 next = url
                 break;
         }
     });
-    return { poster, title, streams, next, previous };
+    return { poster, title, streams, next, previous, episodes};
 };
 module.exports = {
     mainUrl: root,

@@ -44,7 +44,8 @@ const episodes = (html) => {
     return { poster, title, synopsis, categories, extras, episodes };
 };
 const episode = (html) => {
-    let pages = []
+    let links = []
+    let streams = []
     let next = undefined
     let previous = undefined
     let $ = cheerio.load(html)
@@ -52,12 +53,14 @@ const episode = (html) => {
     let episodes = undefined
     $(".class").each((index, element) => {
         let url = $(element).attr('href')
+        links.push(url);
     });
 
     $("script").each((index, element) => {
         let e = $(element)
+        streams.push(e.text())
     });
-    return { title, pages, next, previous, episodes };
+    return { title, links, streams, next, previous , episodes};
 };
 
 module.exports = {

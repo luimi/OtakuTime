@@ -58,6 +58,7 @@ const episode = (html) => {
     let previous = undefined
     let $ = cheerio.load(html)
     let title = $('#chapter-heading').text();
+    let episodes = undefined
     $("img.img-fluid").each((index, element) => {
         let url = $(element).attr('data-src')
         pages.push(url)
@@ -69,9 +70,11 @@ const episode = (html) => {
           previous = a.attr('href')
         } else if(a.hasClass('next_page')){
           next = a.attr('href')
+        } else if(a.hasClass('all_manga')){
+          episodes = a.attr('href')
         }
     });
-    return { title, pages, next, previous};
+    return { title, pages, next, previous, episodes};
 };
 
 module.exports = {

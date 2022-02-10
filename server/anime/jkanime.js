@@ -72,6 +72,7 @@ const episode = (html) => {
     let previous = undefined
     let $ = cheerio.load(html)
     let title = $('.breadcrumb__links').find('h1').text().trim();
+    let episodes = undefined
     $("table").find('a').each((index, element) => {
         let url = $(element).attr('href')
         links.push(url);
@@ -107,7 +108,8 @@ const episode = (html) => {
             previous = url
         }
     })
-    return { title, links, streams, next, previous };
+    episodes = $('.justify-content-start').find('div.col-lg-2').find('a').attr('href')
+    return { title, links, streams, next, previous, episodes};
 };
 
 module.exports = {

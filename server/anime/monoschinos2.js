@@ -58,6 +58,7 @@ const episode = (html) => {
   let poster = undefined;
   let $ = cheerio.load(html);
   let title = $(".heromain_h1").text();
+  let episodes = undefined;
   $("meta").each((index, element) => {
     let e = $(element);
     if (e.attr("property") === "og:image") {
@@ -82,9 +83,11 @@ const episode = (html) => {
       previous = a.attr('href')
     } else if(a.find('img').attr('src').includes('playarrowright')){
       next = a.attr('href')
+    } else if(a.find('img').attr('src').includes('playlist')){
+      episodes = a.attr('href')
     }
   });
-  return { title, poster, links, streams, next, previous };
+  return { title, poster, links, streams, next, previous, episodes};
 };
 
 module.exports = {

@@ -48,6 +48,7 @@ const episode = async (html) => {
     let $ = cheerio.load(html)
     let titles = $('.container-page').find('h3').text().split(" - ")
     let title = `${titles[0]} - ${titles[1]}`;
+    let episodes = root+$('.mt-3').find('a.btn-primary').attr('href')
     let img = $('.img-fluid').attr('src')
     pages.push(img)
     let getNextImage = async (url) => {
@@ -64,7 +65,7 @@ const episode = async (html) => {
       } catch (e) {}
     }
     await getNextImage($('.btn-next').attr('href'))
-    return { title, pages, next, previous };
+    return { title, pages, next, previous , episodes};
 };
 
 module.exports = {

@@ -59,6 +59,7 @@ const episode = (html) => {
     let previous = undefined
     let $ = cheerio.load(html)
     let title = $('.title:first').text().trim();
+    let episodes = undefined
     $("meta").each((index, element) => {
       let e = $(element)
       if(e.attr('property') === 'og:image' && !poster){
@@ -89,7 +90,8 @@ const episode = (html) => {
           next = url 
         }
     });
-    return { title, poster,links, streams, next, previous };
+    episodes = $('a.is-dark:first').attr('href')
+    return { title, poster,links, streams, next, previous, episodes };
 };
 
 module.exports = {
