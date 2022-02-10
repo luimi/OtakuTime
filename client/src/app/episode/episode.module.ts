@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { EpisodePageRoutingModule } from './episode-routing.module';
 
 import { EpisodePage } from './episode.page';
+import { PaginatorComponent } from './paginator/paginator.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { EpisodePage } from './episode.page';
     IonicModule,
     EpisodePageRoutingModule
   ],
-  declarations: [EpisodePage]
+  declarations: [EpisodePage, PaginatorComponent]
 })
 export class EpisodePageModule {}

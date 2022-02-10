@@ -20,20 +20,7 @@
       <ion-card-title>{{episode.title}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-grid>
-        <ion-row>
-          <ion-col size="6">
-            <ion-button color="dark" expand="full" *ngIf="episode.previous" shape="round" [routerLink]="['/episode',server,episode.previous]">
-              <ion-icon name="chevron-back-outline"></ion-icon>
-            </ion-button>
-          </ion-col>
-          <ion-col size="6">
-            <ion-button color="dark" expand="full" *ngIf="episode.next" shape="round" [routerLink]="['/episode',server,episode.next]">
-              <ion-icon name="chevron-forward-outline"></ion-icon>
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+      <app-paginator [episode]="episode" [server]="server"></app-paginator>
       <ion-list *ngIf="episode.streams && episode.streams.length>0">
         <ion-list-header>
           <ion-label><h1>Ver</h1></ion-label>
@@ -76,20 +63,7 @@
             loadingText="Cargando mas paginas...">
           </ion-infinite-scroll-content>
         </ion-infinite-scroll>
-        <ion-grid>
-          <ion-row>
-            <ion-col size="6">
-              <ion-button color="dark" expand="full" *ngIf="episode.previous" shape="round" [routerLink]="['/episode',server,episode.previous]">
-                <ion-icon name="chevron-back-outline"></ion-icon>
-              </ion-button>
-            </ion-col>
-            <ion-col size="6">
-              <ion-button color="dark" expand="full" *ngIf="episode.next" shape="round" [routerLink]="['/episode',server,episode.next]">
-                <ion-icon name="chevron-forward-outline"></ion-icon>
-              </ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+        <app-paginator [episode]="episode" [server]="server"></app-paginator>
         
       </ion-list>
     </ion-card-content>
