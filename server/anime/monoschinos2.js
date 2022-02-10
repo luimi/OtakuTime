@@ -8,7 +8,7 @@ const main = (html) => {
     .each((index, element) => {
       let a = $(element);
       let url = a.attr("href");
-      let title = a.find("p").text();
+      let title = `${a.find("p").text()} - ${a.find('.positioning').find('h5').text()}`
       let poster = a.find("img").attr("data-src");
       result.push({ title, url, poster });
     });
