@@ -15,7 +15,8 @@
 
 <ion-content>
   <ion-card *ngIf="episode">
-    <img [src]="episode.poster" *ngIf="episode.poster"/>
+    <iframe [hidden]="!streamUrl" [src]="streamUrl"></iframe>
+    <img [src]="episode.poster" *ngIf="episode.poster" [hidden]="streamUrl"/>
     <ion-card-header>
       <ion-card-title>{{episode.title}}</ion-card-title>
     </ion-card-header>
@@ -32,7 +33,7 @@
           <ion-label>
             {{getDomain(stream)}}
           </ion-label>
-
+          <ion-button fill="clear" color="dark" slot="end" class="action-btn" (click)="playStream(stream)"><ion-icon name="play-outline"></ion-icon></ion-button>
           <ion-button [href]="stream" fill="clear" color="dark" target="_blank" slot="end"  class="action-btn"><ion-icon name="arrow-redo-outline"></ion-icon></ion-button>
 
         </ion-item>

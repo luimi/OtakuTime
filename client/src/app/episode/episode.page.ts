@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { RestService } from '../api/rest.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-episode',
@@ -15,7 +16,8 @@ export class EpisodePage implements OnInit {
   isLoading = false;
   pages = []
   lastPageAdded;
-  constructor(private aRoute: ActivatedRoute, private rest: RestService, private toastCtrl: ToastController) { }
+  streamUrl;
+  constructor(private aRoute: ActivatedRoute, private rest: RestService, private toastCtrl: ToastController, private sanitizer: DomSanitizer) { }
 
   async ngOnInit() {
     this.server = this.aRoute.snapshot.paramMap.get('server');
@@ -31,6 +33,9 @@ export class EpisodePage implements OnInit {
       }
       this.isLoading = false;
     }
+  }
+  ionViewWillLeave(){
+    this.streamUrl = undefined;
   }
   getDomain(url){
     let domain = (new URL(url));
@@ -75,5 +80,7 @@ export class EpisodePage implements OnInit {
     }
     this.lastPageAdded = performance.now();
   }
-  
+  playStream(url){
+    this.streamUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
 }
