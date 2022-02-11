@@ -10,4 +10,11 @@
       <ion-label>{{server.name}}</ion-label>
     </ion-item>
   </ion-list>
+  <ion-list [hidden]="servers.length>0">
+    <ion-item *ngFor="let size of skeleton">
+      <ion-label>
+        <ion-skeleton-text animated [ngStyle]="{'width': size}"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

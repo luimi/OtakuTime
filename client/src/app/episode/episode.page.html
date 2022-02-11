@@ -14,14 +14,35 @@
 </ion-header>
 
 <ion-content>
+  <ion-card [hidden]="episode">
+    <ion-card-header>
+      <ion-skeleton-text animated style="width: 75%; height: 30px;"></ion-skeleton-text>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row>
+        <ion-col size="5">
+          <ion-skeleton-text animated style="width: 100%; height: 45px;"></ion-skeleton-text>
+        </ion-col>
+        <ion-col size="2">
+          <ion-skeleton-text animated style="width: 100%; height: 45px;"></ion-skeleton-text>
+        </ion-col>
+        <ion-col size="5">
+          <ion-skeleton-text animated style="width: 100%; height: 45px;"></ion-skeleton-text>
+        </ion-col>
+      </ion-row>
+      <div class="custom-skeleton">
+        <ion-skeleton-text animated style="width: 100%; height: 56vw" slot="start"></ion-skeleton-text>
+      </div>
+    </ion-card-content>
+  </ion-card>
   <ion-card *ngIf="episode">
-    <iframe [hidden]="!streamUrl" [src]="streamUrl"></iframe>
-    <img [src]="episode.poster" *ngIf="episode.poster" [hidden]="streamUrl"/>
     <ion-card-header>
       <ion-card-title>{{episode.title}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <app-paginator [episode]="episode" [server]="server"></app-paginator>
+      <iframe [hidden]="!streamUrl" [src]="streamUrl"></iframe>
+      <img [src]="episode.poster" *ngIf="episode.poster" [hidden]="streamUrl"/>
       <ion-list *ngIf="episode.streams && episode.streams.length>0">
         <ion-list-header>
           <ion-label><h1>Ver</h1></ion-label>

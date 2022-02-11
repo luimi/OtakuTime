@@ -13,6 +13,38 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+  <div [hidden]="anime">
+    <ion-grid>
+      <ion-row class="custom-skeleton">
+        <ion-col size="6">
+          <ion-skeleton-text animated style="width: 100%; height: 56vw"></ion-skeleton-text>
+        </ion-col>
+        <ion-col size="6">
+          <ion-row>
+            <ion-col *ngFor="let size of [8,4,6,6,2,6,4,3,7]" [size]="size">
+              <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div>
+      <ion-skeleton-text animated style="width: 100%; height: 45px;"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 100%;"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 100%;"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 100%;"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 100%;"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 100%;"></ion-skeleton-text>
+    </div>
+    <ion-list>
+      <ion-list-header>
+        <ion-skeleton-text animated style="width: 40%"></ion-skeleton-text>
+      </ion-list-header>
+      <ion-item *ngFor="let link of [1,2,3,4]">
+        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+      </ion-item>
+    </ion-list>
+  </div>
   <ion-grid>
     <ion-row>
       <ion-col size="6" *ngIf="anime?.poster">

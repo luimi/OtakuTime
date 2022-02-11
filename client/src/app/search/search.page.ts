@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RestService } from '../api/rest.service';
+import { UtilsService } from '../utils/utils.service';
 
 @Component({
   selector: 'app-search',
@@ -12,9 +13,11 @@ export class SearchPage implements OnInit {
   query: string;
   animes = [];
   isLoading = false;
-  constructor(private aRoute: ActivatedRoute, private rest: RestService) { }
+  skeleton = [];
+  constructor(private aRoute: ActivatedRoute, private rest: RestService, private utils : UtilsService) { }
 
   async ngOnInit() {
+    this.skeleton = this.utils.getSkeletonList()
     this.server = this.aRoute.snapshot.paramMap.get('server');
     this.query = this.aRoute.snapshot.paramMap.get('query');
     if(this.server && this.query){

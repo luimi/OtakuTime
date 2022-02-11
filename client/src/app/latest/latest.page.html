@@ -22,4 +22,12 @@
       <ion-label>{{episode.title}}</ion-label>
     </ion-item>
   </ion-list>
+  <ion-list [hidden]="latest.length>0">
+    <ion-item *ngFor="let size of skeleton">
+      <ion-skeleton-text animated style="width: 57px; height: 57px" slot="start"></ion-skeleton-text>
+      <ion-label>
+        <ion-skeleton-text animated [ngStyle]="{'width': size}"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

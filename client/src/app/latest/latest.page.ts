@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestService } from '../api/rest.service';
+import { UtilsService } from '../utils/utils.service';
 
 @Component({
   selector: 'app-latest',
@@ -13,11 +14,13 @@ export class LatestPage implements OnInit {
   query: string;
   isLoading = false;
   timeOut;
-  constructor(private aRoute: ActivatedRoute, private rest: RestService, private router: Router) { 
+  skeleton = [];
+  constructor(private aRoute: ActivatedRoute, private rest: RestService, private router: Router, private utils: UtilsService) { 
     
   }
 
   async ngOnInit() {
+    this.skeleton = this.utils.getSkeletonList()
     this.server = this.aRoute.snapshot.paramMap.get('server');
     if(this.server){
       this.isLoading = true;
