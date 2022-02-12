@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [hidden]="this.groups.groups.length===0">
+<ion-content>
   <ion-list>
     <ion-item-sliding *ngFor="let group of this.groups.groups; index as i">
       <ion-item [routerLink]="['/group',i]">
@@ -22,10 +22,11 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+  <app-empty-state [hidden]="this.groups.groups.length>0" icon="file-tray-stacked" title="Grupos" message="Aquí podrás consultar el último capítulo de cada Anime en todos los servidores."></app-empty-state>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="newGroup()">
+    <ion-fab-button color="dark">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
-<ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="newGroup()">
-  <ion-fab-button color="dark">
-    <ion-icon name="add"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
-<app-empty-state [hidden]="this.groups.groups.length>0" icon="file-tray-stacked" title="Grupos" message="Aquí podrás consultar el último capítulo de cada Anime en todos los servidores."></app-empty-state>
+

@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [hidden]="favorites.length===0">
+<ion-content>
   <ion-list>
     <ion-item-sliding *ngFor="let favorite of favorites">
       <ion-item [routerLink]="['/episodes',favorite.server,favorite.url]">
@@ -22,5 +22,5 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+  <app-empty-state [hidden]="favorites.length>0" icon="star" title="Favoritos" message="Tus favoritos se agregarán a esta lista, así los tendras más cerca."></app-empty-state>
 </ion-content>
-<app-empty-state [hidden]="favorites.length>0" icon="star" title="Favoritos" message="Tus favoritos se agregarán a esta lista, así los tendras más cerca."></app-empty-state>

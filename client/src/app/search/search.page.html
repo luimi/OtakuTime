@@ -21,7 +21,7 @@
       <ion-label>{{anime.title}}</ion-label>
     </ion-item>
   </ion-list>
-  <ion-list [hidden]="animes.length>0">
+  <ion-list [hidden]="!isLoading">
     <ion-item *ngFor="let size of skeleton">
       <ion-skeleton-text animated style="width: 57px; height: 57px" slot="start"></ion-skeleton-text>
       <ion-label>
@@ -29,4 +29,5 @@
       </ion-label>
     </ion-item>
   </ion-list>
+  <app-empty-state [hidden]="isLoading || animes.length>0" icon="search" title="Sin resultados" message="No se encontró resultados para esta búsqueda."></app-empty-state>
 </ion-content>
