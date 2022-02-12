@@ -8,13 +8,15 @@ import { GroupsPageRoutingModule } from './groups-routing.module';
 
 import { GroupsPage } from './groups.page';
 import { ModalAddComponent } from './modal-add/modal-add.component';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    GroupsPageRoutingModule
+    GroupsPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [GroupsPage, ModalAddComponent]
 })
