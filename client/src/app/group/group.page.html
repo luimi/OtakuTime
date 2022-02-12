@@ -21,13 +21,16 @@
         <ion-list-header>
           <ion-label><h1>{{server.name}}</h1></ion-label>
         </ion-list-header>
-        <ion-item>
+        <ion-item [hidden]="!episodes[server.server] || !episodes[server.server].episodes[0].title">
           <ion-label>
             {{episodes[server.server]?.episodes[0].title}}
           </ion-label>
 
           <ion-button [routerLink]="['/episode',server.server, episodes[server.server]?.episodes[0].url]" fill="clear" color="dark" target="_blank" slot="end"  class="action-btn"><ion-icon name="arrow-redo-outline"></ion-icon></ion-button>
 
+        </ion-item>
+        <ion-item [hidden]="episodes[server.server] && episodes[server.server].episodes[0].title">
+          <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
         </ion-item>
       </ion-list>
     </ion-card-content>
