@@ -9,9 +9,9 @@ export class UtilsService {
   getRandomNum(min,max){
     return Math.floor(Math.random() * (max - min)) + min
   }
-  getSkeletonList(){
+  getSkeletonList(qty?){
     let skeleton = [];
-    for(let i = 0 ; i < 20 ; i++){
+    for(let i = 0 ; i < (qty?qty:6) ; i++){
       skeleton.push(this.getRandomNum(40,80)+"%")
     }
     return skeleton

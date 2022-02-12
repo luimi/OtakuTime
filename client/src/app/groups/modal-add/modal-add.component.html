@@ -22,6 +22,14 @@
       <ion-label>{{anime.title}}</ion-label>
       <ion-checkbox color="dark" slot="end" [(ngModel)]="anime.selected"></ion-checkbox>
     </ion-item>
+    <div [hidden]="results[server.server]">
+      <ion-item *ngFor="let size of skeleton">
+        <ion-skeleton-text animated style="width: 57px; height: 57px" slot="start"></ion-skeleton-text>
+        <ion-label>
+          <ion-skeleton-text animated [ngStyle]="{'width': size}"></ion-skeleton-text>
+        </ion-label>
+      </ion-item>
+    </div>
   </ion-list>
 </ion-content>
 <ion-footer>

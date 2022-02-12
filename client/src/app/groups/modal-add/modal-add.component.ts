@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/api/rest.service';
 import { GroupsService } from 'src/app/utils/groups.service';
+import { UtilsService } from 'src/app/utils/utils.service';
 
 @Component({
   selector: 'app-modal-add',
@@ -14,9 +15,12 @@ export class ModalAddComponent implements OnInit {
   timeOut;
   results : any = {};
   servers;
-  constructor(private modalCtrl: ModalController, private rest: RestService, private groups: GroupsService) { }
+  skeleton = []
+  constructor(private modalCtrl: ModalController, private rest: RestService, private groups: GroupsService, private utils:UtilsService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.skeleton = this.utils.getSkeletonList(3);
+  }
   close(){
     this.modalCtrl.dismiss();
   }
