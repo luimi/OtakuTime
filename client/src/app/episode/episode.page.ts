@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { RestService } from '../api/rest.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SeenService } from '../utils/seen.service';
 
 @Component({
   selector: 'app-episode',
@@ -17,7 +18,7 @@ export class EpisodePage implements OnInit {
   pages = []
   lastPageAdded;
   streamUrl;
-  constructor(private aRoute: ActivatedRoute, private rest: RestService, private toastCtrl: ToastController, private sanitizer: DomSanitizer) { }
+  constructor(private aRoute: ActivatedRoute, private rest: RestService, private toastCtrl: ToastController, private sanitizer: DomSanitizer, private seen: SeenService) { }
 
   async ngOnInit() {
     this.server = this.aRoute.snapshot.paramMap.get('server');
@@ -27,6 +28,7 @@ export class EpisodePage implements OnInit {
       let response:any = await this.rest.getEpisode(this.server,this.url);
       if(response && response.success){
         this.episode = response.data;
+        this.seen.addSeen(this.url,this.episode.episodes)
         if(this.episode.pages){
           this.addPages()
         }
