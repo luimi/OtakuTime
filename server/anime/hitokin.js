@@ -9,7 +9,7 @@ const main = (html) => {
         let url = root + a.attr('href')
         let title = a.find('.block-content').text().replace(/\s+/g, " ").trim()
         let poster = a.find('img').attr('data-src')
-        result.push({ title, url })
+        result.push({ poster: "/assets/no-image.png",title, url })
     });
     return result;
 };
@@ -21,7 +21,7 @@ const search = (html) => {
         let url = root + a.attr('href')
         let title = a.find('.block-content').find('.font-w600').text()
         let poster = a.find('img').attr('data-src')
-        result.push({ title, url })
+        result.push({ poster: "/assets/no-image.png",title, url })
     });
     return result;
 };
@@ -52,7 +52,7 @@ const episodes = (html) => {
             } catch (e) { }
         }
     });
-    return { title, synopsis, categories, extras, episodes };
+    return { title,poster: "/assets/no-image.png" ,synopsis, categories, extras, episodes };
 };
 const episode = async (html) => {
     let links = []
@@ -114,7 +114,7 @@ const episode = async (html) => {
       .replace('window.location.href=\'',"")
       .replace('\'',"")
     
-    return { title, links, streams, next, previous, episodes};
+    return { title, poster: "/assets/no-image.png",links, streams, next, previous, episodes};
 };
 
 module.exports = {
