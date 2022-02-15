@@ -7,6 +7,11 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let server of servers" [routerLink]="['/latest',server.server]">
+      <ion-chip slot="start">
+        <ion-avatar style="margin: 0;">
+          <img [src]="'https://www.google.com/s2/favicons?domain='+server.url">
+        </ion-avatar>
+      </ion-chip>
       <ion-label>{{server.name}}</ion-label>
     </ion-item>
   </ion-list>
