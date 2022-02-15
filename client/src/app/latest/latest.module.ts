@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { LatestPageRoutingModule } from './latest-routing.module';
 
 import { LatestPage } from './latest.page';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    LatestPageRoutingModule
+    LatestPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [LatestPage]
 })

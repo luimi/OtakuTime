@@ -15,6 +15,7 @@ export class LatestPage implements OnInit {
   isLoading = false;
   timeOut;
   skeleton = [];
+  emptyState;
   constructor(private aRoute: ActivatedRoute, private rest: RestService, private router: Router, private utils: UtilsService) { 
     
   }
@@ -27,6 +28,12 @@ export class LatestPage implements OnInit {
       let response: any = await this.rest.getLatest(this.server);
       if(response && response.success) {
         this.latest = response.data;
+      } else if(response && !response.success){
+        this.emptyState = {
+          icon: 'server',
+          title: 'Ocurrio un error',
+          message: 'Es posible que algo haya pasado con el servidor de origen'
+        }
       }
       this.isLoading = false;
     }
