@@ -10,6 +10,7 @@ const animefenix = require("./anime/animefenix");
 const monoschinos2 = require("./anime/monoschinos2");
 const lectortmoorg = require("./manga/lectortmoorg");
 const mangatemplo = require("./manga/mangatemplo");
+const yugenmangas = require("./manga/yugenmangas");
 require("dotenv").config();
 
 app.use(express.json());
@@ -32,6 +33,7 @@ let servers = {
   monoschinos2,
   lectortmoorg,
   mangatemplo,
+  yugenmangas,
 };
 
 const _axios = (url) => {
@@ -71,32 +73,38 @@ app.get("/anime", async (req, res) => {
       {
         name: "AnimeKB",
         server: "animekb",
-        logo: "https://i.imgur.com/ptPVBLU.png",
+        logo: "http://animekb.net/wp-includes/images/w-logo-blue-white-bg.png",
+        url: "http://animekb.net"
       },
       {
         name: "AnimeID",
         server: "animeid",
-        logo: "https://static.animeid.tv/img/logo.png",
+        logo: "https://www.animeid.tv/favicon.ico",
+        url: "https://www.animeid.tv"
       },
       {
         name: "JKAnime",
         server: "jkanime",
-        logo: "https://cdn.jkanime.net/assets2/css/img/logo.png",
+        logo: "https://cdn.jkanime.net/assets2/css/img/favicon.ico",
+        url: "https://cdn.jkanime.net"
       },
       {
         name: "Hitokin",
         server: "hitokin",
-        logo: "https://cdn.jkanime.net/assets2/css/img/logo.png",
+        logo: "https://hitokin.net/media/img/favicon-192x192.png",
+        url: "https://hitokin.net"
       },
       {
         name: "AnimeFenix",
         server: "animefenix",
-        logo: "https://cdn.jkanime.net/assets2/css/img/logo.png",
+        logo: "https://www.animefenix.com/favicon.ico",
+        url: "https://www.animefenix.com"
       },
       {
         name: "MonosChinos2",
         server: "monoschinos2",
-        logo: "https://cdn.jkanime.net/assets2/css/img/logo.png",
+        logo: "https://monoschinos2.com/public/favicon.ico",
+        url: "https://monoschinos2.com"
       },
     ],
   });
@@ -124,11 +132,19 @@ app.get("/manga", async (req, res) => {
         name: "LectorTMO.org",
         server: "lectortmoorg",
         logo: "https://i.imgur.com/ptPVBLU.png",
+        url: "https://lectortmo.org/"
       },
       {
         name: "Manga Templo",
         server: "mangatemplo",
         logo: "https://i.imgur.com/ptPVBLU.png",
+        url: "https://manga-templo.com/"
+      },
+      {
+        name: "Yugen mangas",
+        server: "yugenmangas",
+        logo: "https://i.imgur.com/ptPVBLU.png",
+        url: "https://yugenmangas.com/inicio/"
       },
     ],
   });
@@ -224,7 +240,9 @@ app.post("/", async (req, res) => {
     res.json({ success: false });
   }
 });
-
+app.get("/transfer", async (req,res) => {
+  res.json({query:req.query.text})
+});
 app.listen(process.env.PORT, () => {
   console.log("OtakuTime server ready");
 });
