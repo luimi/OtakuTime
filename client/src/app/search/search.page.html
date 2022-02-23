@@ -13,21 +13,6 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let anime of animes" [routerLink]="['/episodes',server, anime.url]">
-      <ion-thumbnail slot="start" *ngIf="anime.poster">
-        <ion-img [src]="anime.poster"></ion-img>
-      </ion-thumbnail>
-      <ion-label>{{anime.title}}</ion-label>
-    </ion-item>
-  </ion-list>
-  <ion-list [hidden]="!isLoading">
-    <ion-item *ngFor="let size of skeleton">
-      <ion-skeleton-text animated style="width: 57px; height: 57px" slot="start"></ion-skeleton-text>
-      <ion-label>
-        <ion-skeleton-text animated [ngStyle]="{'width': size}"></ion-skeleton-text>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-  <app-empty-state [hidden]="isLoading || animes.length>0" icon="search" title="Sin resultados" message="No se encontró resultados para esta búsqueda."></app-empty-state>
+  <app-poster-list [data]="animes" [server]="server" path="/episodes" [hidden]="emptyState"></app-poster-list>
+  <app-empty-state *ngIf="emptyState" [icon]="emptyState.icon" [title]="emptyState.title" [message]="emptyState.message"></app-empty-state>
 </ion-content>

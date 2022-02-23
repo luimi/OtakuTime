@@ -1,0 +1,42 @@
+<ion-item>
+  <ion-button color="dark" slot="end" fill="clear" (click)="toggleListType()">
+    <ion-icon slot="icon-only" [name]="listType==='list'?'grid':'list'"></ion-icon>
+  </ion-button>
+</ion-item>
+<ion-grid>
+  <ion-row>
+    <ion-col *ngFor="let item of data" [size]="listType==='list'?12:6" [routerLink]="[path,server, item.url]">
+      <!--LIST-->
+      <ion-item *ngIf="listType==='list'">
+        <ion-thumbnail slot="start" *ngIf="item.poster">
+          <ion-img [src]="item.poster"></ion-img>
+        </ion-thumbnail>
+        <ion-label>{{item.title}}</ion-label>
+      </ion-item>
+      <!--GRID-->
+      <div class="poster" *ngIf="listType==='grid'">
+        <img [src]="item.poster">
+        <div class="title">
+          {{item.title}}
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+<ion-grid *ngIf="!data || data.length===0">
+  <ion-row>
+    <ion-col *ngFor="let number of [0,0,0,0,0,0,0]" [size]="listType==='list'?12:6">
+      <!--LIST-->
+      <ion-item *ngIf="listType==='list'">
+        <ion-skeleton-text animated style="width: 57px; height: 57px" slot="start"></ion-skeleton-text>
+        <ion-label>
+          <ion-skeleton-text animated [ngStyle]="{'width': size}"></ion-skeleton-text>
+        </ion-label>
+      </ion-item>
+      <!--GRID-->
+      <div class="poster" *ngIf="listType==='grid'">
+        <ion-skeleton-text animated style="width: 100%; height: 100%" slot="start"></ion-skeleton-text>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>

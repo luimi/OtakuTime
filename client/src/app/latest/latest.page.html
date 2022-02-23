@@ -13,26 +13,9 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div [hidden]="emptyState">
-    <ion-searchbar placeholder="Buscar anime..." [(ngModel)]="query" (ionChange)="search($event)" enterkeyhint="search"
+  <ion-searchbar placeholder="Buscar anime..." [(ngModel)]="query" (ionChange)="search($event)" enterkeyhint="search"
       autocomplete="on"></ion-searchbar>
-    <ion-list>
-      <ion-item *ngFor="let episode of latest" [routerLink]="['/episode',server, episode.url]">
-        <ion-thumbnail slot="start" *ngIf="episode.poster">
-          <ion-img [src]="episode.poster"></ion-img>
-        </ion-thumbnail>
-        <ion-label>{{episode.title}}</ion-label>
-      </ion-item>
-    </ion-list>
-    <ion-list [hidden]="!isLoading && latest.length === 0">
-      <ion-item *ngFor="let size of skeleton">
-        <ion-skeleton-text animated style="width: 57px; height: 57px" slot="start"></ion-skeleton-text>
-        <ion-label>
-          <ion-skeleton-text animated [ngStyle]="{'width': size}"></ion-skeleton-text>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </div>
+  <app-poster-list [data]="latest" [server]="server" path="/episode" [hidden]="emptyState"></app-poster-list>
   <app-empty-state *ngIf="emptyState" [icon]="emptyState.icon" [title]="emptyState.title"
     [message]="emptyState.message"></app-empty-state>
 </ion-content>
