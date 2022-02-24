@@ -13,6 +13,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+  <!--SKELETON-->
   <div [hidden]="anime">
     <ion-grid>
       <ion-row class="custom-skeleton">
@@ -41,6 +42,7 @@
       </ion-item>
     </ion-list>
   </div>
+  <!--MAIN-->
   <ion-grid>
     <ion-row>
       <ion-col size="6" *ngIf="anime?.poster">
