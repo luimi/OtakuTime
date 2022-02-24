@@ -86,7 +86,7 @@ app.get("/anime", async (req, res) => {
         name: "JKAnime",
         server: "jkanime",
         logo: "https://cdn.jkanime.net/assets2/css/img/favicon.ico",
-        url: "https://cdn.jkanime.net"
+        url: "https://jkanime.net"
       },
       {
         name: "Hitokin",
