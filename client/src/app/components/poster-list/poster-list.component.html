@@ -5,7 +5,7 @@
 </ion-item>
 <ion-grid>
   <ion-row>
-    <ion-col *ngFor="let item of data" [size]="listType==='list'?12:6" [routerLink]="[path,server, item.url]">
+    <ion-col *ngFor="let item of data" [routerLink]="[path,server, item.url]" [sizeXs]="listType==='list'?12:6" [sizeSm]="listType==='list'?12:4" [sizeMd]="listType==='list'?12:3" [sizeXl]="listType==='list'?12:2">
       <!--LIST-->
       <ion-item *ngIf="listType==='list'">
         <ion-thumbnail slot="start" *ngIf="item.poster">
@@ -25,7 +25,7 @@
 </ion-grid>
 <ion-grid *ngIf="!data || data.length===0">
   <ion-row>
-    <ion-col *ngFor="let number of [0,0,0,0,0,0,0]" [size]="listType==='list'?12:6">
+    <ion-col *ngFor="let number of [0,0,0,0,0,0,0]"  [sizeXs]="listType==='list'?12:6" [sizeSm]="listType==='list'?12:4" [sizeMd]="listType==='list'?12:3" [sizeXl]="listType==='list'?12:2">
       <!--LIST-->
       <ion-item *ngIf="listType==='list'">
         <ion-skeleton-text animated style="width: 57px; height: 57px" slot="start"></ion-skeleton-text>
