@@ -1,6 +1,9 @@
 # OtakuTime
 OtakuTime, es el app para poder ver animes y leer mangas extrayendo el contenido de otras paginas web y mostrarlos en un solo lugar.
-[App](https://otakutime.netlify.app) 
+
+[Demo OtakuTime](https://otakutime.netlify.app) 
+
+
 [![Netlify Status](https://api.netlify.com/api/v1/badges/d681a741-1f6a-46ac-ad53-b8a2ac0318ec/deploy-status)](https://app.netlify.com/sites/otakutime/deploys)
 ## Clonar
 ```terminal
