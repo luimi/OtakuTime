@@ -20,32 +20,20 @@ const main = (html) => {
 };
 const search = async (html) => {
   let result = [];
-  var data = new FormData();
-  data.append("action", "wp-manga-search-manga");
-  data.append("title", html.query);
-
-  var config = {
-    method: "post",
-    url: `${root}/wp-admin/admin-ajax.php`,
-    headers: {
-      ...data.getHeaders(),
-    },
-    data: data,
-  };
-  try {
-    let response = await axios(config);
-    let data = response.data.data;
-    data.forEach((anime) => {
-      result.push({
-        title: anime.title,
-        url: anime.url,
-        poster: "/assets/no-image.png",
-      });
+  let $ = cheerio.load(html);
+  $(".c-tabs-item")
+    .find(".c-tabs-item__content")
+    .each((index, element) => {
+      let a = $(element).find(".tab-thumb").find("a");
+      let url = a.attr("href");
+      let e = $(element);
+      let title = e.find(".tab-summary").find("h3").text();
+      let poster = a.find("img").attr("data-src");
+      result.push({ title, url, poster });
     });
-  } catch (e) {}
   return result;
 };
-const episodes = (html) => {
+const episodes = async (html) => {
   let episodes = [];
   let categories = [];
   let extras = [];
@@ -53,10 +41,14 @@ const episodes = (html) => {
   let poster = undefined;
   let title = $(".post-title").find("h1").text().trim();
   let synopsis = $(".summary__content").find("p").text();
+  let currentUrl = "";
   $("meta").each((index, element) => {
     let e = $(element);
     if (e.attr("property") === "og:image") {
       poster = e.attr("content");
+    }
+    if (e.attr("property") === "og:url") {
+      currentUrl = e.attr("content");
     }
   });
   $(".summary_content")
@@ -65,7 +57,7 @@ const episodes = (html) => {
     .each((index, element) => {
       let e = $(element);
       let _title = e.find(".summary-heading").text().trim();
-      let content = e.find(".summary-content").text().replace(title,"").trim();
+      let content = e.find(".summary-content").text().replace(title, "").trim();
       if (_title === "Genero(s)") {
         let list = content.split(",");
         list.forEach((text) => {
@@ -90,10 +82,23 @@ const episodes = (html) => {
         content: content,
       });
     });
-  $(".version-chap").find('a').each((index, element) => {
-    let a = $(element)
-    episodes.push({ title: a.find('.chapter-manhwa-title').text(), url: a.attr('href') });
-  });
+  var config = {
+    method: "post",
+    url: `${currentUrl}ajax/chapters/`,
+  };
+  try {
+    let response = await axios(config);
+    $ = cheerio.load(response.data);
+    $(".version-chap")
+      .find("a")
+      .each((index, element) => {
+        let a = $(element);
+        episodes.push({
+          title: a.find(".chapter-manhwa-title").text(),
+          url: a.attr("href"),
+        });
+      });
+  } catch (e) {}
   return { poster, title, synopsis, categories, extras, episodes };
 };
 const episode = (html) => {
@@ -103,26 +108,30 @@ const episode = (html) => {
   let $ = cheerio.load(html);
   let title = $("#chapter-heading").text();
   let episodes = undefined;
-  $('.breadcrumb:first').find('li').each((index,element) => {
-    if(index === 1){
-      let a = $(element).find('a')
-      episodes = a.attr('href')
-    }
-  })
-  $('.reading-content').find('img').each((index, element) => {
-    let e = $(element)
-    pages.push(e.attr('data-src').trim())
-  })
-  let nav = $(".select-pagination")
-  previous = nav.find('.nav-previous').find('a').attr('href')
-  next = nav.find('.nav-next').find('a').attr('href')
+  $(".breadcrumb:first")
+    .find("li")
+    .each((index, element) => {
+      if (index === 1) {
+        let a = $(element).find("a");
+        episodes = a.attr("href");
+      }
+    });
+  $(".reading-content")
+    .find("img")
+    .each((index, element) => {
+      let e = $(element);
+      pages.push(e.attr("data-src").trim());
+    });
+  let nav = $(".select-pagination");
+  previous = nav.find(".nav-previous").find("a").attr("href");
+  next = nav.find(".nav-next").find("a").attr("href");
   return { title, pages, next, previous, episodes };
 };
 
 module.exports = {
   mainUrl: root,
   searchUrl: (text) => {
-    return `https://otakutime.glitch.me/transfer?text=${text}`;
+    return `${root}/?s=${text}&post_type=wp-manga`;
   },
   main: main,
   search: search,
