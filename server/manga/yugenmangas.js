@@ -125,6 +125,9 @@ const episode = (html) => {
   let nav = $(".select-pagination");
   previous = nav.find(".nav-previous").find("a").attr("href");
   next = nav.find(".nav-next").find("a").attr("href");
+  if(episodes === next){
+    next = undefined;
+  }
   return { title, pages, next, previous, episodes };
 };
 
