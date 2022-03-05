@@ -14,7 +14,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-card [hidden]="episode">
+  <ion-card *ngIf="!episode">
     <ion-card-header>
       <ion-skeleton-text animated style="width: 75%; height: 30px;"></ion-skeleton-text>
     </ion-card-header>
@@ -35,7 +35,7 @@
       </div>
     </ion-card-content>
   </ion-card>
-  <ion-card *ngIf="episode">
+  <ion-card *ngIf="episode && !emptyState">
     <ion-card-header>
       <ion-card-title>{{episode.title}}</ion-card-title>
     </ion-card-header>
@@ -90,4 +90,5 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
+  <app-empty-state *ngIf="emptyState" [icon]="emptyState.icon" [title]="emptyState.title" [message]="emptyState.message"></app-empty-state>
 </ion-content>

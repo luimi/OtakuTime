@@ -8,13 +8,15 @@ import { EpisodePageRoutingModule } from './episode-routing.module';
 
 import { EpisodePage } from './episode.page';
 import { PaginatorComponent } from './paginator/paginator.component';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EpisodePageRoutingModule
+    EpisodePageRoutingModule,
+    ComponentsModule
   ],
   declarations: [EpisodePage, PaginatorComponent]
 })

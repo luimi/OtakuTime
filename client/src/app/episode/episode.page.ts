@@ -18,6 +18,7 @@ export class EpisodePage implements OnInit {
   pages = []
   lastPageAdded;
   streamUrl;
+  emptyState;
   constructor(private aRoute: ActivatedRoute, private rest: RestService, private toastCtrl: ToastController, private sanitizer: DomSanitizer, private seen: SeenService) { }
 
   async ngOnInit() {
@@ -29,8 +30,11 @@ export class EpisodePage implements OnInit {
       if(response && response.success){
         this.episode = response.data;
         this.seen.addSeen(this.url,this.episode.episodes)
-        if(this.episode.pages){
+        if(this.episode.pages && this.episode.pages.length>0){
           this.addPages()
+        }
+        if(!this.episode.title){
+          this.emptyState = {icon:"thumbs-down-outline",title:"Capitulo no encontrado",message:"Este capitulo al parecer, no esta disponible"}
         }
       }
       this.isLoading = false;
