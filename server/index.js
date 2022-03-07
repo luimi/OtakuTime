@@ -11,6 +11,7 @@ const monoschinos2 = require("./anime/monoschinos2");
 const lectortmoorg = require("./manga/lectortmoorg");
 const mangatemplo = require("./manga/mangatemplo");
 const yugenmangas = require("./manga/yugenmangas");
+const nartag = require("./manga/nartag");
 require("dotenv").config();
 
 app.use(express.json());
@@ -34,6 +35,7 @@ let servers = {
   lectortmoorg,
   mangatemplo,
   yugenmangas,
+  nartag
 };
 
 const _axios = (url) => {
@@ -183,8 +185,8 @@ app.post("/test", async (req, res) => {
     }
     res.json({ success: true, data: responses });
   } catch (e) {
-    console.log("error",e)
-    res.json({ success: false, error: e , responses});
+    console.log("error", e)
+    res.json({ success: false, error: e, responses });
   }
 });
 
@@ -195,6 +197,34 @@ app.get("/test", async (req, res) => {
     res.json({ success: true, data: response });
   } catch (e) {
     res.json({ success: false, error: e });
+  }
+});
+/*
+
+  _                            
+ (_)                           
+  _ _ __ ___   __ _  __ _  ___ 
+ | | '_ ` _ \ / _` |/ _` |/ _ \
+ | | | | | | | (_| | (_| |  __/
+ |_|_| |_| |_|\__,_|\__, |\___|
+                     __/ |     
+                    |___/      
+
+*/
+app.get("/image", async (req, res) => {
+  let noImage =
+    "https://www.segelectrica.com.co/wp-content/themes/consultix/images/no-image-found-360x250.png";
+  let url = req.query.url ? req.query.url : noImage;
+  try {
+    axios
+      .get(url, {
+        responseType: "arraybuffer",
+      })
+      .then((response) => {
+        res.send(Buffer.from(response.data, "binary"));
+      });
+  } catch (e) {
+    res.send(e);
   }
 });
 /*
@@ -240,8 +270,8 @@ app.post("/", async (req, res) => {
     res.json({ success: false });
   }
 });
-app.get("/transfer", async (req,res) => {
-  res.json({query:req.query.text})
+app.get("/transfer", async (req, res) => {
+  res.json({ query: req.query.text })
 });
 app.listen(process.env.PORT, () => {
   console.log("OtakuTime server ready");
