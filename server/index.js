@@ -93,12 +93,6 @@ app.get("/anime", async (req, res) => {
         url: "https://jkanime.net"
       },
       {
-        name: "Hitokin",
-        server: "hitokin",
-        logo: "https://hitokin.net/media/img/favicon-192x192.png",
-        url: "https://hitokin.net"
-      },
-      {
         name: "AnimeFenix",
         server: "animefenix",
         logo: "https://www.animefenix.com/favicon.ico",
@@ -149,12 +143,6 @@ app.get("/manga", async (req, res) => {
         server: "yugenmangas",
         logo: "https://i.imgur.com/ptPVBLU.png",
         url: "https://yugenmangas.com/inicio/"
-      },
-      {
-        name: "InManga",
-        server: "inmanga",
-        logo: "https://i.imgur.com/ptPVBLU.png",
-        url: "https://inmanga.com/"
       },
     ],
   });
