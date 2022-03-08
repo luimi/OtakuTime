@@ -12,6 +12,7 @@ const lectortmoorg = require("./manga/lectortmoorg");
 const mangatemplo = require("./manga/mangatemplo");
 const yugenmangas = require("./manga/yugenmangas");
 const nartag = require("./manga/nartag");
+const inmanga = require("./manga/inmanga");
 require("dotenv").config();
 
 app.use(express.json());
@@ -35,7 +36,8 @@ let servers = {
   lectortmoorg,
   mangatemplo,
   yugenmangas,
-  nartag
+  nartag,
+  inmanga
 };
 
 const _axios = (url) => {
@@ -147,6 +149,12 @@ app.get("/manga", async (req, res) => {
         server: "yugenmangas",
         logo: "https://i.imgur.com/ptPVBLU.png",
         url: "https://yugenmangas.com/inicio/"
+      },
+      {
+        name: "InManga",
+        server: "inmanga",
+        logo: "https://i.imgur.com/ptPVBLU.png",
+        url: "https://inmanga.com/"
       },
     ],
   });
