@@ -138,12 +138,12 @@ app.get("/manga", async (req, res) => {
         logo: "https://i.imgur.com/ptPVBLU.png",
         url: "https://manga-templo.com/"
       },
-      {
+      /*{
         name: "Yugen mangas",
         server: "yugenmangas",
         logo: "https://i.imgur.com/ptPVBLU.png",
         url: "https://yugenmangas.com/inicio/"
-      },
+      },*/
     ],
   });
 });
