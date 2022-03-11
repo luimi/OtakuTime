@@ -150,20 +150,18 @@ app.get("/manga", async (req, res) => {
 
 /*
 
-
-  _            _   
- | |          | |  
- | |_ ___  ___| |_ 
- | __/ _ \/ __| __|
- | ||  __/\__ \ |_ 
-  \__\___||___/\__|
-                   
-                   
-
+            _                  _   
+           | |                | |  
+   _____  _| |_ _ __ __ _  ___| |_ 
+  / _ \ \/ / __| '__/ _` |/ __| __|
+ |  __/>  <| |_| | | (_| | (__| |_ 
+  \___/_/\_\\__|_|  \__,_|\___|\__|
+                                   
+                                   
 
 */
 
-app.post("/test", async (req, res) => {
+app.post("/extract", async (req, res) => {
   let responses = [];
   try {
     let pages = [
@@ -186,7 +184,7 @@ app.post("/test", async (req, res) => {
   }
 });
 
-app.get("/test", async (req, res) => {
+app.get("/extract", async (req, res) => {
   try {
     let html = await fs.readFile(`test/${req.query.action}.html`, "utf8");
     let response = await servers[req.query.server][req.query.action](html);
