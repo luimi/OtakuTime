@@ -73,7 +73,6 @@ app.get("/", async (req, res) => {
 app.get("/anime", async (req, res) => {
   try {
     let animeList = await axios.get("https://api.mocklets.com/p68342/anime")
-    console.log(animeList)
     res.json({
       success: true,
       data: animeList.data
@@ -101,7 +100,6 @@ app.get("/anime", async (req, res) => {
 app.get("/manga", async (req, res) => {
   try {
     let animeList = await axios.get("https://api.mocklets.com/p68342/manga")
-    console.log(animeList)
     res.json({
       success: true,
       data: animeList.data
