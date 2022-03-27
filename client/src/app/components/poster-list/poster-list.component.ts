@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AnalyticsService } from 'src/app/utils/analytics.service';
 import { ConfigurationService } from 'src/app/utils/configuration.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class PosterListComponent implements OnInit {
   @Input() data;
   @Input() server;
   @Input() path;
-  constructor(private config: ConfigurationService) {
+  constructor(private config: ConfigurationService, private analytic: AnalyticsService) {
     
     
   }
@@ -24,5 +25,6 @@ export class PosterListComponent implements OnInit {
   toggleListType(){
     this.listType = this.listType==='list'?'grid':'list';
     this.config.setListType(this.listType);
+    this.analytic.sendEvent("view",this.listType);
   }
 }

@@ -4,7 +4,16 @@
 
 export const environment = {
   production: false,
-  server:"http://localhost:8000"
+  server:"http://localhost:8000",
+  firebaseConfig : {
+    apiKey: "AIzaSyAWMq1AY51_6bFVDh-XR347KHHGLle8NCQ",
+    authDomain: "otakutime-7dd2f.firebaseapp.com",
+    projectId: "otakutime-7dd2f",
+    storageBucket: "otakutime-7dd2f.appspot.com",
+    messagingSenderId: "762998527590",
+    appId: "1:762998527590:web:a946d8d7518920f352bfa7",
+    measurementId: "G-T9XR5J7NMP"
+  }
 };
 
 /*

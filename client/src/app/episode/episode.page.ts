@@ -4,6 +4,7 @@ import { ToastController } from '@ionic/angular';
 import { RestService } from '../api/rest.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SeenService } from '../utils/seen.service';
+import { AnalyticsService } from '../utils/analytics.service';
 
 @Component({
   selector: 'app-episode',
@@ -19,7 +20,7 @@ export class EpisodePage implements OnInit {
   lastPageAdded;
   streamUrl;
   emptyState;
-  constructor(private aRoute: ActivatedRoute, private rest: RestService, private toastCtrl: ToastController, private sanitizer: DomSanitizer, private seen: SeenService) { }
+  constructor(private aRoute: ActivatedRoute, private rest: RestService, private toastCtrl: ToastController, private sanitizer: DomSanitizer, private seen: SeenService, private analytic: AnalyticsService) { }
 
   async ngOnInit() {
     this.server = this.aRoute.snapshot.paramMap.get('server');
@@ -60,6 +61,7 @@ export class EpisodePage implements OnInit {
     document.execCommand('copy');
     document.body.removeChild(selBox);
     this.presentToast();
+    this.analytic.sendEvent("episode","clipboard");
   }
   async presentToast() {
     const toast = await this.toastCtrl.create({
@@ -88,5 +90,6 @@ export class EpisodePage implements OnInit {
   }
   playStream(url){
     this.streamUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    this.analytic.sendEvent("episode","stream");
   }
 }

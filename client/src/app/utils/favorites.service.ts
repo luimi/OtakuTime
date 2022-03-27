@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AnalyticsService } from './analytics.service';
 
 @Injectable({
   providedIn: 'root'
@@ -6,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class FavoritesService {
   private favorites = [];
   private LOCALSTORAGE_KEY = "favorites";
-  constructor() {
+  constructor(private analytic: AnalyticsService) {
     if (localStorage.getItem(this.LOCALSTORAGE_KEY)) {
       this.favorites = JSON.parse(localStorage.getItem(this.LOCALSTORAGE_KEY))
     }
@@ -20,8 +21,10 @@ export class FavoritesService {
     if(this.isAdded(server, url)){
       let index = this.getIndex(server,url);
       this.favorites.splice(index,1);
+      this.analytic.sendEvent("favorite","remove");
     } else {
       this.favorites.push({server,url,title: anime.title,poster: anime.poster});
+      this.analytic.sendEvent("favorite","add");
     }
     localStorage.setItem(this.LOCALSTORAGE_KEY,JSON.stringify(this.favorites));
   }
