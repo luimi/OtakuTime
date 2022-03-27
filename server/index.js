@@ -71,41 +71,17 @@ app.get("/", async (req, res) => {
 */
 
 app.get("/anime", async (req, res) => {
-  res.json({
-    success: true,
-    data: [
-      {
-        name: "AnimeKB",
-        server: "animekb",
-        logo: "http://animekb.net/wp-includes/images/w-logo-blue-white-bg.png",
-        url: "http://animekb.net"
-      },
-      {
-        name: "AnimeID",
-        server: "animeid",
-        logo: "https://www.animeid.tv/favicon.ico",
-        url: "https://www.animeid.tv"
-      },
-      {
-        name: "JKAnime",
-        server: "jkanime",
-        logo: "https://cdn.jkanime.net/assets2/css/img/favicon.ico",
-        url: "https://jkanime.net"
-      },
-      {
-        name: "AnimeFenix",
-        server: "animefenix",
-        logo: "https://www.animefenix.com/favicon.ico",
-        url: "https://www.animefenix.com"
-      },
-      {
-        name: "MonosChinos2",
-        server: "monoschinos2",
-        logo: "https://monoschinos2.com/public/favicon.ico",
-        url: "https://monoschinos2.com"
-      },
-    ],
-  });
+  try {
+    let animeList = await axios.get("https://api.mocklets.com/p68342/anime")
+    console.log(animeList)
+    res.json({
+      success: true,
+      data: animeList.data
+    });
+  } catch (e) {
+    res.json({ success: false });
+  }
+
 });
 
 
@@ -123,29 +99,16 @@ app.get("/anime", async (req, res) => {
 */
 
 app.get("/manga", async (req, res) => {
-  res.json({
-    success: true,
-    data: [
-      {
-        name: "LectorTMO.org",
-        server: "lectortmoorg",
-        logo: "https://i.imgur.com/ptPVBLU.png",
-        url: "https://lectortmo.org/"
-      },
-      {
-        name: "Manga Templo",
-        server: "mangatemplo",
-        logo: "https://i.imgur.com/ptPVBLU.png",
-        url: "https://manga-templo.com/"
-      },
-      {
-        name: "Yugen mangas",
-        server: "yugenmangas",
-        logo: "https://i.imgur.com/ptPVBLU.png",
-        url: "https://yugenmangas.com/inicio/"
-      },
-    ],
-  });
+  try {
+    let animeList = await axios.get("https://api.mocklets.com/p68342/manga")
+    console.log(animeList)
+    res.json({
+      success: true,
+      data: animeList.data
+    });
+  } catch (e) {
+    res.json({ success: false });
+  }
 });
 
 /*
