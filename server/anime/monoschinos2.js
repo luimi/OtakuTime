@@ -10,7 +10,8 @@ const main = (html) => {
       let url = a.attr("href");
       let title = `${a.find("p").text()} - ${a.find('.positioning').find('h5').text()}`
       let poster = a.find("img").attr("data-src");
-      result.push({ title, url, poster });
+      if(url && title && poster)
+        result.push({ title, url, poster });
     });
   return result;
 };
