@@ -13,6 +13,8 @@
         </ion-avatar>
       </ion-chip>
       <ion-label>{{server.name}}</ion-label>
+      <ion-icon name="eye-outline" *ngIf="server.hasStream" slot="end"></ion-icon>
+        <ion-icon name="download-outline" *ngIf="server.hasDownload" slot="end"></ion-icon>
     </ion-item>
   </ion-list>
   <ion-list [hidden]="servers.length>0">
