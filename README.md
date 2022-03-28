@@ -29,6 +29,92 @@ docker images
 docker run -it -d -p 8000:80 IMAGE_ID
 ```
 
+### API
+`GET /anime`
+**Response**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "name": "ServerName",
+      "server": "server",
+      "url": "url",
+      "hasDownload": true,
+      "hasStream": false
+    }
+  ]
+}
+```
+`GET /manga`
+**Response**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "name": "ServerName",
+      "server": "server",
+      "url": "url"
+    }
+  ]
+}
+```
+`GET /extract`
+**Response**
+```json
+{
+  "success": true,
+  "data": "..."
+}
+```
+`GET /image?url={image}`
+**Response**
+```json
+binary
+```
+`GET /transfer?text={text}`
+**Response**
+```json
+{
+  "query":"text"
+}
+```
+`POST /extract`
+**body**
+```json
+{
+  "main": "url",
+  "search": "url",
+  "episodes": "url",
+  "episode": "url"
+}
+```
+**Response**
+```json
+{
+  "success": true,
+  "data": "..."
+}
+```
+`POST /`
+**body**
+```json
+{
+  "action": "main|search|episodes|episodes",
+  "server": "server",
+  "url": "url",
+  "query": "search query"
+}
+```
+**Response**
+```json
+{
+  "success": true,
+  "data": "..."
+}
+```
+
 ## Cliente
 Aplicacion hecha en IONIC 
 
