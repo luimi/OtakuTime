@@ -1,0 +1,8 @@
+ion-item.disabled {
+    pointer-events: none;
+    cursor: default;
+    color:#9d9fa6;
+    img {
+        opacity: 0.3;
+    }
+}
