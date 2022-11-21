@@ -18,6 +18,7 @@ export class AnimePage implements OnInit {
     let response: any = await this.rest.getAnimes();
     if(response && response.success){
       this.servers = response.data;
+      this.servers.sort((a,b) =>  a.enabled?-1: 1 );
     }
   }
 

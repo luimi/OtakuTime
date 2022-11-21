@@ -17,6 +17,7 @@ export class MangaPage implements OnInit {
     let response: any = await this.rest.getMangas();
     if(response && response.success){
       this.servers = response.data;
+      this.servers.sort((a,b) =>  a.enabled?-1: 1 );
     }
   }
 }
