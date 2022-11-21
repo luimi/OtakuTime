@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const fs = require("fs").promises;
 const axios = require("axios");
+const anime = require("./anime/list.json");
+const manga = require("./manga/list.json");
 const animekb = require("./anime/animekb");
 const animeid = require("./anime/animeid");
 const jkanime = require("./anime/jkanime");
@@ -13,6 +15,7 @@ const mangatemplo = require("./manga/mangatemplo");
 const yugenmangas = require("./manga/yugenmangas");
 const nartag = require("./manga/nartag");
 const inmanga = require("./manga/inmanga");
+
 require("dotenv").config();
 
 app.use(express.json());
@@ -71,15 +74,10 @@ app.get("/", async (req, res) => {
 */
 
 app.get("/anime", async (req, res) => {
-  try {
-    let animeList = await axios.get("https://api.mocklets.com/p68342/anime")
-    res.json({
-      success: true,
-      data: animeList.data
-    });
-  } catch (e) {
-    res.json({ success: false });
-  }
+  res.json({
+    success: true,
+    data: anime
+  });
 
 });
 
@@ -98,15 +96,10 @@ app.get("/anime", async (req, res) => {
 */
 
 app.get("/manga", async (req, res) => {
-  try {
-    let animeList = await axios.get("https://api.mocklets.com/p68342/manga")
-    res.json({
-      success: true,
-      data: animeList.data
-    });
-  } catch (e) {
-    res.json({ success: false });
-  }
+  res.json({
+    success: true,
+    data: manga
+  });
 });
 
 /*

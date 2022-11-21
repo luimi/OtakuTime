@@ -1,0 +1,44 @@
+[
+    {
+        "name": "AnimeKB",
+        "server": "animekb",
+        "url": "http://animekb.net",
+        "hasDownload": true,
+        "hasStream": false
+    },
+    {
+        "name": "AnimeID",
+        "server": "animeid",
+        "url": "https://www.animeid.tv",
+        "hasDownload": false,
+        "hasStream": true
+    },
+    {
+        "name": "JKAnime",
+        "server": "jkanime",
+        "url": "https://jkanime.net",
+        "hasDownload": true,
+        "hasStream": true
+    },
+    {
+        "name": "AnimeFenix",
+        "server": "animefenix",
+        "url": "https://www.animefenix.com",
+        "hasDownload": false,
+        "hasStream": true
+    },
+    {
+        "name": "MonosChinos2",
+        "server": "monoschinos2",
+        "url": "https://monoschinos2.com",
+        "hasDownload": true,
+        "hasStream": true
+    },
+    {
+        "name": "Hitokin",
+        "server": "hitokin",
+        "url": "https://hitokin.net/",
+        "hasDownload": false,
+        "hasStream": false
+    }
+]
