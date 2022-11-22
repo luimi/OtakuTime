@@ -1,0 +1,345 @@
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Angular Material style sheet -->
+    <link rel="stylesheet"
+        href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css">
+    <style>
+        pre {
+            overflow-y: scroll;
+            overflow-x: scroll;
+            height: calc(100vh - 140px);
+            margin: 0;
+        }
+
+        .display {
+            overflow-y: scroll;
+            height: calc(100vh - 140px);
+        }
+
+        .form {
+            overflow-y: scroll;
+        }
+
+        .md-errors-spacer {
+            min-height: 0px !important;
+        }
+
+        .page {
+            max-width: 100%;
+        }
+
+        md-select,
+        md-input-container {
+            margin: 0;
+        }
+
+        md-list-item {
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+
+<body ng-app="otakutime" ng-cloak ng-controller="MainCtrl as ctrl" layout="column">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2 flex md-truncate>OtakuTime Debugger</h2>
+            <div layout="row" layout-sm="column" layout-align="space-around">
+                <md-progress-circular md-mode="indeterminate" class="md-warn md-hue-3" md-diameter="40"
+                    ng-if="ctrl.loading"></md-progress-circular>
+            </div>
+        </div>
+
+    </md-toolbar>
+    <div layout="row" flex="">
+        <div layout="column" layout-padding="" flex="30" class="form">
+            <div layout="row" layout-align="space-between center">
+                <span>Servidor</span>
+                <md-select class="md-no-underline" ng-model="ctrl.server">
+                    <md-option ng-repeat="server in ctrl.servers" value="{{server.server}}">{{server.name}}</md-option>
+                </md-select>
+            </div>
+            <md-divider></md-divider>
+            <md-button class="md-raised md-primary" ng-click="ctrl.loadMain()">Main</md-button>
+            <md-divider></md-divider>
+            <md-input-container class="md-block">
+                <label>Query</label>
+                <input ng-model="ctrl.search">
+            </md-input-container>
+            <md-button class="md-raised md-primary" ng-click="ctrl.loadSearch()">Search</md-button>
+            <md-divider></md-divider>
+            <md-input-container class="md-block">
+                <label>Url</label>
+                <input ng-model="ctrl.episodes">
+            </md-input-container>
+            <md-button class="md-raised md-primary" ng-click="ctrl.loadEpisodes()">Episodes</md-button>
+            <md-divider></md-divider>
+            <md-input-container class="md-block">
+                <label>Url</label>
+                <input ng-model="ctrl.episode">
+            </md-input-container>
+            <md-button class="md-raised md-primary" ng-click="ctrl.loadEpisode()">Episode</md-button>
+            <md-divider></md-divider>
+            <md-input-container class="md-block">
+                <label>Url</label>
+                <input ng-model="ctrl.url">
+            </md-input-container>
+            <md-button class="md-raised md-primary" ng-click="ctrl.loadHTML()">get HTML</md-button>
+            <md-divider></md-divider>
+            <md-input-container class="md-block">
+                <label>Url</label>
+                <input ng-model="ctrl.image">
+            </md-input-container>
+            <md-button class="md-raised md-primary" ng-click="ctrl.loadImage()">get Image</md-button>
+        </div>
+        <div layout="column" flex="">
+            <div layout="row">
+                <div layout="column" flex="50">
+                    <md-toolbar class="md-hue-1">
+                        <div layout="row">
+                            <h2 class="md-toolbar-tools">
+                                <span>Preview</span>
+                            </h2>
+                        </div>
+                    </md-toolbar>
+                    <div class="display">
+                        <!--
+  __  __       _                  _____                     _     
+ |  \/  |     (_)                / ____|                   | |    
+ | \  / | __ _ _ _ __    _   _  | (___   ___  __ _ _ __ ___| |__  
+ | |\/| |/ _` | | '_ \  | | | |  \___ \ / _ \/ _` | '__/ __| '_ \ 
+ | |  | | (_| | | | | | | |_| |  ____) |  __/ (_| | | | (__| | | |
+ |_|  |_|\__,_|_|_| |_|  \__, | |_____/ \___|\__,_|_|  \___|_| |_|
+                          __/ |                                   
+                         |___/                                    
+-->
+                        <div ng-if="ctrl.data.success && (ctrl.type==='main' || ctrl.type==='search')">
+                            <md-card ng-repeat="episode in ctrl.data.data" md-theme-watch>
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline">{{episode.title}}</span>
+                                        <span class="md-subhead">{{episode.url}}</span>
+                                    </md-card-title-text>
+                                    <md-card-title-media>
+                                        <img class="md-media-sm card-media" src="{{episode.poster}}">
+                                    </md-card-title-media>
+                                </md-card-title>
+                            </md-card>
+                        </div>
+                        <!--
+  ______       _               _           
+ |  ____|     (_)             | |          
+ | |__   _ __  _ ___  ___   __| | ___  ___ 
+ |  __| | '_ \| / __|/ _ \ / _` |/ _ \/ __|
+ | |____| |_) | \__ \ (_) | (_| |  __/\__ \
+ |______| .__/|_|___/\___/ \__,_|\___||___/
+        | |                                
+        |_|                                
+-->
+                        <md-card ng-if="ctrl.data && ctrl.data.success && ctrl.type==='episodes'">
+                            <img src="{{ctrl.data.data.poster}}" class="md-card-image" alt="Poster">
+                            <md-card-title>
+                                <md-card-title-text>
+                                    <span class="md-headline">{{ctrl.data.data.title}}</span>
+                                </md-card-title-text>
+                            </md-card-title>
+                            <md-card-content>
+                                <p>
+                                    {{ctrl.data.data.synopsis}}
+                                </p>
+                                <p>
+                                    <span ng-repeat="category in ctrl.data.data.categories">{{category}},</span>
+                                </p>
+                                <p>
+                                    <span ng-repeat="extra in ctrl.data.data.extras">{{extra.title}} -
+                                        {{extra.content}},</span>
+                                </p>
+                                <md-list>
+                                    <md-subheader class="md-no-sticky">Episodes</md-subheader>
+                                    <md-list-item ng-repeat="episode in ctrl.data.data.episodes">{{episode.title}}
+                                    </md-list-item>
+                                </md-list>
+                            </md-card-content>
+                        </md-card>
+                        <!--
+  ______       _               _      
+ |  ____|     (_)             | |     
+ | |__   _ __  _ ___  ___   __| | ___ 
+ |  __| | '_ \| / __|/ _ \ / _` |/ _ \
+ | |____| |_) | \__ \ (_) | (_| |  __/
+ |______| .__/|_|___/\___/ \__,_|\___|
+        | |                           
+        |_|                           
+-->
+                        <md-card ng-if="ctrl.data && ctrl.data.success && ctrl.type==='episode'">
+                            <img ng-if="ctrl.data.data.poster" src="{{ctrl.data.data.poster}}" class="md-card-image"
+                                alt="Poster">
+                            <md-card-title>
+                                <md-card-title-text>
+                                    <span class="md-headline">{{ctrl.data.data.title}}</span>
+                                </md-card-title-text>
+                            </md-card-title>
+                            <md-card-content>
+                                <md-list ng-if="ctrl.data.data.links && ctrl.data.data.pages.links > 0">
+                                    <md-subheader class="md-no-sticky">Downloads</md-subheader>
+                                    <md-list-item ng-repeat="link in ctrl.data.data.links track by $index">{{link}}
+                                    </md-list-item>
+                                </md-list>
+                                <md-list ng-if="ctrl.data.data.streams && ctrl.data.data.streams.length > 0">
+                                    <md-subheader class="md-no-sticky">Streams</md-subheader>
+                                    <md-list-item ng-repeat="stream in ctrl.data.data.streams track by $index">
+                                        {{stream}}
+                                    </md-list-item>
+                                </md-list>
+                                <md-list ng-if="ctrl.data.data.pages && ctrl.data.data.pages.length > 0">
+                                    <md-subheader class="md-no-sticky">Pages</md-subheader>
+                                    <md-list-item>
+                                        <img src="{{ctrl.data.data.pages[0]}}" class="page">
+                                    </md-list-item>
+                                </md-list>
+                            </md-card-content>
+                        </md-card>
+                        <!--
+  _____                            
+ |_   _|                           
+   | |  _ __ ___   __ _  __ _  ___ 
+   | | | '_ ` _ \ / _` |/ _` |/ _ \
+  _| |_| | | | | | (_| | (_| |  __/
+ |_____|_| |_| |_|\__,_|\__, |\___|
+                         __/ |     
+                        |___/      
+-->
+                        <div ng-if="ctrl.type==='image'" layout="column">
+                            <h1>Direct</h1>
+                            <img ng-if="ctrl.image" ng-src="{{ctrl.image}}">
+                            <h1>Server</h1>
+                            <img ng-if="ctrl.image" ng-src="/image?url={{ctrl.image}}">
+                        </div>
+                    </div>
+                </div>
+                <div layout="column" flex="50">
+                    <md-toolbar class="md-hue-1">
+                        <div layout="row">
+                            <h2 class="md-toolbar-tools">
+                                <span>Code</span>
+                            </h2>
+                        </div>
+                    </md-toolbar>
+                    <pre>{{ctrl.source}}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-messages.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-html.min.js"></script>
+
+    <!-- Your application bootstrap  -->
+    <script type="text/javascript">
+        /**
+         * You must include the dependency on 'ngMaterial' 
+         */
+        angular.module('otakutime', ['ngMaterial', 'ngMessages'])
+            .config(function ($mdThemingProvider) {
+                $mdThemingProvider.theme('default')
+                    .primaryPalette('blue-grey');
+            })
+            .controller('MainCtrl', function ($http) {
+                this.loading = false;
+                this.servers = [];
+                this.server = localStorage.getItem("server") || "";
+                this.search = localStorage.getItem("search") || "";
+                this.episodes = localStorage.getItem("episodes") || "";
+                this.episode = localStorage.getItem("episode") || "";
+                this.image = localStorage.getItem("image") || "";
+                this.url = localStorage.getItem("url") || "";
+                const beautifyOptions = {
+                    "indent_size": "2",
+                    "indent_char": " ",
+                    "max_preserve_newlines": "1",
+                    "preserve_newlines": true,
+                    "keep_array_indentation": true,
+                    "break_chained_methods": true,
+                    "indent_scripts": "separate",
+                    "brace_style": "expand,preserve-inline",
+                    "space_before_conditional": true,
+                    "unescape_strings": true,
+                    "jslint_happy": true,
+                    "end_with_newline": true,
+                    "wrap_line_length": "40",
+                    "indent_inner_html": true,
+                    "comma_first": true,
+                    "e4x": true,
+                    "indent_empty_lines": true
+                };
+
+                this.getServers = async () => {
+                    let animes = await $http.get("/anime");
+                    let mangas = await $http.get("/manga");
+                    this.servers = this.servers.concat(animes.data.data);
+                    this.servers = this.servers.concat(mangas.data.data);
+                    if (this.server === '') this.server = this.servers[0].server;
+                }
+                this.loadMain = async () => {
+                    this.load({ action: 'main', server: this.server });
+                    this.type = "main";
+                    localStorage.setItem("server", this.server);
+                }
+                this.loadSearch = async () => {
+                    this.load({ action: 'search', server: this.server, query: this.search });
+                    this.type = "search";
+                    localStorage.setItem("search", this.search);
+                }
+                this.loadEpisodes = async () => {
+                    this.load({ action: 'episodes', server: this.server, url: this.episodes });
+                    this.type = "episodes";
+                    localStorage.setItem("episodes", this.episodes);
+                }
+                this.loadEpisode = async () => {
+                    this.load({ action: 'episode', server: this.server, url: this.episode });
+                    this.type = "episode";
+                    localStorage.setItem("episode", this.episode);
+                }
+                this.loadHTML = async () => {
+                    this.loading = true;
+                    let response = await $http.get("/html?url=" + this.url);
+                    this.source = html_beautify(response.data, beautifyOptions);
+                    localStorage.setItem("url", this.url);
+                    this.loading = false;
+                }
+                this.loadImage = () => {
+                    this.loading = true;
+                    this.type = "image";
+                    localStorage.setItem("image", this.image);
+                    this.loading = false;
+                }
+                this.load = async (params) => {
+                    this.loading = true;
+                    this.data = undefined;
+                    let response = await $http.post("/", params);
+                    this.source = js_beautify(JSON.stringify(response.data), { indent_size: 2, space_in_empty_paren: true });
+                    this.data = response.data;
+                    this.loading = false;
+                }
+                this.getServers();
+            });
+    </script>
+
+</body>
+
+</html>
+
+<!--
+Copyright 2016-2019 Google Inc. All Rights Reserved. 
+Use of this source code is governed by an MIT-style license that can be found in the LICENSE file at https://material.angularjs.org/latest/license.
+-->

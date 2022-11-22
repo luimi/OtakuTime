@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const fs = require("fs").promises;
 const axios = require("axios");
+const path = require('path');
 const anime = require("./anime/list.json");
 const manga = require("./manga/list.json");
 const animekb = require("./anime/animekb");
@@ -218,6 +219,24 @@ app.post("/", async (req, res) => {
     res.json({ success: false });
   }
 });
+app.get('/html', (req, res) => {
+  if(!req.query.url){
+      res.send("<h1>No se encontro la URL</h1>")
+      return
+  }
+  axios
+    .get(req.query.url)
+    .then((response) => {
+      let html = response.data;
+      res.send(html);
+    })
+    .catch((e) => {
+      res.send(e.message);
+    });
+})
+app.get('/debugger', (req, res) => {
+  res.sendFile(path.join(__dirname + '/public/debugger.html'))
+})
 app.get("/transfer", async (req, res) => {
   res.json({ query: req.query.text })
 });
