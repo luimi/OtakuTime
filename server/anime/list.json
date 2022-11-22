@@ -29,7 +29,7 @@
         "url": "https://www.animefenix.com",
         "hasDownload": false,
         "hasStream": true,
-        "enabled": true
+        "enabled": false
     },
     {
         "name": "MonosChinos2",
