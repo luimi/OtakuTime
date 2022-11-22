@@ -21,8 +21,9 @@ const main = (html) => {
   $(".series_item__SeriesCard-sc-t4shg7-0").each((i,e)=> {
     let parent = $(e).parent();
     let poster = parent.find(".series_item__SeriesCard-sc-t4shg7-0").find("a").find("img").attr("src");
-    let title = parent.find(".series_item__SeriesTitle-sc-t4shg7-5").text().trim().replace(/ /g, ' ').replace('\n', ' ');
-    let url = root+parent.find(".series_item__SeriesContent-sc-t4shg7-2").find("a").attr("href");
+    let a = parent.find(".series_item__SeriesContent-sc-t4shg7-2").find("a");
+    let title = parent.find(".series_item__SeriesTitle-sc-t4shg7-5").text().trim().replace(/ /g, ' ').replace('\n', ' ') + " - "+ a.find(".series_item__Badge-sc-t4shg7-4:first").text();
+    let url = root+a.attr("href");
     result.push({title,url,poster});
   })
   return result;
@@ -42,13 +43,6 @@ const main = (html) => {
 const search = async (html) => {
   let $ = cheerio.load(html);
   let result = [];
-  $(".series_item__SeriesCard-sc-t4shg7-0").each((i,e)=> {
-    let parent = $(e).parent();
-    let poster = parent.find(".series_item__SeriesCard-sc-t4shg7-0").find("a").find("img").attr("src");
-    let title = parent.find(".series_item__SeriesTitle-sc-t4shg7-5").text().trim().replace(/ /g, ' ').replace('\n', ' ');
-    let url = root+parent.find(".series_item__SeriesContent-sc-t4shg7-2").find("a").attr("href");
-    result.push({title,url,poster});
-  })
   return result;
 };
 /*
