@@ -11,6 +11,7 @@ const jkanime = require("./anime/jkanime");
 const hitokin = require("./anime/hitokin");
 const animefenix = require("./anime/animefenix");
 const monoschinos2 = require("./anime/monoschinos2");
+const ytanime = require("./anime/ytanime");
 const lectortmoorg = require("./manga/lectortmoorg");
 const mangatemplo = require("./manga/mangatemplo");
 const yugenmangas = require("./manga/yugenmangas");
@@ -41,7 +42,8 @@ let servers = {
   mangatemplo,
   yugenmangas,
   nartag,
-  inmanga
+  inmanga,
+  ytanime
 };
 
 const _axios = (url) => {

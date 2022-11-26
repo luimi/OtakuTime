@@ -46,5 +46,13 @@
         "hasDownload": false,
         "hasStream": false,
         "enabled": false
+    },
+    {
+        "name": "AnimeYT",
+        "server": "ytanime",
+        "url": "https://ytanime.tv/",
+        "hasDownload": true,
+        "hasStream": true,
+        "enabled": true
     }
 ]
