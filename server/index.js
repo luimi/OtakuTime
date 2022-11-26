@@ -13,6 +13,7 @@ const animefenix = require("./anime/animefenix");
 const monoschinos2 = require("./anime/monoschinos2");
 const ytanime = require("./anime/ytanime");
 const animemovil2 = require("./anime/animemovil2");
+const tioanime = require("./anime/tioanime");
 const lectortmoorg = require("./manga/lectortmoorg");
 const mangatemplo = require("./manga/mangatemplo");
 const yugenmangas = require("./manga/yugenmangas");
@@ -45,7 +46,8 @@ let servers = {
   nartag,
   inmanga,
   ytanime,
-  animemovil2
+  animemovil2,
+  tioanime
 };
 
 const _axios = (url) => {

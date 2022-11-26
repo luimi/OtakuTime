@@ -42,7 +42,7 @@
     {
         "name": "Hitokin",
         "server": "hitokin",
-        "url": "https://hitokin.net/",
+        "url": "https://hitokin.net",
         "hasDownload": false,
         "hasStream": false,
         "enabled": false
@@ -50,7 +50,7 @@
     {
         "name": "AnimeYT",
         "server": "ytanime",
-        "url": "https://ytanime.tv/",
+        "url": "https://ytanime.tv",
         "hasDownload": true,
         "hasStream": true,
         "enabled": true
@@ -58,7 +58,15 @@
     {
         "name": "AnimeMovil",
         "server": "animemovil2",
-        "url": "https://animemovil2.com/",
+        "url": "https://animemovil2.com",
+        "hasDownload": true,
+        "hasStream": true,
+        "enabled": true
+    },
+    {
+        "name": "TioAnime",
+        "server": "tioanime",
+        "url": "https://tioanime.com",
         "hasDownload": true,
         "hasStream": true,
         "enabled": true
