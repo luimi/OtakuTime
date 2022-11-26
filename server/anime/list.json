@@ -54,5 +54,13 @@
         "hasDownload": true,
         "hasStream": true,
         "enabled": true
+    },
+    {
+        "name": "AnimeMovil",
+        "server": "animemovil2",
+        "url": "https://animemovil2.com/",
+        "hasDownload": true,
+        "hasStream": true,
+        "enabled": true
     }
 ]

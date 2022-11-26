@@ -12,6 +12,7 @@ const hitokin = require("./anime/hitokin");
 const animefenix = require("./anime/animefenix");
 const monoschinos2 = require("./anime/monoschinos2");
 const ytanime = require("./anime/ytanime");
+const animemovil2 = require("./anime/animemovil2");
 const lectortmoorg = require("./manga/lectortmoorg");
 const mangatemplo = require("./manga/mangatemplo");
 const yugenmangas = require("./manga/yugenmangas");
@@ -43,7 +44,8 @@ let servers = {
   yugenmangas,
   nartag,
   inmanga,
-  ytanime
+  ytanime,
+  animemovil2
 };
 
 const _axios = (url) => {
@@ -245,3 +247,6 @@ app.get("/transfer", async (req, res) => {
 app.listen(process.env.PORT, () => {
   console.log("OtakuTime server ready");
 });
+String.prototype.clearSpaces = function () {
+  return this.trim().replace(/\s+/g, ' ').replace('\n', ' ');
+};
