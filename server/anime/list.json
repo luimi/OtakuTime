@@ -70,5 +70,13 @@
         "hasDownload": true,
         "hasStream": true,
         "enabled": true
+    },
+    {
+        "name": "ZenkiMEX",
+        "server": "zenkimex",
+        "url": "https://zenkimex.com.mx",
+        "hasDownload": true,
+        "hasStream": false,
+        "enabled": true
     }
 ]
