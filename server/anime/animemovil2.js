@@ -16,7 +16,7 @@ const main = (html) => {
     let $ = cheerio.load(html);
 
     let result = [];
-    $('.grid-animes').find("article").each((i, e) => {
+    $('.grid-animes').first().find("article").each((i, e) => {
         let a = $(e)
         let url = root + a.find("a").attr('href')
         let title = a.find(".article-title").text().clearSpaces();
