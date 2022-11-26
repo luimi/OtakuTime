@@ -7,7 +7,7 @@ const main = (html) => {
     $('.block-link-pop').each((index, element) => {
         let a = $(element)
         let url = root + a.attr('href')
-        let title = a.find('.block-content').text().replace(/\s+/g, " ").trim()
+        let title = a.find('.block-content').text().replace(/\s+/g, " ").clearSpaces()
         let poster = a.find('img').attr('data-src')
         result.push({ poster: "/assets/no-image.png",title, url })
     });
@@ -31,10 +31,10 @@ const episodes = (html) => {
     let extras = []
     let $ = cheerio.load(html)
     let poster = $('.img-fluid').attr('data-src')
-    let title = $('.anime-title').text().trim()
+    let title = $('.anime-title').text().clearSpaces()
     let synopsis = $('.text-gray-light').text()
     $('.btn-outline-secondary').each((index, element) => {
-        categories.push($(element).text().trim());
+        categories.push($(element).text().clearSpaces());
     });
     let splitedUrl = $('#facebook_wall').find('div').attr('data-href').split("/")
     let page = splitedUrl[splitedUrl.length - 1];
@@ -42,7 +42,7 @@ const episodes = (html) => {
         let e = $(element)
         if (!e.attr('src') && element.children[0] && element.children[0].data && element.children[0].data.includes("\n\t\t    global.info")) {
             let data = element.children[0].data;
-            data = data.replace("global.info = '';\n\t\t    var episodios = ", "").trim();
+            data = data.replace("global.info = '';\n\t\t    var episodios = ", "").clearSpaces();
             data = data.replace(", \n\t\t\tglobal_vistos = [];", "");
             try {
                 let temp = JSON.parse(data);
@@ -60,7 +60,7 @@ const episode = async (html) => {
     let next = undefined
     let previous = undefined
     let $ = cheerio.load(html)
-    let title = $('h1.tv-title ').text().trim();
+    let title = $('h1.tv-title ').text().clearSpaces();
     let poster = $('#fondo_anime').attr('data-src')
     let episodes = undefined
     /*$('meta').each((index, element) => {

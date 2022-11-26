@@ -32,12 +32,12 @@ const episodes = (html) => {
     let extras = []
     let $ = cheerio.load(html)
     let poster = $('.summary_image').find('img').attr('data-src')
-    let title = $('.post-title').find('h1').text().trim()
+    let title = $('.post-title').find('h1').text().clearSpaces()
     let synopsis = ""
     $('.post-content_item').each((index, element) => {
         let e = $(element);
-        let _title = e.find('.summary-heading').text().trim()
-        let _content = e.find('.summary-content').text().replace(title,"").trim()
+        let _title = e.find('.summary-heading').text().clearSpaces()
+        let _content = e.find('.summary-content').text().replace(title,"").clearSpaces()
         if(title === "Genre(s)") {
           categories = _content.replace(/\s/g,"").split(",")
         } else {
@@ -47,7 +47,7 @@ const episodes = (html) => {
     });
     $('.wp-manga-chapter').each((index, element) => {
         let a = $(element).find('a')
-        episodes.push({ title:a.text().trim(), url:a.attr('href') })
+        episodes.push({ title:a.text().clearSpaces(), url:a.attr('href') })
     });
     return { poster, title, synopsis, categories, extras, episodes };
 };
@@ -60,7 +60,7 @@ const episode = (html) => {
     let episodes = undefined
     $(".reading-content").find('img').each((index, element) => {
         let e = $(element)
-        pages.push(e.attr('data-src').trim())
+        pages.push(e.attr('data-src').clearSpaces())
     });
     $(".breadcrumb").find("a").each((index,element) => {
         let a = $(element)

@@ -18,7 +18,7 @@ const episodes = (html) => {
     let extras = []
     let $ = cheerio.load(html)
     let poster = $('.imgthumb').find('img').attr('src')
-    let title = $('.entry-title').text().trim()
+    let title = $('.entry-title').text().clearSpaces()
     let synopsis = $('.content-squ').find('p').text()
     
     $('#sidebar').find('div').each((index, element) => {
@@ -26,15 +26,15 @@ const episodes = (html) => {
         switch (index) {
             case 1:
                 let status = e.text().toLowerCase().split(":");
-                extras.push({ title: status[0].trim(), content: status[1].trim() });
+                extras.push({ title: status[0].clearSpaces(), content: status[1].clearSpaces() });
                 break;
             case 2:
                 let texts = e.find('.textwidget').text().split("\n")
                 texts.forEach(val => {
-                    if (val.trim() !== "") {
+                    if (val.clearSpaces() !== "") {
                         let splitted = val.split(":");
                         try{
-                            extras.push({ title: splitted[0].trim(), content: splitted[1].trim() });
+                            extras.push({ title: splitted[0].clearSpaces(), content: splitted[1].clearSpaces() });
                         }catch(e){}
                     }
                 });
@@ -55,7 +55,7 @@ const episode = (html) => {
     let links = []
     let $ = cheerio.load(html)
     let poster = $('.separator').find('img').attr('src');
-    let title = $('.entry-title').text().trim();
+    let title = $('.entry-title').text().clearSpaces();
     let episodes = undefined
     $('body').find('link').each((index,element) => {
       let e = $(element)

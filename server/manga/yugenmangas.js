@@ -22,7 +22,7 @@ const main = (html) => {
     let parent = $(e).parent();
     let poster = parent.find(".series_item__SeriesCard-sc-t4shg7-0").find("a").find("img").attr("src");
     let a = parent.find(".series_item__SeriesContent-sc-t4shg7-2").find("a");
-    let title = parent.find(".series_item__SeriesTitle-sc-t4shg7-5").text().trim().replace(/ /g, ' ').replace('\n', ' ') + " - "+ a.find(".series_item__Badge-sc-t4shg7-4:first").text();
+    let title = parent.find(".series_item__SeriesTitle-sc-t4shg7-5").text().clearSpaces() + " - "+ a.find(".series_item__Badge-sc-t4shg7-4:first").text();
     let url = root+a.attr("href");
     result.push({title,url,poster});
   })
@@ -63,15 +63,15 @@ const episodes = async (html) => {
   let categories = [];
   let extras = [];
   let poster = $(".series__ThumbImg-sc-v2h5e-0").attr("src");
-  let title = $(".series-title").find("h1").text().trim().replace('\n', ' ');
-  let synopsis = $(".description-container").text().trim().replace('\n', ' ').replace(/\s+/g, ' ');
+  let title = $(".series-title").find("h1").text().clearSpaces();
+  let synopsis = $(".description-container").text().clearSpaces();
   $(".tags-container").find("span").each((i,e)=> {
     categories.push($(e).text());
   });
   $(".chapters-list-single").find("a").each((i,e) => {
     let a = $(e);
     let url = root+a.attr("href");
-    let title = a.find(".name").text().replace('\n', ' ').replace(/\s+/g, ' ');
+    let title = a.find(".name").text().clearSpaces();
     episodes.push({title,url})
   });
   return { poster, title, synopsis, categories, extras, episodes };
@@ -90,7 +90,7 @@ const episodes = async (html) => {
 */
 const episode = async (html) => {
   let $ = cheerio.load(html);
-  let title = $(".c-dsYLkv").text().trim().replace('\n', ' ').replace(/\s+/g, ' ');
+  let title = $(".c-dsYLkv").text().clearSpaces();
   let episodes = root+$(".c-dsYLkv").find("a").attr("href");
   let previous = root+$(".prev-chap").find("a").attr("href");
   let next = root+$(".next-chap").find("a").attr("href");

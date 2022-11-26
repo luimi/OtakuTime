@@ -18,7 +18,7 @@ const search = (html) => {
     $('.list-series').find('.serie-card').each((index, element) => {
         let a = $(element).find('a')
         let url = a.attr('href')
-        let title = $(element).find('a').text().trim()
+        let title = $(element).find('a').text().clearSpaces()
         let poster = a.find('img').attr('src')
         result.push({ title, url, poster })
     });
@@ -36,7 +36,7 @@ const episodes = (html) => {
       let text = $(element).text()
       try{
         let splited = text.split(":")
-        extras.push({ title: splited[0], content: splited[1].trim() })
+        extras.push({ title: splited[0], content: splited[1].clearSpaces() })
       }catch(e){}
         
     });
@@ -58,7 +58,7 @@ const episode = (html) => {
     let next = undefined
     let previous = undefined
     let $ = cheerio.load(html)
-    let title = $('.title:first').text().trim();
+    let title = $('.title:first').text().clearSpaces();
     let episodes = undefined
     $("meta").each((index, element) => {
       let e = $(element)

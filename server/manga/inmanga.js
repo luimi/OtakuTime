@@ -7,7 +7,7 @@ const main = (html) => {
     $('.list-group-item').each((index, element) => {
         let a = $(element)
         let url = `${root}${a.attr('href')}`
-        let title = `${a.find('.text-primary').text().trim()} - ${a.find('.recent-chapter-container-footer').find('strong').text().trim()}`
+        let title = `${a.find('.text-primary').text().clearSpaces()} - ${a.find('.recent-chapter-container-footer').find('strong').text().clearSpaces()}`
         let poster = a.find('img').attr('src')
         result.push({ title, url, poster })
     });
@@ -34,11 +34,11 @@ const episodes = async (html) => {
     let posterPath = $('.text-center').find('img').attr('src')
     let poster = `${root}${posterPath}`
     let texts = $('.manga-index-sinopsis-detail-cover-photo-layout')
-    let title = texts.find('.panel-heading').text().trim()
-    let synopsis = texts.find('.panel-body').text().trim()
+    let title = texts.find('.panel-heading').text().clearSpaces()
+    let synopsis = texts.find('.panel-body').text().clearSpaces()
     $('.list-group-item').each((index, element) => {
         let a = $(element)
-        let texts = a.text().trim().replace(/\s+/g,":").split(":")
+        let texts = a.text().clearSpaces().replace(/\s+/g,":").split(":")
         if(texts.length==2)
             extras.push({ title: texts[1], content: texts[0] });
     });
@@ -59,7 +59,7 @@ const episode = async (html) => {
     let next = undefined
     let previous = undefined
     let $ = cheerio.load(html)
-    let title = $('.ChapterDescriptionContainer').find('h1').text().trim();
+    let title = $('.ChapterDescriptionContainer').find('h1').text().clearSpaces();
     let episodes = undefined
     let pathSegmented = undefined
     $("meta").each((index, element) => {
@@ -78,11 +78,11 @@ const episode = async (html) => {
         episodes = `${root}${$('.list-group-item').attr('href')}`;
         $('#ChapList').find('option').each((index,element) => {
             let e = $(element)
-            if(parseInt(e.text().trim()) === parseInt(pathSegmented[6])-1){
-                previous = `${root}/ver/manga/${pathSegmented[5]}/${e.text().trim()}/${e.attr('value')}`
+            if(parseInt(e.text().clearSpaces()) === parseInt(pathSegmented[6])-1){
+                previous = `${root}/ver/manga/${pathSegmented[5]}/${e.text().clearSpaces()}/${e.attr('value')}`
             }
-            if(parseInt(e.text().trim()) === parseInt(pathSegmented[6])+1){
-                next = `${root}/ver/manga/${pathSegmented[5]}/${e.text().trim()}/${e.attr('value')}`
+            if(parseInt(e.text().clearSpaces()) === parseInt(pathSegmented[6])+1){
+                next = `${root}/ver/manga/${pathSegmented[5]}/${e.text().clearSpaces()}/${e.attr('value')}`
             }
         })
     }catch(e){}

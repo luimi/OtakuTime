@@ -28,7 +28,7 @@ const episodes = (html) => {
     });
     $('.status-left').find('.cuerpo').find('div').each((index, element) => {
         let e = $(element);
-        extras.push({ title: e.find('strong').text().replace(":", "").trim(), content: e.find('span').text().trim() });
+        extras.push({ title: e.find('strong').text().replace(":", "").clearSpaces(), content: e.find('span').text().clearSpaces() });
     })
     $('#listado').find('a').each((index, element) => {
         let a = $(element)

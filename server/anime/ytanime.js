@@ -20,7 +20,7 @@ const main = (html) => {
         let vc = $(e);
         let poster = vc.find(".img-fluid").attr("src");
         let url = vc.find(".play-icon").attr("href");
-        let title = vc.find(".video-title").find("a").text().trim().replace(/\s+/g, ' ').replace('\n', ' ');
+        let title = vc.find(".video-title").find("a").text().clearSpaces();
         result.push({ poster, url, title });
     });
     return result;
@@ -45,7 +45,7 @@ const search = (html) => {
         let vc = $(e);
         let poster = vc.find(".img-fluid").attr("src");
         let url = vc.find(".play-icon").attr("href");
-        let title = vc.find(".video-title").find("a").text().trim().replace(/\s+/g, ' ').replace('\n', ' ');
+        let title = vc.find(".video-title").find("a").text().clearSpaces();
         result.push({ poster, url, title });
     });
     return result;
@@ -69,8 +69,8 @@ const episodes = (html) => {
     let categories = [];
     let extras = [];
     let poster = $('.sa-poster__fig').find("img").attr('src');
-    let title = $('.sa-title-series__title-txt').text().trim().replace(/\s+/g, ' ').replace('\n', ' ');
-    let synopsis = $('.sa-text.sa-text--w-light.ng-binding').text().trim().replace(/\s+/g, ' ').replace('\n', ' ');
+    let title = $('.sa-title-series__title-txt').text().clearSpaces();
+    let synopsis = $('.sa-text.sa-text--w-light.ng-binding').text().clearSpaces();
     $('.list-group-item').each((i, e) => {
         let a = $(e).find("a");
         episodes.push({ title: a.find(".sa-series-link__number").text(), url: a.attr("href") })
@@ -96,7 +96,7 @@ const episode = (html) => {
     let streams = [];
     let next = undefined;
     let previous = undefined;
-    let title = $('.Title-epi').text().trim().replace(/\s+/g, ' ').replace('\n', ' ');
+    let title = $('.Title-epi').text().clearSpaces();
     let episodes = undefined;
     $("#downcontainer").find("a").each((i, e) => {
         let url = $(e).attr("href")

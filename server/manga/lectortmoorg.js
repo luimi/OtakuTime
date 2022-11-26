@@ -34,21 +34,21 @@ const episodes = (html) => {
     let synopsis = $('.summary__content').find('p').text()
     $('.post-content_item').each((index, element) => {
       let e = $(element)
-      if(e.find('.summary-heading').find('h5').text().trim() === 'Géneros:'){
+      if(e.find('.summary-heading').find('h5').text().clearSpaces() === 'Géneros:'){
         e.find('.summary-content').find('.tags_manga').each((index,element) => {
           let i = $(element)
-          categories.push(i.text().trim())
+          categories.push(i.text().clearSpaces())
         });
       } else {
-        let title = e.find('.summary-heading').text().trim().replace(":","")
-        let content = e.find('.summary-content').text().trim()
+        let title = e.find('.summary-heading').text().clearSpaces().replace(":","")
+        let content = e.find('.summary-content').text().clearSpaces()
         extras.push({ title: title, content: content});
       }
         
     });
     $('.list-chap').find('a').each((index, element) => {
       let a = $(element)
-        episodes.push({ title:a.text().trim(), url:a.attr('href') })
+        episodes.push({ title:a.text().clearSpaces(), url:a.attr('href') })
     });
     return { poster, title, synopsis, categories, extras, episodes };
 };

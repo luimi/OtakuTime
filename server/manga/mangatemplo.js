@@ -37,7 +37,7 @@ const episodes = (html) => {
       let a = $(element)
       let h5 = a.find('h5')
       h5.find('.text-muted').remove()
-      episodes.push({ title:h5.text().trim(), url:root + a.attr('href') })
+      episodes.push({ title:h5.text().clearSpaces(), url:root + a.attr('href') })
     });
     return { poster, title, synopsis, categories, extras, episodes };
 };

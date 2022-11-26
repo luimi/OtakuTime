@@ -7,7 +7,7 @@ const main = (html) => {
         let a = $(element)
         let url = a.attr('href')
         let title_group = a.find('.anime__sidebar__comment__item__text')
-        let title = `${title_group.find('h5').text()} - ${title_group.find('h6').text().replace(/ /g, '').replace('\n', ' ')}`
+        let title = `${title_group.find('h5').text()} - ${title_group.find('h6').text().clearSpaces()}`
         let poster = a.find('img').attr('src')
         result.push({ title, url, poster })
     });
@@ -43,7 +43,7 @@ const episodes = (html) => {
             });
         } else {
             let extra = e.text().split(":");
-            extras.push({ title: extra[0].trim(), content: extra[1].trim() });
+            extras.push({ title: extra[0].clearSpaces(), content: extra[1].clearSpaces() });
         }
     });
     let _root
@@ -54,7 +54,7 @@ const episodes = (html) => {
         }
     });
     if (_root) {
-        let total = parseInt($('.numbers:last').text().split("-")[1].trim())
+        let total = parseInt($('.numbers:last').text().split("-")[1].clearSpaces())
 
         for (let i = total; i > 0; i--) {
             let url = `${_root}${i}`
@@ -71,7 +71,7 @@ const episode = (html) => {
     let next = undefined
     let previous = undefined
     let $ = cheerio.load(html)
-    let title = $('.breadcrumb__links').find('h1').text().trim();
+    let title = $('.breadcrumb__links').find('h1').text().clearSpaces();
     let episodes = undefined
     $("table").find('a').each((index, element) => {
         let url = $(element).attr('href')
