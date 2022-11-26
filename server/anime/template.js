@@ -99,6 +99,7 @@ const episode = (html) => {
 
     let links = [];
     let streams = [];
+    let poster = undefined;
     let next = undefined;
     let previous = undefined;
     let title = $('.class').text();
@@ -112,7 +113,7 @@ const episode = (html) => {
         let el = $(e)
         streams.push(el.text())
     });
-    return { title, links, streams, next, previous , episodes};
+    return { poster, title, links, streams, next, previous , episodes};
 };
 
 module.exports = {
