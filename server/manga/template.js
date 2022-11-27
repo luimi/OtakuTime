@@ -1,5 +1,17 @@
 const cheerio = require('cheerio');
 const root = "URL"
+/*
+
+  __  __       _       
+ |  \/  |     (_)      
+ | \  / | __ _ _ _ __  
+ | |\/| |/ _` | | '_ \ 
+ | |  | | (_| | | | | |
+ |_|  |_|\__,_|_|_| |_|
+                       
+                       
+{title,url,poster}
+*/
 const main = (html) => {
     let result = []
     let $ = cheerio.load(html)
@@ -12,6 +24,18 @@ const main = (html) => {
     });
     return result;
 };
+/*
+
+   _____                     _     
+  / ____|                   | |    
+ | (___   ___  __ _ _ __ ___| |__  
+  \___ \ / _ \/ _` | '__/ __| '_ \ 
+  ____) |  __/ (_| | | | (__| | | |
+ |_____/ \___|\__,_|_|  \___|_| |_|
+                                   
+                                   
+{title,url,poster}
+*/
 const search = (html) => {
     let result = []
     let $ = cheerio.load(html)
@@ -24,6 +48,18 @@ const search = (html) => {
     });
     return result;
 };
+/*
+
+  ______       _               _           
+ |  ____|     (_)             | |          
+ | |__   _ __  _ ___  ___   __| | ___  ___ 
+ |  __| | '_ \| / __|/ _ \ / _` |/ _ \/ __|
+ | |____| |_) | \__ \ (_) | (_| |  __/\__ \
+ |______| .__/|_|___/\___/ \__,_|\___||___/
+        | |                                
+        |_|                                
+{title,poster,episodes:[{title,url}],categories:[string],extras:[{title,content}]}
+*/
 const episodes = (html) => {
     let episodes = []
     let categories = []
@@ -43,6 +79,18 @@ const episodes = (html) => {
     });
     return { poster, title, synopsis, categories, extras, episodes };
 };
+/*
+
+  ______       _               _      
+ |  ____|     (_)             | |     
+ | |__   _ __  _ ___  ___   __| | ___ 
+ |  __| | '_ \| / __|/ _ \ / _` |/ _ \
+ | |____| |_) | \__ \ (_) | (_| |  __/
+ |______| .__/|_|___/\___/ \__,_|\___|
+        | |                           
+        |_|                           
+{title,pages:[string],next,previous,episodes}
+*/
 const episode = (html) => {
     let pages = []
     let next = undefined

@@ -92,7 +92,7 @@ const episodes = (html) => {
  |______| .__/|_|___/\___/ \__,_|\___|
         | |                           
         |_|                           
-{title,links:[string],strams:[string],next,previous,episodes}
+{poster,title,links:[string],streams:[string],next,previous,episodes}
 */
 const episode = (html) => {
     let $ = cheerio.load(html)
