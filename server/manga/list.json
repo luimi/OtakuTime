@@ -28,12 +28,17 @@
         "server": "inmanga",
         "url": "https://inmanga.com",
         "enabled": true
-    }
-    ,
+    },
     {
         "name": "Leer Manga",
         "server": "leermanga",
         "url": "https://leermanga.net",
+        "enabled": true
+    },
+    {
+        "name": "TMOManga",
+        "server": "tmomanga",
+        "url": "https://tmomanga.com",
         "enabled": true
     }
 ]

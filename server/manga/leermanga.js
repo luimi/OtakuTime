@@ -18,7 +18,7 @@ const main = (html) => {
     $('.page-listing-item').first().find(".episode_thumb").each((index, element) => {
         let a = $(element)
         let url = a.find("a").attr('href')
-        let title = a.find(".manga-title-updated").text().clearSpaces()
+        let title = a.find(".manga-title-updated").text().clearSpaces() + " - "+ a.find(".manga-episode-title").text().clearSpaces()
         let poster = a.find('img').attr('src')
         result.push({ title, url, poster })
     });
