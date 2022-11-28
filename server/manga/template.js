@@ -13,8 +13,9 @@ const root = "URL"
 {title,url,poster}
 */
 const main = (html) => {
-    let result = []
     let $ = cheerio.load(html)
+
+    let result = []
     $('.class').each((index, element) => {
         let a = $(element)
         let url = a.attr('href')
@@ -37,8 +38,9 @@ const main = (html) => {
 {title,url,poster}
 */
 const search = (html) => {
-    let result = []
     let $ = cheerio.load(html)
+
+    let result = []
     $('.class').each((index, element) => {
         let a = $(element).find('a')
         let url = a.attr('href')
@@ -61,10 +63,11 @@ const search = (html) => {
 {title,poster,episodes:[{title,url}],categories:[string],extras:[{title,content}]}
 */
 const episodes = (html) => {
+    let $ = cheerio.load(html)
+
     let episodes = []
     let categories = []
     let extras = []
-    let $ = cheerio.load(html)
     let poster = $('.class').attr('data-setbg')
     let title = $('.class').text()
     let synopsis = $('.class').text()
@@ -92,10 +95,11 @@ const episodes = (html) => {
 {title,pages:[string],next,previous,episodes}
 */
 const episode = (html) => {
+    let $ = cheerio.load(html)
+
     let pages = []
     let next = undefined
     let previous = undefined
-    let $ = cheerio.load(html)
     let title = $('.class').text();
     let episodes = undefined
     $(".class").each((index, element) => {
