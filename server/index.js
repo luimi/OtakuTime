@@ -22,6 +22,7 @@ const nartag = require("./manga/nartag");
 const inmanga = require("./manga/inmanga");
 const leermanga = require("./manga/leermanga");
 const tmomanga = require("./manga/tmomanga");
+const manhwasnet = require("./manga/manhwasnet");
 
 require("dotenv").config();
 
@@ -53,7 +54,8 @@ let servers = {
   tioanime,
   zenkimex,
   leermanga,
-  tmomanga
+  tmomanga,
+  manhwasnet
 };
 
 const _axios = (url) => {
