@@ -177,15 +177,14 @@ app.get("/image", async (req, res) => {
     "https://www.segelectrica.com.co/wp-content/themes/consultix/images/no-image-found-360x250.png";
   let url = req.query.url ? req.query.url : noImage;
   try {
-    axios
+    let response = await axios
       .get(url, {
-        responseType: "arraybuffer",
-      })
-      .then((response) => {
-        res.send(Buffer.from(response.data, "binary"));
+        responseType: "arraybuffer"
       });
+    res.send(Buffer.from(response.data, "binary"));
   } catch (e) {
-    res.send(e);
+    let response = await axios.get(noImage, { responseType: "arraybuffer" });
+    res.send(Buffer.from(response.data, "binary"));
   }
 });
 /*
@@ -232,9 +231,9 @@ app.post("/", async (req, res) => {
   }
 });
 app.get('/html', (req, res) => {
-  if(!req.query.url){
-      res.send("<h1>No se encontro la URL</h1>")
-      return
+  if (!req.query.url) {
+    res.send("<h1>No se encontro la URL</h1>")
+    return
   }
   axios
     .get(req.query.url)
