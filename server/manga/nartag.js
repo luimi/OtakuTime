@@ -1,14 +1,15 @@
 const cheerio = require('cheerio');
 const root = "https://nartag.com"
 const main = (html) => {
-    let result = []
     let $ = cheerio.load(html)
-    $('#loop-content').find(".manga").each((index, element) => {
+    let result = []
+    $('#loop-content').find(".page-item-detail").each((index, element) => {
         let e = $(element)
         let a = e.find("a")
-        let url = e.find('.list-chapter').find('.chapter-item:first').find('a').attr('href')
-        let title = e.find('.post-title').find('a').text()
-        let poster = a.find('img').attr('data-src')
+        let url = e.find('.chapter-item').first().find('a').attr('href')
+        let title = e.find('.post-title').text().clearSpaces() + " - " + e.find('.chapter-item').first().text().clearSpaces()
+        let poster = process.env.SERVER + "/image?url=" + e.find('img').attr('src')
+        if(url!=="#" && e.find('img').attr('src') && !e.text().toLowerCase().includes("novela"))
         result.push({ title, url, poster })
     });
     return result;
@@ -18,10 +19,11 @@ const search = (html) => {
     let $ = cheerio.load(html)
     $('.c-tabs-item__content').each((index, element) => {
         let e = $(element)
-        let a = e.find('.tab-thumb').find('a')
+        let a = e.find('.post-title').find('a')
         let url = a.attr('href')
-        let title = a.attr('title')
-        let poster = a.find('img').attr('data-src')
+        let title = a.text().clearSpaces()
+        let poster = process.env.SERVER + "/image?url=" + e.find('img').attr('src')
+        if(e.find('img').attr('src'))
         result.push({ title, url, poster })
     });
     return result;
@@ -31,8 +33,8 @@ const episodes = (html) => {
     let categories = []
     let extras = []
     let $ = cheerio.load(html)
-    let poster = $('.summary_image').find('img').attr('data-src')
-    let title = $('.post-title').find('h1').text().clearSpaces()
+    let poster = $('.summary_image').find('img').attr('src')
+    let title = $('.manga-title').find('h1').text().clearSpaces()
     let synopsis = ""
     $('.post-content_item').each((index, element) => {
         let e = $(element);
