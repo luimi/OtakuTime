@@ -5,7 +5,7 @@ const main_search = (html) => {
     let $ = cheerio.load(html)
     $('.post-thumbnail').each((index, element) => {
         let a = $(element).find('a')
-        let url = a.attr('href')
+        let url = a.attr('href').encode()
         let title = a.attr('title')
         let poster = a.find('.figure-img').find('img').attr('src')
         result.push({ title, url, poster })
@@ -45,7 +45,7 @@ const episodes = (html) => {
         categories.push($(element).find('a').text());
     });
     $('.lcclink').each((index, element) => {
-        let url = element.attribs.href
+        let url = element.attribs.href.encode()
         let title = element.children[0].children[0].data;
         episodes.push({ title, url })
     });
@@ -65,7 +65,7 @@ const episode = (html) => {
         for (let i = 1 ; i < splitedName.length-1; i++){
           name+= `-${splitedName[i]}`
         }
-        episodes = `${root}/anime/${name}`
+        episodes = `${root}/anime/${name}`.encode()
       }
     })
     $(".botondescarga").each((index, element) => {

@@ -18,7 +18,7 @@ const main = (html) => {
     let result = [];
     $('.episodes').find(".episode").each((i, e) => {
         let a = $(e).find("a")
-        let url = root + a.attr('href')
+        let url = (root + a.attr('href')).encode()
         let title = a.find(".title").text().clearSpaces();
         let poster = root + a.find('img').attr('src');
         result.push({ title, url, poster });
@@ -43,7 +43,7 @@ const search = (html) => {
     let result = [];
     $('.animes').find(".anime").each((i, e) => {
         let a = $(e).find("a")
-        let url = root + a.attr('href')
+        let url = (root + a.attr('href')).encode()
         let title = a.find(".title").text().clearSpaces();
         let poster = root + a.find('img').attr('src');
         result.push({ title, url, poster });
@@ -79,7 +79,7 @@ const episodes = (html) => {
     let animeInfo = JSON.parse(data[0]);
     let _episodes = JSON.parse(data[1]);
     _episodes.forEach((num) => {
-        episodes.push({ title: num, url: `${root}/ver/${animeInfo[1]}-${num}` })
+        episodes.push({ title: num, url: `${root}/ver/${animeInfo[1]}-${num}`.encode() })
     });
     return { poster, title, synopsis, categories, extras, episodes };
 };
@@ -119,9 +119,9 @@ const episode = (html) => {
         let span = a.find("span").text().clearSpaces();
         if (a.attr("href") !== "#")
             switch (span) {
-                case "Episodio anterior": previous = root + a.attr("href"); break;
-                case "Listado de episodios": episodes = root + a.attr("href"); break;
-                case "Episodio siguiente": next = root + a.attr("href"); break;
+                case "Episodio anterior": previous = (root + a.attr("href")).encode(); break;
+                case "Listado de episodios": episodes = (root + a.attr("href")).encode(); break;
+                case "Episodio siguiente": next = (root + a.attr("href")).encode(); break;
             }
     });
     return { title, links, streams, next, previous, episodes };

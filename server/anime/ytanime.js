@@ -19,7 +19,7 @@ const main = (html) => {
     $(".video-card").each((i, e) => {
         let vc = $(e);
         let poster = vc.find(".img-fluid").attr("src");
-        let url = vc.find(".play-icon").attr("href");
+        let url = vc.find(".play-icon").attr("href").encode();
         let title = vc.find(".video-title").find("a").text().clearSpaces();
         result.push({ poster, url, title });
     });
@@ -44,7 +44,7 @@ const search = (html) => {
     $(".video-card").each((i, e) => {
         let vc = $(e);
         let poster = vc.find(".img-fluid").attr("src");
-        let url = vc.find(".play-icon").attr("href");
+        let url = vc.find(".play-icon").attr("href").encode();
         let title = vc.find(".video-title").find("a").text().clearSpaces();
         result.push({ poster, url, title });
     });
@@ -73,7 +73,7 @@ const episodes = (html) => {
     let synopsis = $('.sa-text.sa-text--w-light.ng-binding').text().clearSpaces();
     $('.list-group-item').each((i, e) => {
         let a = $(e).find("a");
-        episodes.push({ title: a.find(".sa-series-link__number").text(), url: a.attr("href") })
+        episodes.push({ title: a.find(".sa-series-link__number").text(), url: a.attr("href").encode() })
     });
     return { poster, title, synopsis, categories, extras, episodes };
 };
@@ -104,9 +104,9 @@ const episode = (html) => {
     });
     $(".btn.btn-primary").each((i, e) => {
         let a = $(e)
-        if (a.text().includes("Anterior")) previous = a.attr("href");
-        if (a.text().includes("Siguiente")) next = a.attr("href");
-        if (a.text().includes("Lista")) episodes = a.attr("href");
+        if (a.text().includes("Anterior")) previous = a.attr("href").encode();
+        if (a.text().includes("Siguiente")) next = a.attr("href").encode();
+        if (a.text().includes("Lista")) episodes = a.attr("href").encode();
     });
     streams.push($("#plays").find("iframe").attr("src"));
     return { title, links, streams, next, previous, episodes };

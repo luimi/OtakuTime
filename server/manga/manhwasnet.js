@@ -17,7 +17,7 @@ const main = (html) => {
 
     let result = []
     $("section").not(".mt-5").not(".movies").find("article").each((i, e) => {
-        let url = $(e).find("a").first().attr("href")
+        let url = $(e).find("a").first().attr("href").encode()
         let title = $(e).find(".title").text().clearSpaces() + " - " + $(e).find(".anime-type-peli").text().clearSpaces();
         let poster = process.env.SERVER + "/image?url=" + $(e).find("img").attr("src");
         result.push({ title, url, poster })
@@ -41,7 +41,7 @@ const search = (html) => {
 
     let result = []
     $("article").each((i, e) => {
-        let url = $(e).find("a").first().attr("href")
+        let url = $(e).find("a").first().attr("href").encode()
         let title = $(e).find(".title").text().clearSpaces();
         let poster = process.env.SERVER + "/image?url=" + $(e).find("img").attr("src");
         result.push({ title, url, poster })
@@ -75,7 +75,7 @@ const episodes = (html) => {
   $("ul.episodes-list").find("a").each((i,e)=> {
     let a = $(e);
     let title = a.find("div").find("p").text().clearSpaces();
-    episodes.push({title,url: a.attr("href")});
+    episodes.push({title,url: a.attr("href").encode()});
   });
     return { poster, title, synopsis, categories, extras, episodes };
 };
@@ -102,9 +102,9 @@ const episode = (html) => {
     $(".episodes-nav").first().find("a").each((i, e) => {
         let text = $(e).text().clearSpaces();
         switch (text) {
-            case "Episodio anterior": previous = $(e).attr("href"); break;
-            case "Listado de episodios": episodes = $(e).attr("href"); break;
-            case "Episodio siguiente": next = $(e).attr("href"); break;
+            case "Episodio anterior": previous = $(e).attr("href").encode(); break;
+            case "Listado de episodios": episodes = $(e).attr("href").encode(); break;
+            case "Episodio siguiente": next = $(e).attr("href").encode(); break;
         }
     });
     $("#chapter_imgs").find("img").each((index, element) => {

@@ -7,6 +7,7 @@ const main_search = (html) => {
     $('article').each((index, element) => {
         let a = $(element).find('a')
         let url = root + a.attr('href')
+        url = url.encode()
         let title = a.find('header').text()
         if (title !== "") {
             let poster = a.find('figure').find('img').attr('src')
@@ -33,6 +34,7 @@ const episodes = (html) => {
     $('#listado').find('a').each((index, element) => {
         let a = $(element)
         let url = root + a.attr('href');
+        url = url.encode();
         let title = a.find('strong').text();
         episodes.push({ title, url })
     });
@@ -59,7 +61,7 @@ const episode = (html) => {
     });
     $('.buttons').find('a').each((index,element) => {
         let path = $(element).attr('href')
-        let url = `${root}${path}`
+        let url = `${root}${path}`.encode()
         if(path !== "javascript:void(0);")
         switch(index){
             case 0:

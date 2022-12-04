@@ -18,7 +18,7 @@ const main = (html) => {
     let result = [];
     $('.grid-animes').first().find("article").each((i, e) => {
         let a = $(e)
-        let url = root + a.find("a").attr('href')
+        let url = (root + a.find("a").attr('href')).encode()
         let title = a.find(".article-title").text().clearSpaces();
         let poster = a.find('.skeleton').attr('src')
         result.push({ title, url, poster })
@@ -43,7 +43,7 @@ const search = (html) => {
     let result = [];
     $('.grid-animes').find("article").each((i, e) => {
         let a = $(e).find("a");
-        let url = root + a.attr('href');
+        let url = (root + a.attr('href')).encode();
         let title = a.find("p").last().text().clearSpaces();
         let poster = a.find('.skeleton').attr('src');
         result.push({ title, url, poster })
@@ -76,7 +76,7 @@ const episodes = (html) => {
     });
     $('.episodios').find("li").each((i, e) => {
         let a = $(e).find("a").first();
-        episodes.push({ title: a.find("p").text().clearSpaces(), url: root + a.attr("href") });
+        episodes.push({ title: a.find("p").text().clearSpaces(), url: (root + a.attr("href")).encode() });
     });
     return { poster, title, synopsis, categories, extras, episodes };
 };
@@ -113,9 +113,9 @@ const episode = (html) => {
     $(".botonera").find("a").each((i, e) => {
         let icon = $(e).find("i").attr("class").replace("fas ", "").replace("fa ", "");
         switch (icon) {
-            case "fa-align-justify": episodes = root + $(e).attr("href"); break;
-            case "fa-chevron-right": next = root + $(e).attr("href"); break;
-            case "fa-chevron-left": previous = root + $(e).attr("href"); break;
+            case "fa-align-justify": episodes = (root + $(e).attr("href")).encode(); break;
+            case "fa-chevron-right": next = (root + $(e).attr("href")).encode(); break;
+            case "fa-chevron-left": previous = (root + $(e).attr("href")).encode(); break;
         }
     });
     return { title, links, streams, next, previous, episodes };

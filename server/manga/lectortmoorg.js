@@ -5,7 +5,7 @@ const main = (html) => {
     let $ = cheerio.load(html)
     $('.c-blog-listing:first').find('.manga_portada').each((index, element) => {
         let e = $(element)
-        let url = e.find('a').attr('href')
+        let url = e.find('a').attr('href').encode()
         let title = e.find('.manga-title-updated').text() + " - " + e.find('.manga-episode-title').text()
         let poster = e.find('img').attr('src')
         result.push({ title, url, poster })
@@ -17,7 +17,7 @@ const search = (html) => {
     let $ = cheerio.load(html)
     $('.manga_portada').each((index, element) => {
         let e = $(element)
-        let url = e.find('h3').find('a').attr('href')
+        let url = e.find('h3').find('a').attr('href').encode()
         let title = e.find('h3').find('a').text()
         let poster = e.find('img').attr('src')
         result.push({ title, url, poster })
@@ -48,7 +48,7 @@ const episodes = (html) => {
     });
     $('.list-chap').find('a').each((index, element) => {
       let a = $(element)
-        episodes.push({ title:a.text().clearSpaces(), url:a.attr('href') })
+        episodes.push({ title:a.text().clearSpaces(), url:a.attr('href').encode() })
     });
     return { poster, title, synopsis, categories, extras, episodes };
 };
@@ -67,11 +67,11 @@ const episode = (html) => {
     $(".nav-links:first").find('a').each((index, element) => {
         let a = $(element)
         if(a.hasClass('prev_page')){
-          previous = a.attr('href')
+          previous = a.attr('href').encode()
         } else if(a.hasClass('next_page')){
-          next = a.attr('href')
+          next = a.attr('href').encode()
         } else if(a.hasClass('all_manga')){
-          episodes = a.attr('href')
+          episodes = a.attr('href').encode()
         }
     });
     return { title, pages, next, previous, episodes};

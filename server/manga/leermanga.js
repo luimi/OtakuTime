@@ -17,7 +17,7 @@ const main = (html) => {
     let result = []
     $('.page-listing-item').first().find(".episode_thumb").each((index, element) => {
         let a = $(element)
-        let url = a.find("a").attr('href')
+        let url = a.find("a").attr('href').encode()
         let title = a.find(".manga-title-updated").text().clearSpaces() + " - "+ a.find(".manga-episode-title").text().clearSpaces()
         let poster = a.find('img').attr('src')
         result.push({ title, url, poster })
@@ -41,7 +41,7 @@ const search = (html) => {
     let result = []
     $('.page-listing-item').first().find(".manga_biblioteca").each((index, element) => {
         let a = $(element)
-        let url = a.find("a").attr('href')
+        let url = a.find("a").attr('href').encode()
         let title = a.find(".manga-title-updated").text().clearSpaces()
         let poster = a.find('img').attr('src')
         result.push({ title, url, poster })
@@ -73,7 +73,7 @@ const episodes = (html) => {
     });
     $('.sub-chap').find("a").each((index, element) => {
         let a = $(element);
-        episodes.push({ title:a.text().clearSpaces(), url:a.attr("href") })
+        episodes.push({ title:a.text().clearSpaces(), url:a.attr("href").encode() })
     });
     return { poster, title, synopsis, categories, extras, episodes };
 };
@@ -92,10 +92,10 @@ const episodes = (html) => {
 const episode = (html) => {
     let $ = cheerio.load(html)
     let pages = []
-    let next = $(".nav-next").find("a").attr("href")
-    let previous = $(".nav-previous").find("a").attr("href")
+    let next = $(".nav-next").find("a").attr("href").encode()
+    let previous = $(".nav-previous").find("a").attr("href").encode()
     let title = $('#chapter-heading').text().clearSpaces();
-    let episodes = $(".nav-allmangas").find("a").attr("href")
+    let episodes = $(".nav-allmangas").find("a").attr("href").encode()
     $("#images_chapter").find("img").each((index, element) => {
         let url = $(element).attr('data-src')
         pages.push(url)

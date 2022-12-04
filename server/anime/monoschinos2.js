@@ -7,7 +7,7 @@ const main = (html) => {
     .find("a")
     .each((index, element) => {
       let a = $(element);
-      let url = a.attr("href");
+      let url = a.attr("href").encode();
       let title = `${a.find('.animetitles').text()} - ${a.find("p").text()}`
       let poster = a.find("img").attr("data-src");
       if(url && title && poster)
@@ -22,7 +22,7 @@ const search = (html) => {
     .find("a")
     .each((index, element) => {
       let a = $(element);
-      let url = a.attr("href");
+      let url = a.attr("href").encode();
       let title = $(element).find(".seristitles").text();
       let poster = $(element).find("img").attr("src");
       result.push({ title, url, poster });
@@ -46,7 +46,7 @@ const episodes = (html) => {
   categories.shift();
   $(".col-item").each((index, element) => {
     let a = $(element).find("a");
-    episodes.push({ title: a.find("p").text(), url: a.attr("href") });
+    episodes.push({ title: a.find("p").text(), url: a.attr("href").encode() });
   });
   episodes = episodes.reverse();
   return { poster, title, synopsis, categories, extras, episodes };
@@ -81,11 +81,11 @@ const episode = (html) => {
   $(".controldiv2").find('a').each((index,element) => {
     let a = $(element)
     if(a.find('img').attr('src').includes('playarrowleft')){
-      previous = a.attr('href')
+      previous = a.attr('href').encode()
     } else if(a.find('img').attr('src').includes('playarrowright')){
-      next = a.attr('href')
+      next = a.attr('href').encode()
     } else if(a.find('img').attr('src').includes('playlist')){
-      episodes = a.attr('href')
+      episodes = a.attr('href').encode()
     }
   });
   return { title, poster, links, streams, next, previous, episodes};

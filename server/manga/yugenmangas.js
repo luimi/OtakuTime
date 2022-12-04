@@ -23,7 +23,7 @@ const main = (html) => {
     let poster = parent.find(".series_item__SeriesCard-sc-t4shg7-0").find("a").find("img").attr("src");
     let a = parent.find(".series_item__SeriesContent-sc-t4shg7-2").find("a");
     let title = parent.find(".series_item__SeriesTitle-sc-t4shg7-5").text().clearSpaces() + " - "+ a.find(".series_item__Badge-sc-t4shg7-4:first").text();
-    let url = root+a.attr("href");
+    let url = (root+a.attr("href")).encode();
     result.push({title,url,poster});
   })
   return result;
@@ -70,7 +70,7 @@ const episodes = async (html) => {
   });
   $(".chapters-list-single").find("a").each((i,e) => {
     let a = $(e);
-    let url = root+a.attr("href");
+    let url = (root+a.attr("href")).encode();
     let title = a.find(".name").text().clearSpaces();
     episodes.push({title,url})
   });
@@ -91,9 +91,9 @@ const episodes = async (html) => {
 const episode = async (html) => {
   let $ = cheerio.load(html);
   let title = $(".c-dsYLkv").text().clearSpaces();
-  let episodes = root+$(".c-dsYLkv").find("a").attr("href");
-  let previous = root+$(".prev-chap").find("a").attr("href");
-  let next = root+$(".next-chap").find("a").attr("href");
+  let episodes = (root+$(".c-dsYLkv").find("a").attr("href")).encode();
+  let previous = (root+$(".prev-chap").find("a").attr("href")).encode();
+  let next = (root+$(".next-chap").find("a").attr("href")).encode();
   let pages = [];
   let data = JSON.parse($("#__NEXT_DATA__").text());
   let response = await axios.get("https://api.yugenmangas.com/series/chapter/"+data.props.pageProps.data.id);

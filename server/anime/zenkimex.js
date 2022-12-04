@@ -18,7 +18,7 @@ const main = (html) => {
     let result = [];
     $('.contenedor-capitulos').each((i, e) => {
         let a = $(e).find(".metadata").find("a");
-        let url = root + a.attr('href')
+        let url = (root + a.attr('href')).encode()
         let title = a.find("h6").text().clearSpaces();
         let poster = $(e).find('.poster-p').attr('data-src')
         result.push({ title, url, poster })
@@ -43,7 +43,7 @@ const search = (html) => {
     let result = [];
     $('.zen-cont-avanzado-serie').find("a").each((i, e) => {
         let a = $(e);
-        let url = root + a.attr('href')
+        let url = (root + a.attr('href')).encode()
         let title = a.find('.zen-item-avanzado').find("span").text().clearSpaces();
         let poster = a.find('.zen-item-avanzado').attr('style').match(/url\('(.*?)'/g)[0].replace("url('", "").replace("'", "");
         result.push({ title, url, poster })
@@ -86,7 +86,7 @@ const episodes = (html) => {
                 .replace(/title/g, "\"title\"");
             _episodes = JSON.parse(_episodes);
             _episodes.forEach((episode) => {
-                episodes.push({ title: episode.title, url: `${root}/animes/ver/${episode.id}` })
+                episodes.push({ title: episode.title, url: `${root}/animes/ver/${episode.id}`.encode() })
             });
         }
     });
@@ -114,7 +114,7 @@ const episode = (html) => {
     let previous = undefined;
     let title = $('.zen-video-titulo').text().clearSpaces();
     let poster = $(".zen-contendor-video").attr("style").match(/url\('(.*?)'/g)[0].replace("url('", "").replace("'", "");
-    let episodes = root + $(".zen-btn-cap").find("a").attr("href");
+    let episodes = (root + $(".zen-btn-cap").find("a").attr("href")).encode();
     $(".tabla_descarga").find("a").each((i, e) => {
         let url = $(e).attr('href')
         links.push(url);

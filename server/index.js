@@ -3,6 +3,7 @@ const app = express();
 const fs = require("fs").promises;
 const axios = require("axios");
 const path = require('path');
+const CryptoJS = require('crypto-js');
 const anime = require("./anime/list.json");
 const manga = require("./manga/list.json");
 const animekb = require("./anime/animekb");
@@ -219,6 +220,7 @@ app.post("/", async (req, res) => {
       case "episodes":
       case "episode":
         url = body.url;
+        url = url.decode();
         break;
     }
     try {
@@ -259,3 +261,14 @@ app.listen(process.env.PORT, () => {
 String.prototype.clearSpaces = function () {
   return this.trim().replace(/\s+/g, ' ').replace('\n', ' ');
 };
+String.prototype.encode = function () {
+  return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(this));
+}
+String.prototype.decode = function () {
+  try{
+    return CryptoJS.enc.Base64.parse(this).toString(CryptoJS.enc.Utf8);
+  }catch(e){
+    return "";
+  }
+  
+}

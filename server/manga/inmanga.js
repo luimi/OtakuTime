@@ -6,7 +6,7 @@ const main = (html) => {
     let $ = cheerio.load(html)
     $('.list-group-item').each((index, element) => {
         let a = $(element)
-        let url = `${root}${a.attr('href')}`
+        let url = `${root}${a.attr('href')}`.encode()
         let title = `${a.find('.text-primary').text().clearSpaces()} - ${a.find('.recent-chapter-container-footer').find('strong').text().clearSpaces()}`
         let poster = a.find('img').attr('src')
         result.push({ title, url, poster })
@@ -19,7 +19,7 @@ const search = async (html) => {
         let response = await axios.get(`https://inmanga.com/manga/GetQuickSearch?name=${html.query}`);
         let data = JSON.parse(response.data.data);
         data.result.forEach(item => {
-            result.push({ title:item.Name, url:`${root}/ver/manga/${item.Name.replace(/\s/g,"-")}/${item.Identification}`, poster:item.ThumbnailPath })
+            result.push({ title:item.Name, url:`${root}/ver/manga/${item.Name.replace(/\s/g,"-")}/${item.Identification}`.encode(), poster:item.ThumbnailPath })
         });
     }catch(e){
         return {success:false, error:e}
@@ -49,7 +49,7 @@ const episodes = async (html) => {
         let data = JSON.parse(response.data.data);
         data.result.sort((a,b)=>{return a.Number < b.Number?1:-1})
         data.result.forEach((manga) => {
-            episodes.push({ title:`Capítulo ${manga.Number}`, url:`${root}/ver/manga/${posterSegments[3]}/${manga.Number}/${manga.Identification}` })
+            episodes.push({ title:`Capítulo ${manga.Number}`, url:`${root}/ver/manga/${posterSegments[3]}/${manga.Number}/${manga.Identification}`.encode() })
         });
     }catch(e){}
     return { poster, title, synopsis, categories, extras, episodes };
@@ -75,14 +75,14 @@ const episode = async (html) => {
             let e = $(element)
             pages.push(`https://pack-yak.intomanga.com/images/manga/${pathSegmented[5]}/chapter/${pathSegmented[6]}/page/${e.attr('data-pagenumber')}/${e.attr('id')}`)
         });
-        episodes = `${root}${$('.list-group-item').attr('href')}`;
+        episodes = `${root}${$('.list-group-item').attr('href')}`.encode();
         $('#ChapList').find('option').each((index,element) => {
             let e = $(element)
             if(parseInt(e.text().clearSpaces()) === parseInt(pathSegmented[6])-1){
-                previous = `${root}/ver/manga/${pathSegmented[5]}/${e.text().clearSpaces()}/${e.attr('value')}`
+                previous = `${root}/ver/manga/${pathSegmented[5]}/${e.text().clearSpaces()}/${e.attr('value')}`.encode()
             }
             if(parseInt(e.text().clearSpaces()) === parseInt(pathSegmented[6])+1){
-                next = `${root}/ver/manga/${pathSegmented[5]}/${e.text().clearSpaces()}/${e.attr('value')}`
+                next = `${root}/ver/manga/${pathSegmented[5]}/${e.text().clearSpaces()}/${e.attr('value')}`.encode()
             }
         })
     }catch(e){}
