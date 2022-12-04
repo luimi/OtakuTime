@@ -16,11 +16,10 @@ const main = (html) => {
     let $ = cheerio.load(html)
 
     let result = []
-    let section = $('.d-flex.justify-content-center')[3]
-    $(section).find(".col-6.col-sm-6.col-md-6.col-xl-3").each((i, e) => {
-        let url = $(e).find(".series-link").attr("href")
-        let title = $(e).find(".series-box").text().clearSpaces() + " - " + $(e).find(".series-badge").text().clearSpaces();
-        let poster = process.env.SERVER + "/image?url=" +$(e).find(".thumb-img").attr("src");
+    $("section").not(".mt-5").not(".movies").find("article").each((i, e) => {
+        let url = $(e).find("a").first().attr("href")
+        let title = $(e).find(".title").text().clearSpaces() + " - " + $(e).find(".anime-type-peli").text().clearSpaces();
+        let poster = process.env.SERVER + "/image?url=" + $(e).find("img").attr("src");
         result.push({ title, url, poster })
     })
     return result;
@@ -41,12 +40,12 @@ const search = (html) => {
     let $ = cheerio.load(html)
 
     let result = []
-    $('.col-6.col-sm-6.col-md-4.col-xl-2').each((index, element) => {
-        let url = $(element).find(".series-link").attr("href")
-        let title = $(element).find(".series-box").text().clearSpaces()
-        let poster = process.env.SERVER + "/image?url=" +$(element).find(".thumb-img").attr("src");
+    $("article").each((i, e) => {
+        let url = $(e).find("a").first().attr("href")
+        let title = $(e).find(".title").text().clearSpaces();
+        let poster = process.env.SERVER + "/image?url=" + $(e).find("img").attr("src");
         result.push({ title, url, poster })
-    });
+    })
     return result;
 };
 /*
@@ -67,32 +66,17 @@ const episodes = (html) => {
     let episodes = []
     let categories = []
     let extras = []
-    let poster = process.env.SERVER + "/image?url=" +$('.summary_image').find("img").attr('src');
-    let title = $('.post-title').find("h1").text().clearSpaces();
-    let synopsis = undefined;
-    $(".summary_content").find(".post-content_item").each((i, e) => {
-        switch (i) {
-            case 0:
-            case 2:
-            case 4:
-            case 5:
-                let title = $(e).find(".summary-heading").text().clearSpaces();
-                let content = $(e).find(".summary-content").text().clearSpaces();
-                extras.push({ title, content });
-                break;
-            case 1:
-                $(e).find(".summary-content").find("a").each((_i, _e) => {
-                    categories.push($(_e).text().clearSpaces());
-                });
-                break;
-            case 3:
-                synopsis = $(e).find(".summary-content").text().clearSpaces();
-        }
-    });
-    $('.main').find("li").find("a").each((index, element) => {
-        let a = $(element);
-        episodes.push({ title: a.find(".chapter-manhwa-title").text().clearSpaces(), url: a.attr("href") })
-    });
+    let poster = process.env.SERVER + "/image?url=" + $('.thumb').find("img").attr('src');
+    let title = $('h1.title').text().clearSpaces();
+    let synopsis = $("p.sinopsis").text().clearSpaces();
+  $("p.genres").find("span").each((i,e)=> {
+    categories.push($(e).text().clearSpaces());
+  });
+  $("ul.episodes-list").find("a").each((i,e)=> {
+    let a = $(e);
+    let title = a.find("div").find("p").text().clearSpaces();
+    episodes.push({title,url: a.attr("href")});
+  });
     return { poster, title, synopsis, categories, extras, episodes };
 };
 /*
@@ -113,18 +97,19 @@ const episode = (html) => {
     let pages = []
     let next = undefined
     let previous = undefined
-    let title = $('#chapter-heading').text().clearSpaces();
+    let title = $('.anime-title').text().clearSpaces();
     let episodes = undefined
-    $(".nav-links").first().find(".free-chap").find("a").each((i, e) => {
+    $(".episodes-nav").first().find("a").each((i, e) => {
         let text = $(e).text().clearSpaces();
         switch (text) {
-            case "Anterior": previous = $(e).attr("href"); break;
-            case "Lista": episodes = $(e).attr("href"); break;
-            case "Siguiente": next = $(e).attr("href"); break;
+            case "Episodio anterior": previous = $(e).attr("href"); break;
+            case "Listado de episodios": episodes = $(e).attr("href"); break;
+            case "Episodio siguiente": next = $(e).attr("href"); break;
         }
     });
     $("#chapter_imgs").find("img").each((index, element) => {
-        let url = $(element).attr('src')
+        let url = $(element).attr('src');
+        if(url!=="/discord.jpg")
         pages.push(url);
     });
     return { title, pages, next, previous, episodes };
