@@ -1,6 +1,6 @@
 [
     {
-        "name": "LectorTMO.org",
+        "name": "LectorTMO.org (TMO)",
         "server": "lectortmoorg",
         "url": "https://lectortmo.org",
         "enabled": true
@@ -30,13 +30,13 @@
         "enabled": true
     },
     {
-        "name": "Leer Manga",
+        "name": "Leer Manga (TMO)",
         "server": "leermanga",
         "url": "https://leermanga.net",
         "enabled": true
     },
     {
-        "name": "TMOManga",
+        "name": "TMOManga (TMO)",
         "server": "tmomanga",
         "url": "https://tmomanga.com",
         "enabled": true
