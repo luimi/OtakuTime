@@ -17,4 +17,8 @@ export class FavoritesPage implements OnInit {
     this._favorites.addRemove(server,url);
     this.favorites = this._favorites.getFavorites();
   }
+  reorder(evt){
+    this._favorites.reorder(evt.detail.from, evt.detail.to);
+    evt.detail.complete();
+  }
 }

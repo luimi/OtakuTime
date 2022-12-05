@@ -13,25 +13,35 @@ export class FavoritesService {
     }
   }
   public isAdded(server, url) {
-    let index = this.getIndex(server,url);
+    let index = this.getIndex(server, url);
     return index >= 0
   }
 
-  public addRemove(server: string,url: string,anime?: any){
-    if(this.isAdded(server, url)){
-      let index = this.getIndex(server,url);
-      this.favorites.splice(index,1);
-      this.analytic.sendEvent("favorite","remove");
+  public addRemove(server: string, url: string, anime?: any) {
+    if (this.isAdded(server, url)) {
+      let index = this.getIndex(server, url);
+      this.favorites.splice(index, 1);
+      this.analytic.sendEvent("favorite", "remove");
     } else {
-      this.favorites.push({server,url,title: anime.title,poster: anime.poster});
-      this.analytic.sendEvent("favorite","add");
+      this.favorites.push({ server, url, title: anime.title, poster: anime.poster });
+      this.analytic.sendEvent("favorite", "add");
     }
-    localStorage.setItem(this.LOCALSTORAGE_KEY,JSON.stringify(this.favorites));
+    localStorage.setItem(this.LOCALSTORAGE_KEY, JSON.stringify(this.favorites));
   }
-  public getFavorites(){
+  public getFavorites() {
     return this.favorites;
   }
-  public getIndex(server,url){
+  public getIndex(server, url) {
     return this.favorites.map(o => { return o.server + o.url }).indexOf(server + url)
+  }
+  public reorder(old_index, new_index) {
+    if (new_index >= this.favorites.length) {
+      var k = new_index - this.favorites.length + 1;
+      while (k--) {
+        this.favorites.push(undefined);
+      }
+    }
+    this.favorites.splice(new_index, 0, this.favorites.splice(old_index, 1)[0]);
+    localStorage.setItem(this.LOCALSTORAGE_KEY, JSON.stringify(this.favorites));
   }
 }
