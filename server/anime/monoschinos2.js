@@ -78,13 +78,13 @@ const episode = (html) => {
     url = url.replace("https://monoschinos2.com/reproductor?url=","")
     streams.push(url);
   });
-  $(".controldiv2").find('a').each((index,element) => {
+  $(".controles").find('a').each((index,element) => {
     let a = $(element)
-    if(a.find('img').attr('src').includes('playarrowleft')){
+    if(a.text().includes('Anterior')){
       previous = a.attr('href').encode()
-    } else if(a.find('img').attr('src').includes('playarrowright')){
+    } else if(a.text().includes('Siguiente')){
       next = a.attr('href').encode()
-    } else if(a.find('img').attr('src').includes('playlist')){
+    } else if(a.text().includes('Lista')){
       episodes = a.attr('href').encode()
     }
   });
