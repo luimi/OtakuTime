@@ -10,7 +10,7 @@ export class ConfigurationService {
     if(localStorage.getItem(this.CONFIGURATION_KEY)) {
       this.configuration =  JSON.parse(localStorage.getItem(this.CONFIGURATION_KEY));
     } else {
-      this.configuration = {listType:"list"}
+      this.configuration = {listType:"grid"}
     }
       
   }
