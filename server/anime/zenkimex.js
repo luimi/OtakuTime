@@ -80,10 +80,11 @@ const episodes = (html) => {
     $("script").each((i, e) => {
         let code = $(e).text().clearSpaces();
         if (code.includes("objJson = ")) {
-            let match = code.match(/(\[.+?\])+/);
-            let _episodes = match[0].replace(/id/g, "\"id\"")
-                .replace(/poster/g, "\"poster\"")
-                .replace(/title/g, "\"title\"");
+            let match = code.match(/\[(.+?)\];/g);
+            let _episodes = match[0].replace(";","")
+              .replace(/id:/g, "\"id\":")
+                .replace(/poster:/g, "\"poster\":")
+                .replace(/title:/g, "\"title\":");
             _episodes = JSON.parse(_episodes);
             _episodes.forEach((episode) => {
                 episodes.push({ title: episode.title, url: `${root}/animes/ver/${episode.id}`.encode() })

@@ -228,7 +228,7 @@ app.post("/", async (req, res) => {
       let response = await server[body.action](html);
       res.json({ success: true, data: response });
     } catch (e) {
-      res.json({ success: false, error: e });
+      res.json({ success: false, error: e.message });
     }
   } else {
     res.json({ success: false });
