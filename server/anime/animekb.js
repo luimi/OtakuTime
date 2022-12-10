@@ -46,8 +46,8 @@ const episodes = (html) => {
     });
     $('.lcclink').each((index, element) => {
         let url = element.attribs.href.encode()
-        let title = element.children[0].children[0].data;
-        episodes.push({ title, url })
+        let _title = element.children[0].children[0].data.replace(title,"").clearSpaces();
+        episodes.push({ title:_title, url })
     });
     return { poster, title, synopsis, categories, extras, episodes };
 };

@@ -74,8 +74,8 @@ const episodes = (html) => {
   });
   $("ul.episodes-list").find("a").each((i,e)=> {
     let a = $(e);
-    let title = a.find("div").find("p").text().clearSpaces();
-    episodes.push({title,url: a.attr("href").encode()});
+    let _title = a.find("div").find("p").text().replace(title,"").clearSpaces();
+    episodes.push({title:_title,url: a.attr("href").encode()});
   });
     return { poster, title, synopsis, categories, extras, episodes };
 };

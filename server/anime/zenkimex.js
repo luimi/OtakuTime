@@ -87,7 +87,8 @@ const episodes = (html) => {
                 .replace(/title:/g, "\"title\":");
             _episodes = JSON.parse(_episodes);
             _episodes.forEach((episode) => {
-                episodes.push({ title: episode.title, url: `${root}/animes/ver/${episode.id}`.encode() })
+              let _title = episode.title.replace(title,"").clearSpaces();
+                episodes.push({ title: _title , url: `${root}/animes/ver/${episode.id}`.encode() })
             });
         }
     });
