@@ -41,8 +41,15 @@ const main = (html) => {
 {title,url,poster}
 */
 const search = async (html) => {
-  let $ = cheerio.load(html);
   let result = [];
+
+  try{
+    let response = await axios.post("https://api.yugenmangas.com/series/search",{term: html.query});
+    response.data.forEach((manga) => {
+      let url = `${root}/series/${manga.series_slug}`.encode();
+      result.push({title:manga.title, url, poster:"https://www.segelectrica.com.co/wp-content/themes/consultix/images/no-image-found-360x250.png" })
+    });
+  }catch(e){}
   return result;
 };
 /*
@@ -106,8 +113,8 @@ const episode = async (html) => {
 module.exports = {
   mainUrl: root,
   searchUrl: (text) => {
-    return `${root}/?s=${text}&post_type=wp-manga`;
-  },
+    return `${process.env.SERVER}/transfer?text=${text}`;
+},
   main: main,
   search: search,
   episodes: episodes,
