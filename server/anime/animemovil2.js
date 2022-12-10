@@ -19,7 +19,7 @@ const main = (html) => {
     $('.grid-animes').first().find("article").each((i, e) => {
         let a = $(e)
         let url = (root + a.find("a").attr('href')).encode()
-        let title = a.find(".article-title").text().clearSpaces();
+        let title = a.find(".article-title").text().clearSpaces() + " - " + a.find(".yellow").text().clearSpaces();
         let poster = a.find('.skeleton').attr('src')
         result.push({ title, url, poster })
     });
