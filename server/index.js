@@ -229,10 +229,12 @@ app.post("/", async (req, res) => {
         url = url.decode();
         break;
     }
+    let animeServer = anime.find(s=> s.server === body.server);
+    let mangaServer = manga.find(s=> s.server === body.server);
     try {
       let html = await _axios(url);
       let response = await server[body.action](html);
-      res.json({ success: true, data: response });
+      res.json({ success: true, data: response , server:  animeServer?animeServer:mangaServer });
     } catch (e) {
       res.json({ success: false, error: e.message });
     }
