@@ -11,6 +11,7 @@ import { UtilsService } from '../utils/utils.service';
 })
 export class LatestPage implements OnInit {
   server :string
+  serverName: string
   latest = [];
   query: string;
   isLoading = false;
@@ -30,6 +31,7 @@ export class LatestPage implements OnInit {
       let response: any = await this.rest.getLatest(this.server);
       if(response && response.success) {
         this.latest = response.data;
+        this.serverName = response.server.name;
       } else if(response && !response.success){
         this.emptyState = {
           icon: 'server',
