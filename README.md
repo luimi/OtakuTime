@@ -73,6 +73,11 @@ docker run -it -d -p 8000:80 IMAGE_ID
 ```json
 binary
 ```
+`GET /getVideo?url={stream}`
+**Response**
+```json
+<iframe>
+```
 `GET /transfer?text={text}`
 **Response**
 ```json

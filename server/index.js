@@ -24,6 +24,8 @@ const inmanga = require("./manga/inmanga");
 const leermanga = require("./manga/leermanga");
 const tmomanga = require("./manga/tmomanga");
 const manhwasnet = require("./manga/manhwasnet");
+const fembed = require("./streamer/fembed");
+const streamtape = require("./streamer/streamtape");
 
 require("dotenv").config();
 
@@ -58,6 +60,10 @@ let servers = {
   tmomanga,
   manhwasnet
 };
+let streamer = [
+  fembed,
+  streamtape
+];
 
 const _axios = (url) => {
   return new Promise((res, rej) => {
@@ -236,7 +242,7 @@ app.post("/", async (req, res) => {
 });
 app.get('/html', (req, res) => {
   if (!req.query.url) {
-    res.send("<h1>No se encontro la URL</h1>")
+    res.send("<h1>URL not found</h1>")
     return
   }
   axios
@@ -255,6 +261,23 @@ app.get('/debugger', (req, res) => {
 app.get("/transfer", async (req, res) => {
   res.json({ query: req.query.text })
 });
+app.get("/getVideo", (req,res) => {
+  if (!req.query.url) {
+    res.send("<h1>URL not found</h1>")
+    return
+  }
+  let url = req.query.url;
+  let found = false;
+  for (let stream of streamer) {
+    if(stream["regex"].test(url)) {
+      stream["getVideo"](req,res,url);
+      found = true;
+      break;
+    }
+  }
+  if(!found) res.send(url.embed());
+
+});
 app.listen(process.env.PORT, () => {
   console.log("OtakuTime server ready");
 });
@@ -270,5 +293,7 @@ String.prototype.decode = function () {
   }catch(e){
     return "";
   }
-  
+}
+String.prototype.embed = function () {
+  return `<html><head><style> * { margin:0; padding:0; border:0; } iframe {width:100%; height: 100%;}  </style></head><body><iframe src="${this}"></iframe></body></html>`
 }
