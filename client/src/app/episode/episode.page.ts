@@ -5,6 +5,7 @@ import { RestService } from '../api/rest.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SeenService } from '../utils/seen.service';
 import { AnalyticsService } from '../utils/analytics.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-episode',
@@ -20,6 +21,7 @@ export class EpisodePage implements OnInit {
   lastPageAdded;
   streamUrl;
   emptyState;
+  getVideoPath = environment.server+"/getVideo?url=";
   constructor(private aRoute: ActivatedRoute, private rest: RestService, private toastCtrl: ToastController, private sanitizer: DomSanitizer, private seen: SeenService, private analytic: AnalyticsService) { }
 
   async ngOnInit() {
@@ -89,7 +91,7 @@ export class EpisodePage implements OnInit {
     this.lastPageAdded = performance.now();
   }
   playStream(url){
-    this.streamUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    this.streamUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.getVideoPath+url);
     this.analytic.sendEvent("episode","stream");
   }
 }

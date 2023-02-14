@@ -55,7 +55,7 @@
             {{getDomain(stream)}}
           </ion-label>
           <ion-button fill="clear" color="dark" slot="end" class="action-btn" (click)="playStream(stream)"><ion-icon name="play-outline"></ion-icon></ion-button>
-          <ion-button [href]="stream" fill="clear" color="dark" target="_blank" slot="end"  class="action-btn"><ion-icon name="arrow-redo-outline"></ion-icon></ion-button>
+          <ion-button [href]="getVideoPath+stream" fill="clear" color="dark" target="_blank" slot="end"  class="action-btn"><ion-icon name="arrow-redo-outline"></ion-icon></ion-button>
 
         </ion-item>
       </ion-list>
