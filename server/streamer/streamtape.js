@@ -7,7 +7,7 @@ const getVideo = async (req, res, url) => {
     let token = "";
     axios
         .get(url)
-        .then((response) => {
+        .then(async (response) => {
             let html = response.data;
             let $ = cheerio.load(html);
             let link = $("#robotlink").text()
@@ -21,10 +21,10 @@ const getVideo = async (req, res, url) => {
                 }
             })
             result = `https:/${link}=${token}&stream=1`;
-            res.send(result.embed())
+            res.send(await result.embed())
         })
-        .catch((e) => {
-            res.send(url.embed());
+        .catch(async (e) => {
+            res.send(await url.embed());
         });
 }
 

@@ -17,11 +17,11 @@ const getFetchHeader = async (headers) => {
 
 const getVideo = async (req, res, url) => {
     const videoJSON = await getJSON(url)
-    if (!videoJSON["success"]) return res.send(url.embed())
+    if (!videoJSON["success"]) return res.send(await url.embed())
     const videoURL = videoJSON.data[0].file;
     return await fetch(videoURL, { headers: { range: req.headers.range } })
     .then(async response => {
-        if (!response.ok) return res.send(url.embed())
+        if (!response.ok) return res.send(await url.embed())
         res.set(await getFetchHeader(response.headers))
         response.body.pipe(res.status(206))
         response.body.on('error', () => { })

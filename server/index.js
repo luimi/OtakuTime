@@ -4,6 +4,7 @@ const fs = require("fs").promises;
 const axios = require("axios");
 const path = require('path');
 const CryptoJS = require('crypto-js');
+const mustache = require("mustache");
 const anime = require("./anime/list.json");
 const manga = require("./manga/list.json");
 const animekb = require("./anime/animekb");
@@ -263,7 +264,7 @@ app.get('/debugger', (req, res) => {
 app.get("/transfer", async (req, res) => {
   res.json({ query: req.query.text })
 });
-app.get("/getVideo", (req,res) => {
+app.get("/getVideo", async (req,res) => {
   if (!req.query.url) {
     res.send("<h1>URL not found</h1>")
     return
@@ -277,7 +278,7 @@ app.get("/getVideo", (req,res) => {
       break;
     }
   }
-  if(!found) res.send(url.embed());
+  if(!found) res.send(await url.embed());
 
 });
 app.listen(process.env.PORT, () => {
@@ -296,6 +297,8 @@ String.prototype.decode = function () {
     return "";
   }
 }
-String.prototype.embed = function () {
-  return `<html><head><style> * { margin:0; padding:0; border:0; } iframe {width:100%; height: 100%;}  </style></head><body><iframe src="${this}"></iframe></body></html>`
+String.prototype.embed = async function () {
+  let html = await fs.readFile("public/embed.html", "utf8"); 
+  let data = {url:this};
+  return mustache.render(html, data);
 }
