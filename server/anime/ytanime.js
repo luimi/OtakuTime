@@ -108,7 +108,7 @@ const episode = (html) => {
         if (a.text().includes("Siguiente")) next = a.attr("href").encode();
         if (a.text().includes("Lista")) episodes = a.attr("href").encode();
     });
-    streams.push($("#plays").find("iframe").attr("src"));
+    streams.push($("iframe").attr("src"));
     return { title, links, streams, next, previous, episodes };
 };
 
