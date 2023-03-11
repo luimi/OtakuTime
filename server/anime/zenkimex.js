@@ -17,9 +17,9 @@ const main = (html) => {
 
     let result = [];
     $('.contenedor-capitulos').each((i, e) => {
-        let a = $(e).find(".metadata").find("a");
+        let a = $(e).find("a");
         let url = (root + a.attr('href')).encode()
-        let title = a.find("h6").text().clearSpaces();
+        let title = a.find(".detalles").text().clearSpaces();
         let poster = $(e).find('.poster-p').attr('data-src')
         result.push({ title, url, poster })
     });
