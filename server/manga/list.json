@@ -15,7 +15,7 @@
         "name": "Yugen Mangas",
         "server": "yugenmangas",
         "url": "https://yugenmangas.com",
-        "enabled": true
+        "enabled": false
     },
     {
         "name": "Nartag",
