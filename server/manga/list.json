@@ -45,6 +45,6 @@
         "name": "Manhwas.net (+18)",
         "server": "manhwasnet",
         "url": "https://manhwas.net",
-        "enabled": true
+        "enabled": false
     }
 ]
