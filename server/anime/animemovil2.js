@@ -20,7 +20,7 @@ const main = (html) => {
         let a = $(e)
         let url = (root + a.find("a").attr('href')).encode()
         let title = a.find(".article-title").text().clearSpaces() + " - " + a.find(".yellow").text().clearSpaces();
-        let poster = a.find('.skeleton').attr('src')
+        let poster = `${root}/${a.find('.skeleton').attr('src')}`;
         result.push({ title, url, poster })
     });
     return result;
@@ -45,7 +45,7 @@ const search = (html) => {
         let a = $(e).find("a");
         let url = (root + a.attr('href')).encode();
         let title = a.find("p").last().text().clearSpaces();
-        let poster = a.find('.skeleton').attr('src');
+        let poster = `${root}/${a.find('.skeleton').attr('src')}`;
         result.push({ title, url, poster })
     });
     return result;
@@ -68,7 +68,7 @@ const episodes = (html) => {
     let episodes = [];
     let categories = [];
     let extras = [];
-    let poster = $('#anime_image').attr('src');
+    let poster = `${root}/${$('#anime_image').attr('src')}`;;
     let title = $('.titles').text().clearSpaces();
     let synopsis = $('.sinopsis').text().clearSpaces();
     $('.generos-wrap').find("a").each((i, e) => {
@@ -78,6 +78,7 @@ const episodes = (html) => {
         let a = $(e).find("a").first();
         episodes.push({ title: a.find("p").text().clearSpaces(), url: (root + a.attr("href")).encode() });
     });
+    episodes.reverse();
     return { poster, title, synopsis, categories, extras, episodes };
 };
 /*
