@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  server:"http://localhost:8000",
+  server: process.env['NG_APP_SERVER'] || "http://localhost:8000",
   firebaseConfig : {
     apiKey: "AIzaSyAWMq1AY51_6bFVDh-XR347KHHGLle8NCQ",
     authDomain: "otakutime-7dd2f.firebaseapp.com",
