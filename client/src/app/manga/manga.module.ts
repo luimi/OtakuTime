@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { MangaPageRoutingModule } from './manga-routing.module';
 
 import { MangaPage } from './manga.page';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MangaPageRoutingModule
+    MangaPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [MangaPage]
 })

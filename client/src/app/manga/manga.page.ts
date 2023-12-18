@@ -8,16 +8,15 @@ import { UtilsService } from '../utils/utils.service';
   styleUrls: ['./manga.page.scss'],
 })
 export class MangaPage implements OnInit {
-  servers = []
-  skeleton = []
+  episodes: any[];
+  query;
+  isLoading = false;
   constructor(private rest: RestService, private utils: UtilsService) { }
 
   async ngOnInit() {
-    this.skeleton = this.utils.getSkeletonList()
-    let response: any = await this.rest.getMangas();
-    if(response && response.success){
-      this.servers = response.data;
-      this.servers.sort((a,b) =>  a.enabled?-1: 1 );
-    }
+    this.episodes = await this.rest.getAllLatest("manga")
+  }
+  search(){
+    this.utils.search(this.query, 'manga',(loading) => this.isLoading = loading)
   }
 }
