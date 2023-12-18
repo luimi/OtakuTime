@@ -1,0 +1,19 @@
+.poster {
+    height: 200px;
+    position: relative;
+    img {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+    }
+    .title {
+        position: absolute;
+        bottom: 0;
+        background-color: #00000045;
+        color: white;
+        padding: 5px;
+        text-align: center;
+        left: 0;
+        right: 0;
+    }
+}

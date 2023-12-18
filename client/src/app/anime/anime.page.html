@@ -1,27 +1,6 @@
-<ion-header>
-  <ion-toolbar color="dark" mode="ios">
-    <ion-title>Anime</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let server of servers" [routerLink]="['/latest',server.server]" [class.disabled]="server.enabled?null:true">
-      <ion-chip slot="start">
-        <ion-avatar style="margin: 0;">
-          <img [src]="'https://www.google.com/s2/favicons?domain='+server.url">
-        </ion-avatar>
-      </ion-chip>
-      <ion-label>{{server.name}}</ion-label>
-      <ion-icon name="eye-outline" *ngIf="server.hasStream" slot="end"></ion-icon>
-      <ion-icon name="download-outline" *ngIf="server.hasDownload" slot="end"></ion-icon>
-    </ion-item>
-  </ion-list>
-  <ion-list [hidden]="servers.length>0">
-    <ion-item *ngFor="let size of skeleton">
-      <ion-label>
-        <ion-skeleton-text animated [ngStyle]="{'width': size}"></ion-skeleton-text>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-searchbar placeholder="Buscar anime..." [(ngModel)]="query" (ionChange)="search($event)" enterkeyhint="search"
+      autocomplete="on"></ion-searchbar>
+  <ion-progress-bar type="indeterminate" [hidden]="!isLoading"></ion-progress-bar>
+  <app-latest-list [data]="episodes" path="/episode"></app-latest-list>
 </ion-content>

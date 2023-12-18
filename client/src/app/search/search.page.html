@@ -13,6 +13,6 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <app-poster-list [data]="animes" [server]="server" path="/episodes" [hidden]="emptyState"></app-poster-list>
+  <app-latest-list [data]="result" path="/episodes" [hidden]="emptyState"></app-latest-list>
   <app-empty-state *ngIf="emptyState" [icon]="emptyState.icon" [title]="emptyState.title" [message]="emptyState.message"></app-empty-state>
 </ion-content>

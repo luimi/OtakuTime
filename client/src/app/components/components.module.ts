@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { EmptyStateComponent } from './empty-state/empty-state.component';
 import { PosterListComponent } from './poster-list/poster-list.component';
 import { RouterModule } from '@angular/router';
+import { LatestListComponent } from './latest-list/latest-list.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,7 @@ import { RouterModule } from '@angular/router';
     IonicModule,
     RouterModule
   ],
-  declarations: [EmptyStateComponent, PosterListComponent],
-  exports: [EmptyStateComponent, PosterListComponent]
+  declarations: [EmptyStateComponent, PosterListComponent, LatestListComponent],
+  exports: [EmptyStateComponent, PosterListComponent, LatestListComponent]
 })
 export class ComponentsModule {}

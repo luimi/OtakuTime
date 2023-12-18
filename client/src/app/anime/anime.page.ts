@@ -9,17 +9,15 @@ import { UtilsService } from '../utils/utils.service';
   styleUrls: ['./anime.page.scss'],
 })
 export class AnimePage implements OnInit {
-  servers = []
-  skeleton = []
+  episodes: any[];
+  query;
+  isLoading = false;
   constructor(private rest: RestService, private utils: UtilsService) { }
 
   async ngOnInit() {
-    this.skeleton = this.utils.getSkeletonList()
-    let response: any = await this.rest.getAnimes();
-    if(response && response.success){
-      this.servers = response.data;
-      this.servers.sort((a,b) =>  a.enabled?-1: 1 );
-    }
+    this.episodes = await this.rest.getAllLatest("anime")
   }
-
+  search(){
+    this.utils.search(this.query, 'anime',(loading) => this.isLoading = loading)
+  }
 }

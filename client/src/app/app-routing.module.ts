@@ -23,7 +23,7 @@ const routes: Routes = [
     loadChildren: () => import('./episodies/episodies.module').then( m => m.EpisodiesPageModule)
   },
   {
-    path: 'search/:server/:query',
+    path: 'search/:type/:query',
     loadChildren: () => import('./search/search.module').then( m => m.SearchPageModule)
   },
   {

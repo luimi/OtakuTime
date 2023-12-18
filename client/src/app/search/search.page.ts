@@ -9,21 +9,21 @@ import { UtilsService } from '../utils/utils.service';
   styleUrls: ['./search.page.scss'],
 })
 export class SearchPage implements OnInit {
-  server :string;
   query: string;
+  type: string;
   animes = [];
+  result: any[];
   isLoading = false;
-  skeleton = [];
   emptyState;
   constructor(private aRoute: ActivatedRoute, private rest: RestService, private utils : UtilsService) { }
 
   async ngOnInit() {
-    this.skeleton = this.utils.getSkeletonList()
-    this.server = this.aRoute.snapshot.paramMap.get('server');
     this.query = this.aRoute.snapshot.paramMap.get('query');
-    if(this.server && this.query){
+    this.type = this.aRoute.snapshot.paramMap.get('type');
+    if(this.type && this.query){
       this.isLoading = true;
-      let response:any = await this.rest.getSearch(this.server, this.query);
+      this.result = await this.rest.getAllSearch(this.type,this.query);
+      /*let response:any = await this.rest.getSearch(this.server, this.query);
       if(response && response.success){
         this.animes = response.data;
         if(this.animes.length===0){
@@ -39,7 +39,7 @@ export class SearchPage implements OnInit {
           title: 'Ocurrio un error',
           message: 'Es posible que algo haya pasado con el servidor de origen'
         }
-      }
+      }*/
       this.isLoading = false;
     }
   }
