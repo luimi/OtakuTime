@@ -1,7 +1,24 @@
 const cheerio = require('cheerio')
 const root = "https://www.animeid.tv";
 
-const main_search = (html) => {
+const main = (html) => {
+    let result = []
+    let $ = cheerio.load(html)
+    $('article').each((index, element) => {
+        let a = $(element).find('a')
+        let url = root + a.attr('href')
+        url = url.encode()
+        let name = a.find('header').text()
+        let chapter = name.split("#").pop()
+        let title = name.replace(`#${chapter}`,"").trim()
+        if (title !== "") {
+            let poster = a.find('figure').find('img').attr('src')
+            result.push({ title, url, poster, chapter })
+        }
+    });
+    return result;
+}
+const search = (html) => {
     let result = []
     let $ = cheerio.load(html)
     $('article').each((index, element) => {
@@ -35,7 +52,7 @@ const episodes = (html) => {
         let a = $(element)
         let url = root + a.attr('href');
         url = url.encode();
-        let title = a.find('strong').text();
+        let title = a.find('strong').text().replace("Capítulo ","").trim();
         episodes.push({ title, url })
     });
     return { poster, title, synopsis, categories, extras, episodes };
@@ -48,7 +65,9 @@ const episode = (html) => {
     let $ = cheerio.load(html)
     let info = $('#infoanime')
     let poster = info.find('figure').find('img').attr('src');
-    let title = info.find('h1').find('strong').text();
+    let name = info.find('h1');
+    let chapter = name.find('strong').text().replace("Capítulo ","").trim();
+    let title = name.text().trim();
     let episodes = undefined
     $('.subtab').each((index, element) => {
         let data = $(element).find('.parte').attr("data");
@@ -75,15 +94,15 @@ const episode = (html) => {
                 break;
         }
     });
-    return { poster, title, streams, next, previous, episodes};
+    return { poster, title, streams, next, previous, episodes, chapter};
 };
 module.exports = {
     mainUrl: root,
     searchUrl: (text) => {
         return `${root}/buscar?q=${text}`;
     },
-    main: main_search,
-    search: main_search,
+    main: main,
+    search: search,
     episodes: episodes,
     episode: episode
 }
