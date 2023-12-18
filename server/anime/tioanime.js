@@ -10,7 +10,7 @@ const root = "https://tioanime.com";
  |_|  |_|\__,_|_|_| |_|
                        
                        
-{title,url,poster}
+{title,url,poster,chapter}
 */
 const main = (html) => {
     let $ = cheerio.load(html);
@@ -19,9 +19,11 @@ const main = (html) => {
     $('.episodes').find(".episode").each((i, e) => {
         let a = $(e).find("a")
         let url = (root + a.attr('href')).encode()
-        let title = a.find(".title").text().clearSpaces();
+        let name = a.find(".title").text().clearSpaces();
+        let chapter = name.split(" ").pop();
+        let title = name.replace(chapter,"").trim();
         let poster = root + a.find('img').attr('src');
-        result.push({ title, url, poster });
+        result.push({ title, url, poster, chapter });
     });
     return result;
 };
@@ -93,7 +95,7 @@ const episodes = (html) => {
  |______| .__/|_|___/\___/ \__,_|\___|
         | |                           
         |_|                           
-{title,links:[string],strams:[string],next,previous,episodes}
+{title,links:[string],strams:[string],next,previous,episodes,chapter}
 */
 const episode = (html) => {
     let $ = cheerio.load(html)
@@ -102,7 +104,9 @@ const episode = (html) => {
     let streams = [];
     let next = undefined;
     let previous = undefined;
-    let title = $('.anime-title').text().clearSpaces();
+    let name = $('.anime-title').text().clearSpaces();
+    let chapter = name.split(" ").pop();
+    let title = name.replace(chapter,"").trim();
     let episodes = undefined;
     $(".modal-dialog").find("a").each((i, e) => {
         let url = $(e).attr('href')
@@ -124,7 +128,7 @@ const episode = (html) => {
                 case "Episodio siguiente": next = (root + a.attr("href")).encode(); break;
             }
     });
-    return { title, links, streams, next, previous, episodes };
+    return { title, links, streams, next, previous, episodes, chapter };
 };
 
 module.exports = {
