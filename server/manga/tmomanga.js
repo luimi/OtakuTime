@@ -10,7 +10,7 @@ const root = "https://tmomanga.com"
  |_|  |_|\__,_|_|_| |_|
                        
                        
-{title,url,poster}
+{title,url,poster,chapter}
 */
 const main = (html) => {
     let $ = cheerio.load(html)
@@ -18,9 +18,10 @@ const main = (html) => {
     $('.page-listing-item').first().find(".episode_thumb").each((index, element) => {
         let a = $(element)
         let url = a.find("a").attr('href').encode()
-        let title = a.find(".manga-title-updated").text().clearSpaces() + " - "+ a.find(".manga-episode-title").text().clearSpaces()
+        let title = a.find(".manga-title-updated").text().clearSpaces()
+        let chapter = a.find(".manga-episode-title").text().replace("Capítulo ","").replace(".00","").clearSpaces()
         let poster = a.find('img').attr('src')
-        result.push({ title, url, poster })
+        result.push({ title, url, poster, chapter })
     });
     return result;
 };
@@ -73,7 +74,7 @@ const episodes = (html) => {
     });
     $('.sub-chap').find("a").each((index, element) => {
         let a = $(element);
-        episodes.push({ title:a.text().clearSpaces(), url:a.attr("href").encode() })
+        episodes.push({ title:a.text().replace("Capítulo ","").replace(".00","").clearSpaces().trim(), url:a.attr("href").encode() })
     });
     return { poster, title, synopsis, categories, extras, episodes };
 };
@@ -92,15 +93,20 @@ const episodes = (html) => {
 const episode = (html) => {
     let $ = cheerio.load(html)
     let pages = []
-    let next = $(".nav-next").find("a").attr("href").encode()
-    let previous = $(".nav-previous").find("a").attr("href").encode()
-    let title = $('#chapter-heading').text().clearSpaces();
-    let episodes = $(".nav-allmangas").find("a").attr("href").encode()
+    let next = $(".nav-next").find("a").attr("href")
+    if(next) next = next.encode()
+    let previous = $(".nav-previous").find("a").attr("href")
+    if(previous) previous = previous.encode()
+    let name = $('#chapter-heading').text().clearSpaces();
+    let chapter = name.split(" ").pop().replace(".00","")
+    let title = name.replace(` - Capítulo ${name.split(" ").pop()}`,"")
+    let episodes = $(".nav-allmangas").find("a").attr("href")
+    if(episodes) episodes = episodes.encode()
     $("#images_chapter").find("img").each((index, element) => {
         let url = $(element).attr('data-src')
         pages.push(url)
     });
-    return { title, pages, next, previous, episodes };
+    return { title, pages, next, previous, episodes, chapter };
 };
 
 module.exports = {
