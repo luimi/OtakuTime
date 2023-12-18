@@ -8,10 +8,11 @@ const main = (html) => {
     .each((index, element) => {
       let a = $(element);
       let url = a.attr("href").encode();
-      let title = `${a.find('.animetitles').text()} - ${a.find("p").text()}`
+      let title = a.find('.animetitles').text()
+      let chapter = a.find("p").text()
       let poster = a.find("img").attr("data-src");
       if(url && title && poster)
-        result.push({ title, url, poster });
+        result.push({ title, url, poster, chapter });
     });
   return result;
 };
@@ -46,7 +47,7 @@ const episodes = (html) => {
   categories.shift();
   $(".col-item").each((index, element) => {
     let a = $(element).find("a");
-    episodes.push({ title: a.find("p").text(), url: a.attr("href").encode() });
+    episodes.push({ title: a.find("p").text().replace("Capitulo","").trim(), url: a.attr("href").encode() });
   });
   episodes = episodes.reverse();
   return { poster, title, synopsis, categories, extras, episodes };
@@ -58,7 +59,9 @@ const episode = (html) => {
   let previous = undefined;
   let poster = undefined;
   let $ = cheerio.load(html);
-  let title = $(".heromain_h1").text();
+  let name = $(".heromain_h1").text().trim();
+  let chapter = name.split(" ").pop();
+  let title = name.replace("Ver","").replace(`- ${chapter}`,"").trim();
   let episodes = undefined;
   $("meta").each((index, element) => {
     let e = $(element);
@@ -88,7 +91,7 @@ const episode = (html) => {
       episodes = a.attr('href').encode()
     }
   });
-  return { title, poster, links, streams, next, previous, episodes};
+  return { title, poster, links, streams, next, previous, episodes, chapter};
 };
 
 module.exports = {
