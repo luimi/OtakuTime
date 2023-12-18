@@ -29,7 +29,7 @@
         "url": "https://www.animefenix.com",
         "hasDownload": false,
         "hasStream": true,
-        "enabled": false
+        "enabled": true
     },
     {
         "name": "MonosChinos2",
@@ -77,6 +77,6 @@
         "url": "https://zenkimex.com.mx",
         "hasDownload": true,
         "hasStream": false,
-        "enabled": true
+        "enabled": false
     }
 ]

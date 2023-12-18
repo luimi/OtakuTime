@@ -5,10 +5,12 @@ const main = (html) => {
     let $ = cheerio.load(html)
     $('.capitulos-grid').find('.overarchingdiv').each((index, element) => {
         let a = $(element).find('a')
-        let url = a.attr('href')
-        let title = a.attr('title')
+        let url = a.attr('href').encode()
+        let name = a.attr('title')
+        let chapter = name.split(" ").pop()
+        let title = name.replace(chapter,"").trim()
         let poster = a.find('img').attr('src')
-        result.push({ title, url, poster })
+        result.push({ title, url, poster, chapter })
     });
     return result;
 };
@@ -17,8 +19,8 @@ const search = (html) => {
     let $ = cheerio.load(html)
     $('.list-series').find('.serie-card').each((index, element) => {
         let a = $(element).find('a')
-        let url = a.attr('href')
-        let title = $(element).find('a').text().clearSpaces()
+        let url = a.attr('href').encode()
+        let title = $(element).find('a').text().clearSpaces().trim()
         let poster = a.find('img').attr('src')
         result.push({ title, url, poster })
     });
@@ -45,8 +47,8 @@ const episodes = (html) => {
     });
     $('.anime-page__episode-list').find('li').each((index, element) => {
       let a = $(element).find('a')
-      let url = a.attr('href')
-      let title = a.find('span').text()
+      let url = a.attr('href').encode()
+      let title = a.find('span').text().replace("Episodio ","").trim()
       episodes.push({ title, url })
     });
     return { poster, title, synopsis, categories, extras, episodes };
@@ -58,7 +60,9 @@ const episode = (html) => {
     let next = undefined
     let previous = undefined
     let $ = cheerio.load(html)
-    let title = $('.title:first').text().clearSpaces();
+    let name = $('.title:first').text().clearSpaces();
+    let chapter = name.replace("Sub Español","").trim().split(" ").pop()
+    let title = name.replace(`${chapter} Sub Español`,"").trim()
     let episodes = undefined
     $("meta").each((index, element) => {
       let e = $(element)
@@ -90,8 +94,8 @@ const episode = (html) => {
           next = url 
         }
     });
-    episodes = $('a.is-dark:first').attr('href')
-    return { title, poster,links, streams, next, previous, episodes };
+    episodes = $('a.is-dark:first').attr('href').encode()
+    return { title, poster,links, streams, next, previous, episodes, chapter };
 };
 
 module.exports = {
