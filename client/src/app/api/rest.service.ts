@@ -50,7 +50,7 @@ export class RestService {
   async getQueryFromServers(type, query, search?) {
     let servers: any = await this.http.get(`${environment.server}/${type}`).toPromise();
     let result = [];
-    for (let i = 0; i < 2/*servers.data.length-1*/; i++) {
+    for (let i = 0; i < servers.data.length; i++) {
       //TODO agregar validacion de la configuracion
       if (servers.data[i].enabled) {
         let response: any = query === "latest" ? await this.getLatest(servers.data[i].server) :
