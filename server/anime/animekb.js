@@ -6,9 +6,11 @@ const main_search = (html) => {
     $('.post-thumbnail').each((index, element) => {
         let a = $(element).find('a')
         let url = a.attr('href').encode()
-        let title = a.attr('title')
+        let name = a.attr('title')
+        let chapter = name.split(" ").pop()
+        let title = name.replace(chapter, "").trim()
         let poster = a.find('.figure-img').find('img').attr('src')
-        result.push({ title, url, poster })
+        result.push({ title, url, poster, chapter })
     });
     return result;
 };
@@ -55,7 +57,9 @@ const episode = (html) => {
     let links = []
     let $ = cheerio.load(html)
     let poster = $('.separator').find('img').attr('src');
-    let title = $('.entry-title').text().clearSpaces();
+    let name = $('.entry-title').text().clearSpaces();
+    let chapter = name.split(" ").pop()
+    let title = name.replace(chapter, "").trim()
     let episodes = undefined
     $('body').find('link').each((index,element) => {
       let e = $(element)
@@ -73,7 +77,7 @@ const episode = (html) => {
         links.push(url);
     });
     links.splice(links.length - 1, 1);
-    return { poster, title, links, episodes};
+    return { poster, title, links, episodes, chapter};
 };
 
 module.exports = {
