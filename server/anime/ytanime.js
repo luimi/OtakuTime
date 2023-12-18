@@ -10,7 +10,7 @@ const root = "https://ytanime.tv/";
  |_|  |_|\__,_|_|_| |_|
                        
                        
-{title,url,poster}
+{title,url,poster,chapter}
 */
 const main = (html) => {
     let $ = cheerio.load(html);
@@ -20,8 +20,10 @@ const main = (html) => {
         let vc = $(e);
         let poster = vc.find(".img-fluid").attr("src");
         let url = vc.find(".play-icon").attr("href").encode();
-        let title = vc.find(".video-title").find("a").text().clearSpaces();
-        result.push({ poster, url, title });
+        let name = vc.find(".video-title").find("a").text().clearSpaces();
+        let chapter = name.split(" ").pop()
+        let title = name.replace(`- Capítulo ${chapter}`,"").trim()
+        result.push({ poster, url, title, chapter });
     });
     return result;
 };
@@ -87,7 +89,7 @@ const episodes = (html) => {
  |______| .__/|_|___/\___/ \__,_|\___|
         | |                           
         |_|                           
-{title,links:[string],strams:[string],next,previous,episodes}
+{title,links:[string],strams:[string],next,previous,episodes,chapter}
 */
 const episode = (html) => {
     let $ = cheerio.load(html)
@@ -96,7 +98,9 @@ const episode = (html) => {
     let streams = [];
     let next = undefined;
     let previous = undefined;
-    let title = $('.Title-epi').text().clearSpaces();
+    let name = $('.Title-epi').text().clearSpaces();
+    let chapter = name.replace(" Sub Español","").split(" ").pop()
+    let title = name.replace(`${chapter} Sub Español`,"").trim()
     let episodes = undefined;
     $("#downcontainer").find("a").each((i, e) => {
         let url = $(e).attr("href")
@@ -109,7 +113,7 @@ const episode = (html) => {
         if (a.text().includes("Lista")) episodes = a.attr("href").encode();
     });
     streams.push($("iframe").attr("src"));
-    return { title, links, streams, next, previous, episodes };
+    return { title, links, streams, next, previous, episodes, chapter };
 };
 
 module.exports = {
