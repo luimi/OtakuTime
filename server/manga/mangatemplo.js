@@ -7,9 +7,10 @@ const main = (html) => {
     $('.card-series-grid').find('.grid-item-series').each((index, element) => {
         let e = $(element)
         let url = (root + e.find('.text-hover-primary').attr('href')).encode()
-        let title = `${e.find('p').text()} - ${e.find('.reverse').text()}`
+        let title = e.find('p').text()
+        let chapter = e.find('.reverse').text().split(" ").pop().replace(",","")
         let poster = e.find('img').attr('data-src')
-        result.push({ title, url, poster })
+        result.push({ title, url, poster, chapter })
     });
     return result;
 };
@@ -37,7 +38,7 @@ const episodes = (html) => {
       let a = $(element)
       let h5 = a.find('h5')
       h5.find('.text-muted').remove()
-      episodes.push({ title:h5.text().clearSpaces(), url: (root + a.attr('href')).encode() })
+      episodes.push({ title:h5.text().replace("Capítulo ","").clearSpaces(), url: (root + a.attr('href')).encode() })
     });
     return { poster, title, synopsis, categories, extras, episodes };
 };
@@ -47,7 +48,8 @@ const episode = async (html) => {
     let previous = undefined
     let $ = cheerio.load(html)
     let titles = $('.container-page').find('h1.h3').text().split(" - ")
-    let title = `${titles[0]} - ${titles[1]}`;
+    let title = titles[0]
+    let chapter = titles[1]
     let episodes = (root+$('.mt-3').find('a.btn-primary').attr('href')).encode()
     let img = $('.img-fluid').attr('src')
     pages.push(img)
@@ -65,7 +67,7 @@ const episode = async (html) => {
       } catch (e) {}
     }
     await getNextImage($('.btn-next').attr('href'))
-    return { title, pages, next, previous , episodes};
+    return { title, pages, next, previous , episodes, chapter};
 };
 
 module.exports = {
