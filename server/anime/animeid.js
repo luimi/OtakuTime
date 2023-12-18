@@ -67,7 +67,7 @@ const episode = (html) => {
     let poster = info.find('figure').find('img').attr('src');
     let name = info.find('h1');
     let chapter = name.find('strong').text().replace("Capítulo ","").trim();
-    let title = name.text().trim();
+    let title = name.text().replace(`» Capítulo ${chapter}`,"").trim();
     let episodes = undefined
     $('.subtab').each((index, element) => {
         let data = $(element).find('.parte').attr("data");
