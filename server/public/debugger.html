@@ -32,6 +32,12 @@
             max-width: 100%;
         }
 
+        .truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         md-select,
         md-input-container {
             margin: 0;
@@ -154,7 +160,7 @@
                         <div ng-if="ctrl.data.success && (ctrl.type==='main' || ctrl.type==='search')">
                             <md-card ng-repeat="episode in ctrl.data.data" md-theme-watch>
                                 <md-card-title>
-                                    <md-card-title-text>
+                                    <md-card-title-text class="truncate">
                                         <span class="md-headline">{{episode.title}}</span>
                                         <span class="md-subhead">{{episode.url}}</span>
                                     </md-card-title-text>
