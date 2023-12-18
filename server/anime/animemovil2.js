@@ -10,7 +10,7 @@ const root = "https://animemovil2.com";
  |_|  |_|\__,_|_|_| |_|
                        
                        
-{title,url,poster}
+{title,url,poster,chapter}
 */
 const main = (html) => {
     let $ = cheerio.load(html);
@@ -19,9 +19,10 @@ const main = (html) => {
     $('.grid-animes').first().find("article").each((i, e) => {
         let a = $(e)
         let url = (root + a.find("a").attr('href')).encode()
-        let title = a.find(".article-title").text().clearSpaces() + " - " + a.find(".yellow").text().clearSpaces();
+        let title = a.find(".article-title").text().clearSpaces();
+        let chapter = a.find(".yellow").text().replace("Episodio ", "").clearSpaces();
         let poster = `${root}/${a.find('.skeleton').attr('src')}`;
-        result.push({ title, url, poster })
+        result.push({ title, url, poster, chapter })
     });
     return result;
 };
@@ -76,7 +77,7 @@ const episodes = (html) => {
     });
     $('.episodios').find("li").each((i, e) => {
         let a = $(e).find("a").first();
-        episodes.push({ title: a.find("p").text().clearSpaces(), url: (root + a.attr("href")).encode() });
+        episodes.push({ title: a.find("p").text().replace("Episodio ","").clearSpaces(), url: (root + a.attr("href")).encode() });
     });
     episodes.reverse();
     return { poster, title, synopsis, categories, extras, episodes };
@@ -91,7 +92,7 @@ const episodes = (html) => {
  |______| .__/|_|___/\___/ \__,_|\___|
         | |                           
         |_|                           
-{title,links:[string],strams:[string],next,previous,episodes}
+{title,links:[string],strams:[string],next,previous,episodes,chapter}
 */
 const episode = (html) => {
     let $ = cheerio.load(html)
@@ -100,7 +101,9 @@ const episode = (html) => {
     let streams = [];
     let next = undefined;
     let previous = undefined;
-    let title = $('.titulo-episodio').find("h1").text().clearSpaces();
+    let name = $('.titulo-episodio').find("h1").text().clearSpaces();
+    let chapter = name.split(" ").pop()
+    let title = name.replace(` Episodio ${chapter}`,"").trim()
     let episodes = undefined;
     $(".descargas").find("a").each((i, e) => {
         let url = $(e).attr('href');
@@ -119,7 +122,7 @@ const episode = (html) => {
             case "fa-chevron-left": previous = (root + $(e).attr("href")).encode(); break;
         }
     });
-    return { title, links, streams, next, previous, episodes };
+    return { title, links, streams, next, previous, episodes, chapter };
 };
 
 module.exports = {
