@@ -1,5 +1,5 @@
 <ion-content>
-  <ion-searchbar placeholder="Buscar anime..." [(ngModel)]="query" (ionChange)="search($event)" enterkeyhint="search"
+  <ion-searchbar placeholder="Buscar anime..." [(ngModel)]="query" (ionChange)="search()" enterkeyhint="search"
       autocomplete="on"></ion-searchbar>
   <ion-progress-bar type="indeterminate" [hidden]="!isLoading"></ion-progress-bar>
   <app-latest-list [data]="episodes" path="/episode"></app-latest-list>

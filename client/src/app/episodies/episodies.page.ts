@@ -14,7 +14,7 @@ export class EpisodiesPage implements OnInit {
   public url: string;
   anime;
   isLoading = false;
-  constructor(private aRoute: ActivatedRoute, private rest: RestService, public favorites: FavoritesService, private seen: SeenService) { }
+  constructor(private aRoute: ActivatedRoute, private rest: RestService, public favorites: FavoritesService, public seen: SeenService) { }
 
   async ngOnInit() {
     this.server = this.aRoute.snapshot.paramMap.get('server');
