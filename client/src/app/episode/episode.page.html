@@ -55,7 +55,7 @@
             {{getDomain(stream)}}
           </ion-label>
           <ion-button fill="clear" color="dark" slot="end" class="action-btn" (click)="playStream(stream)"><ion-icon name="play-outline"></ion-icon></ion-button>
-          <ion-button [href]="getVideoPath+stream" fill="clear" color="dark" target="_blank" slot="end"  class="action-btn"><ion-icon name="arrow-redo-outline"></ion-icon></ion-button>
+          <ion-button (click)="openPage(getVideoPath+stream)" fill="clear" color="dark"  slot="end"  class="action-btn"><ion-icon name="arrow-redo-outline"></ion-icon></ion-button>
 
         </ion-item>
       </ion-list>
@@ -73,7 +73,7 @@
           
           <ion-button fill="clear" color="dark" slot="end" class="action-btn" (click)="copyToClipboard(link)"><ion-icon name="clipboard-outline"></ion-icon></ion-button>
 
-          <ion-button [href]="link" fill="clear" color="dark" target="_blank" slot="end"  class="action-btn"><ion-icon name="arrow-redo-outline"></ion-icon></ion-button>
+          <ion-button fill="clear" color="dark" slot="end"  class="action-btn" (click)="openPage(link)"><ion-icon name="arrow-redo-outline"></ion-icon></ion-button>
           
         </ion-item>
       </ion-list>

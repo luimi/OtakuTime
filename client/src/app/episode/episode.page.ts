@@ -21,36 +21,36 @@ export class EpisodePage implements OnInit {
   lastPageAdded;
   streamUrl;
   emptyState;
-  getVideoPath = environment.server+"/getVideo?url=";
+  getVideoPath = environment.server + "/getVideo?url=";
   constructor(private aRoute: ActivatedRoute, private rest: RestService, private toastCtrl: ToastController, private sanitizer: DomSanitizer, private seen: SeenService, private analytic: AnalyticsService) { }
 
   async ngOnInit() {
     this.server = this.aRoute.snapshot.paramMap.get('server');
     this.url = this.aRoute.snapshot.paramMap.get('url');
-    if(this.server && this.url){
+    if (this.server && this.url) {
       this.isLoading = true;
-      let response:any = await this.rest.getEpisode(this.server,this.url);
-      if(response && response.success){
+      let response: any = await this.rest.getEpisode(this.server, this.url);
+      if (response && response.success) {
         this.episode = response.data;
-        this.seen.addSeen(this.url,this.episode.episodes)
-        if(this.episode.pages && this.episode.pages.length>0){
+        if (this.episode.pages && this.episode.pages.length > 0) {
           this.addPages()
+          this.seen.add(this.episode.title, this.episode.chapter)
         }
-        if(!this.episode.title){
-          this.emptyState = {icon:"thumbs-down-outline",title:"Capitulo no encontrado",message:"Este capitulo al parecer, no esta disponible"}
+        if (!this.episode.title) {
+          this.emptyState = { icon: "thumbs-down-outline", title: "Capitulo no encontrado", message: "Este capitulo al parecer, no esta disponible" }
         }
       }
       this.isLoading = false;
     }
   }
-  ionViewWillLeave(){
+  ionViewWillLeave() {
     this.streamUrl = undefined;
   }
-  getDomain(url){
+  getDomain(url) {
     let domain = (new URL(url));
-    return domain.hostname.replace("www","");
+    return domain.hostname.replace("www", "");
   }
-  copyToClipboard(text: string){
+  copyToClipboard(text: string) {
     let selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';
@@ -63,7 +63,7 @@ export class EpisodePage implements OnInit {
     document.execCommand('copy');
     document.body.removeChild(selBox);
     this.presentToast();
-    this.analytic.sendEvent("episode","clipboard");
+    this.analytic.sendEvent("episode", "clipboard");
   }
   async presentToast() {
     const toast = await this.toastCtrl.create({
@@ -72,26 +72,31 @@ export class EpisodePage implements OnInit {
     });
     toast.present();
   }
-  addPages(event?){
+  addPages(event?) {
     let timeBetweenpages = 3000;
     let pagesToAdd = 3;
-    if(event){
+    if (event) {
       event.target.complete();
     }
-    if(this.lastPageAdded && performance.now()-this.lastPageAdded<timeBetweenpages){
+    if (this.lastPageAdded && performance.now() - this.lastPageAdded < timeBetweenpages) {
       return
     }
     let current = this.pages.length
-    for(let i = current; i < current+pagesToAdd && i < this.episode.pages.length ; i++){
+    for (let i = current; i < current + pagesToAdd && i < this.episode.pages.length; i++) {
       this.pages.push(this.episode.pages[i])
     }
-    if(this.pages.length === this.episode.pages.length && event){
+    if (this.pages.length === this.episode.pages.length && event) {
       event.target.disabled = true;
     }
     this.lastPageAdded = performance.now();
   }
-  playStream(url){
-    this.streamUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.getVideoPath+url);
-    this.analytic.sendEvent("episode","stream");
+  playStream(url) {
+    this.seen.add(this.episode.title, this.episode.chapter)
+    this.streamUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.getVideoPath + url);
+    this.analytic.sendEvent("episode", "stream");
+  }
+  openPage(url) {
+    this.seen.add(this.episode.title, this.episode.chapter)
+    window.open(url)
   }
 }

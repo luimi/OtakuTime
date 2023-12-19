@@ -24,29 +24,9 @@ export class EpisodiesPage implements OnInit {
       let response: any = await this.rest.getEpisodes(this.server, this.url);
       if (response && response.success) {
         this.anime = response.data;
-        this.updateSeen()
       }
       this.isLoading = false;
     }
   }
-  async ionViewDidEnter() {
-    if(this.anime && this.anime.episodes){
-      this.updateSeen();
-    }
-    
-  }
-  async updateSeen(){
-    await this.seen.getSeen(this.url)
-    this.anime.episodes.forEach(episode => {
-      episode.seen = this.seen.wasSeen(episode.url);
-    });
-  }
-  toggleSeen(episode) {
-    if (episode.seen) {
-      this.seen.removeSeen(episode.url)
-    } else {
-      this.seen.addSeen(episode.url, this.url)
-    }
-    episode.seen = !episode.seen;
-  }
+  async ionViewDidEnter() { }
 }

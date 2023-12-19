@@ -4,58 +4,35 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SeenService {
-  private DBNAME = "OtakuTime";
-  private DBSEENTABLE = "seen"
-  private DB;
-  private seen = [];
+  private seen = {};
+  private SEEN_KEY = "seen";
+
   constructor() {
-    this.InitDB();
+    this.init()
   }
-  private InitDB() {
-    let request = indexedDB.open(this.DBNAME, 1);
-    request.onsuccess = (event) => {
-      if (!this.DB) {
-        this.DB = request.result;
-      }
-    }
-    request.onupgradeneeded = (event) => {
-      let db = request.result;
-      switch (event.oldVersion) {
-        case 0:
-          db.createObjectStore(this.DBSEENTABLE, { keyPath: 'episodeUrl' });
-      }
-    };
+  private init() {
+    this.seen = JSON.parse(localStorage.getItem(this.SEEN_KEY) || "{}")
   }
-  private getObjectStore(type) {
-    return this.DB.transaction(this.DBSEENTABLE, type).objectStore(this.DBSEENTABLE)
+  private save() {
+    localStorage.setItem(this.SEEN_KEY, JSON.stringify(this.seen))
   }
-  addSeen(episode, episodeList) {
-    this.getObjectStore("readwrite")
-      .add({ episodeUrl: episode, episodeListUrl: episodeList }).onsuccess = (event) => {
-        //event.target.result;
-      };
+  public add(name, chapter) {
+    if (this.seen[name] && this.seen[name].includes(chapter)) return
+    else if (this.seen[name]) this.seen[name].push(chapter)
+    else this.seen[name] = [chapter]
+    this.save()
   }
-  getSeen(url) {
-    return new Promise((res,rej) => {
-      this.getObjectStore("readonly")
-      .openCursor().onsuccess = (event) => {
-        let cursor = event.target.result;
-        if (cursor) {
-          let value = cursor.value;
-          if(value.episodeListUrl === url)
-            this.seen.push(cursor.value.episodeUrl)
-          cursor.continue();
-        } else {
-          res("");
-        }
-      }
-    });
+  public remove(name, chapter) {
+    let index = this.seen[name].indexOf(chapter)
+    this.seen[name].splice(index, 1)
+    this.save()
   }
-  wasSeen(url){
-    return this.seen.includes(url);
+  public isSeen(name, chapter) {
+    return this.seen[name] && this.seen[name].includes(chapter)
   }
-  removeSeen(url){
-    this.getObjectStore("readwrite").delete(url);
-    this.seen.splice(this.seen.indexOf(url),1)
+  public toggle(name, chapter) {
+    if (this.seen[name] && this.seen[name].includes(chapter)) this.remove(name, chapter)
+    else this.add(name, chapter)
   }
+
 }

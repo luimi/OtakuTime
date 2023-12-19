@@ -81,8 +81,8 @@
     </ion-list-header>
     <ion-item *ngFor="let episode of anime?.episodes">
       <ion-label [routerLink]="['/episode',server, episode.url]">{{episode.title}}</ion-label>
-      <ion-button slot="end" fill="clear" [color]="episode.seen?'dark':'light'" (click)="toggleSeen(episode)">
-        <ion-icon [name]="episode.seen?'eye-outline':'eye-off-outline'" slot="icon-only"></ion-icon>
+      <ion-button slot="end" fill="clear" [color]="this.seen.isSeen(anime.title,episode.title)?'dark':'light'" (click)="this.seen.toggle(anime.title,episode.title)">
+        <ion-icon [name]="this.seen.isSeen(anime.title,episode.title)?'eye-outline':'eye-off-outline'" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-item>
   </ion-list>
