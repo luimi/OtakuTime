@@ -1,5 +1,5 @@
 const cheerio = require('cheerio');
-const root = "https://www.animefenix.com"
+const root = "https://www.animefenix.tv"
 const main = (html) => {
     let result = []
     let $ = cheerio.load(html)
