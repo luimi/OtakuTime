@@ -2,5 +2,11 @@
   <ion-searchbar placeholder="Buscar anime..." [(ngModel)]="query" (ionChange)="search()" enterkeyhint="search"
       autocomplete="on"></ion-searchbar>
   <ion-progress-bar type="indeterminate" [hidden]="!isLoading"></ion-progress-bar>
+  <ion-card [routerLink]="['/season']">
+    <ion-card-header>
+      <ion-card-title>Animes de temporada</ion-card-title>
+      <ion-card-subtitle>Lista de animes de la temporada actual, extraido de MyAnimeList</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
   <app-latest-list [data]="episodes" path="/episode"></app-latest-list>
 </ion-content>

@@ -7,7 +7,6 @@ import { environment } from 'src/environments/environment';
 })
 export class RestService {
 
-
   constructor(private http: HttpClient) { }
 
   async getAnimes() {
@@ -41,8 +40,8 @@ export class RestService {
     let result = this.joinRepeated(latests)
     return result
   }
-  async getAllSearch(type,query) {
-    let search = await this.getQueryFromServers(type, "search",query)
+  async getAllSearch(type, query) {
+    let search = await this.getQueryFromServers(type, "search", query)
     let result = this.joinRepeated(search)
     return result
 
@@ -65,7 +64,7 @@ export class RestService {
     items.forEach((latest) => {
       latest.data.forEach((item) => {
         //TODO validar casos de mayusculas o simbolos
-        let index = result.map((obj) => `${obj.title}${obj.chapter?obj.chapter:""}`).indexOf(`${item.title}${item.chapter?item.chapter:""}`)
+        let index = result.map((obj) => `${obj.title}${obj.chapter ? obj.chapter : ""}`).indexOf(`${item.title}${item.chapter ? item.chapter : ""}`)
         if (index >= 0) {
           result[index].options.push({ ...latest.server, contentUrl: item.url })
           result[index].posters.push(item.poster)
@@ -73,6 +72,9 @@ export class RestService {
       })
     })
     return result;
+  }
+  async getSeason() {
+    return await this.http.get(`${environment.server}/season`).toPromise();
   }
   async postRequest(params: any) {
     try {

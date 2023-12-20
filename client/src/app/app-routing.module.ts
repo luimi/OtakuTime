@@ -41,6 +41,10 @@ const routes: Routes = [
   {
     path: 'manga',
     loadChildren: () => import('./manga/manga.module').then( m => m.MangaPageModule)
+  },
+  {
+    path: 'season',
+    loadChildren: () => import('./season/season.module').then( m => m.SeasonPageModule)
   }
 ];
 @NgModule({

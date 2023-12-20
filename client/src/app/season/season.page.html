@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar mode="ios" color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button text=""> </ion-back-button>
+    </ion-buttons>
+    <ion-title>Animes de temporada</ion-title>
+    <ion-buttons slot="end">
+      <ion-spinner name="crescent" [hidden]="!isLoading" color="light"></ion-spinner>
+      <ion-button color="light" routerLink="/tabs">
+        <ion-icon slot="icon-only" name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-accordion-group *ngIf="season" [multiple]="true" [value]="[season[0].title]">
+    <ion-accordion *ngFor="let category of season" [value]="category.title">
+      <ion-item slot="header" color="light">
+        <ion-label>{{this.titles[category.title]}}</ion-label>
+      </ion-item>
+      <ion-grid  class="ion-padding" slot="content">
+        <ion-row>
+          <ion-col *ngFor="let item of category.list" [sizeXs]="listType==='list'?12:6" [sizeSm]="listType==='list'?12:4" [sizeMd]="listType==='list'?12:3" [sizeXl]="listType==='list'?12:2" [routerLink]="['/search','anime' ,item.name]">
+            <div class="poster">
+              <img [src]="item.poster">
+              <div class="title">
+                {{item.name}}
+                <ion-row>
+                  <ion-col>
+                    <ion-icon name="star"></ion-icon>{{item.rating}}
+                  </ion-col>
+                  <ion-col>
+                    <ion-icon name="heart"></ion-icon>{{item.followers}}
+                  </ion-col>
+                </ion-row>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-accordion>
+  </ion-accordion-group>
+  <ion-grid *ngIf="!season">
+    <ion-row>
+      <ion-col *ngFor="let number of [0,0,0,0,0,0,0]"  [sizeXs]="listType==='list'?12:6" [sizeSm]="listType==='list'?12:4" [sizeMd]="listType==='list'?12:3" [sizeXl]="listType==='list'?12:2">
+        <div class="poster">
+          <ion-skeleton-text animated style="width: 100%; height: 100%" slot="start"></ion-skeleton-text>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
