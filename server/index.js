@@ -5,6 +5,7 @@ const axios = require("axios");
 const path = require('path');
 const CryptoJS = require('crypto-js');
 const mustache = require("mustache");
+const cheerio = require('cheerio');
 const anime = require("./anime/list.json");
 const manga = require("./manga/list.json");
 const animekb = require("./anime/animekb");
@@ -230,12 +231,12 @@ app.post("/", async (req, res) => {
         url = url.decode();
         break;
     }
-    let animeServer = anime.find(s=> s.server === body.server);
-    let mangaServer = manga.find(s=> s.server === body.server);
+    let animeServer = anime.find(s => s.server === body.server);
+    let mangaServer = manga.find(s => s.server === body.server);
     try {
       let html = await _axios(url);
       let response = await server[body.action](html);
-      res.json({ success: true, data: response , server:  animeServer?animeServer:mangaServer });
+      res.json({ success: true, data: response, server: animeServer ? animeServer : mangaServer });
     } catch (e) {
       res.json({ success: false, error: e.message });
     }
@@ -243,6 +244,40 @@ app.post("/", async (req, res) => {
     res.json({ success: false });
   }
 });
+
+/* 
+
+   _____                            
+  / ____|                           
+ | (___   ___  __ _ ___  ___  _ __  
+  \___ \ / _ \/ _` / __|/ _ \| '_ \ 
+  ____) |  __/ (_| \__ \ (_) | | | |
+ |_____/ \___|\__,_|___/\___/|_| |_|
+                                    
+                                    
+
+*/
+app.get("/season", async (req, res) => {
+  let html = await _axios("https://myanimelist.net/anime/season")
+  let $ = cheerio.load(html)
+  result = []
+  $('.js-categories-seasonal').find('.seasonal-anime-list').each((index, element) => {
+    let title = $(element).find('.anime-header').text();
+    let list = [];
+    $(element).find('.js-anime-category-producer').each((index, element) => {
+      let e = $(element)
+      let name = e.find('.h2_anime_title').text().clearSpaces()
+      let img = e.find('.image').find('img')
+      let poster = img.attr('src') || img.attr('data-src')
+      let rating = e.find('.fa-star').parent().text().clearSpaces()
+      let followers = e.find('.fa-user').parent().text().clearSpaces()
+      list.push({ name, poster, rating, followers });
+    });
+    result.push({ title, list })
+  });
+  res.send(result)
+})
+
 app.get('/html', (req, res) => {
   if (!req.query.url) {
     res.send("<h1>URL not found</h1>")
@@ -264,7 +299,7 @@ app.get('/debugger', (req, res) => {
 app.get("/transfer", async (req, res) => {
   res.json({ query: req.query.text })
 });
-app.get("/getVideo", async (req,res) => {
+app.get("/getVideo", async (req, res) => {
   if (!req.query.url) {
     res.send("<h1>URL not found</h1>")
     return
@@ -272,15 +307,16 @@ app.get("/getVideo", async (req,res) => {
   let url = req.query.url;
   let found = false;
   for (let stream of streamer) {
-    if(stream["regex"].test(url)) {
-      stream["getVideo"](req,res,url);
+    if (stream["regex"].test(url)) {
+      stream["getVideo"](req, res, url);
       found = true;
       break;
     }
   }
-  if(!found) res.send(await url.embed());
+  if (!found) res.send(await url.embed());
 
 });
+
 app.listen(process.env.PORT, () => {
   console.log("OtakuTime server ready");
 });
@@ -291,14 +327,14 @@ String.prototype.encode = function () {
   return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(this));
 }
 String.prototype.decode = function () {
-  try{
+  try {
     return CryptoJS.enc.Base64.parse(this).toString(CryptoJS.enc.Utf8);
-  }catch(e){
+  } catch (e) {
     return "";
   }
 }
 String.prototype.embed = async function () {
-  let html = await fs.readFile("public/embed.html", "utf8"); 
-  let data = {url:this};
+  let html = await fs.readFile("public/embed.html", "utf8");
+  let data = { url: this };
   return mustache.render(html, data);
 }
