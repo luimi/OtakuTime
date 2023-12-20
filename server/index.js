@@ -66,7 +66,7 @@ let streamer = [
   fembed,
   streamtape
 ];
-
+axios.defaults.timeout = 3000
 const _axios = (url) => {
   return new Promise((res, rej) => {
     axios
