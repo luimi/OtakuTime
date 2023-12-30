@@ -37,7 +37,7 @@
   </ion-card>
   <ion-card *ngIf="episode && !emptyState">
     <ion-card-header>
-      <ion-card-title>{{episode.title}}</ion-card-title>
+      <ion-card-title>{{episode.title}} - {{episode.chapter}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <app-paginator [episode]="episode" [server]="server"></app-paginator>
