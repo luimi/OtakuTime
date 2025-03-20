@@ -184,13 +184,14 @@ app.get("/extract", async (req, res) => {
 
 */
 app.get("/image", async (req, res) => {
+  let {url,server} = req.query;
   let noImage =
     "https://www.segelectrica.com.co/wp-content/themes/consultix/images/no-image-found-360x250.png";
-  let url = req.query.url ? req.query.url : noImage;
   try {
     let response = await axios
       .get(url, {
-        responseType: "arraybuffer"
+        responseType: "arraybuffer",
+        headers: { Referer:  server}
       });
     res.send(Buffer.from(response.data, "binary"));
   } catch (e) {

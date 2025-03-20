@@ -104,7 +104,7 @@ const episode = (html) => {
     if(episodes) episodes = episodes.encode()
     $("#images_chapter").find("img").each((index, element) => {
         let url = $(element).attr('data-src')
-        pages.push(url)
+        pages.push(`/image?url=${url}&server=${root}`)
     });
     return { title, pages, next, previous, episodes, chapter };
 };

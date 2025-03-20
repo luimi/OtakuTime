@@ -257,7 +257,7 @@
                             <h1>Direct</h1>
                             <img ng-if="ctrl.image" ng-src="{{ctrl.image}}">
                             <h1>Server</h1>
-                            <img ng-if="ctrl.image" ng-src="/image?url={{ctrl.image}}">
+                            <img ng-if="ctrl.image" ng-src="/image?url={{ctrl.image}}&server={{ctrl.getServerUrl(ctrl.server)}}">
                         </div>
                     </div>
                 </div>
@@ -384,6 +384,9 @@
                     dummy.select();
                     document.execCommand("copy");
                     document.body.removeChild(dummy);
+                }
+                this.getServerUrl = (server) => {
+                    return this.servers.find(s => s.server === server).url;
                 }
                 this.getServers();
             });
