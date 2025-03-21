@@ -64,7 +64,7 @@ const episode = (html) => {
     let episodes = undefined
     $("img.img-fluid").each((index, element) => {
         let url = $(element).attr('data-src')
-        pages.push(`/image?url=${url}&server=${root}`)
+        pages.push(`${process.env.SERVER}/image?url=${url}&server=${root}`)
     });
 
     $(".nav-links:first").find('a').each((index, element) => {
