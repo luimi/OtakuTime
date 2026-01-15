@@ -26,6 +26,9 @@
         <div class="title">
           {{item.title}} {{item.chapter?'-':''}} {{item.chapter}}
         </div>
+        <div class="servers">
+          <img *ngFor="let option of item.options" [src]="'https://www.google.com/s2/favicons?domain='+option.url" />
+        </div>
       </div>
     </ion-col>
   </ion-row>
