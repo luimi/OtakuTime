@@ -1,12 +1,18 @@
+<ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+  <ion-refresher-content >
+  </ion-refresher-content>
+</ion-refresher>
 <ion-item>
   <ion-button color="dark" slot="end" fill="clear" (click)="toggleListType()">
     <ion-icon slot="icon-only" [name]="listType==='list'?'grid':'list'"></ion-icon>
   </ion-button>
 </ion-item>
 <ion-grid>
+
   <ion-row>
     <!--[routerLink]="[path,server, item.url]"-->
-    <ion-col *ngFor="let item of data" [sizeXs]="listType==='list'?12:6" [sizeSm]="listType==='list'?12:4" [sizeMd]="listType==='list'?12:3" [sizeXl]="listType==='list'?12:2" (click)="showOptions(item.options)">
+    <ion-col *ngFor="let item of data" [sizeXs]="listType==='list'?12:6" [sizeSm]="listType==='list'?12:4"
+      [sizeMd]="listType==='list'?12:3" [sizeXl]="listType==='list'?12:2" (click)="showOptions(item.options)">
       <!--LIST-->
       <ion-item *ngIf="listType==='list'">
         <ion-thumbnail slot="start">
@@ -26,7 +32,8 @@
 </ion-grid>
 <ion-grid *ngIf="!data">
   <ion-row>
-    <ion-col *ngFor="let number of [0,0,0,0,0,0,0]"  [sizeXs]="listType==='list'?12:6" [sizeSm]="listType==='list'?12:4" [sizeMd]="listType==='list'?12:3" [sizeXl]="listType==='list'?12:2">
+    <ion-col *ngFor="let number of [0,0,0,0,0,0,0]" [sizeXs]="listType==='list'?12:6" [sizeSm]="listType==='list'?12:4"
+      [sizeMd]="listType==='list'?12:3" [sizeXl]="listType==='list'?12:2">
       <!--LIST-->
       <ion-item *ngIf="listType==='list'">
         <ion-skeleton-text animated style="width: 57px; height: 57px" slot="start"></ion-skeleton-text>

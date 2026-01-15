@@ -15,6 +15,7 @@ export class AnimePage implements OnInit {
   constructor(private rest: RestService, private utils: UtilsService) { }
 
   async ngOnInit() {
+    this.episodes = undefined;
     this.episodes = await this.rest.getAllLatest("anime")
   }
   search(){

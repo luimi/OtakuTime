@@ -9,5 +9,5 @@
     </ion-label>
   </ion-item>
   <br>
-  <app-latest-list [data]="episodes" path="/episode"></app-latest-list>
+  <app-latest-list [data]="episodes" path="/episode" (update)="ngOnInit()"></app-latest-list>
 </ion-content>

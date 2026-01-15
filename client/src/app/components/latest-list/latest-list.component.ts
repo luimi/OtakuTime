@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { AnalyticsService } from 'src/app/utils/analytics.service';
@@ -14,6 +14,8 @@ export class LatestListComponent implements OnInit {
   listType = "grid";
   @Input() data;
   @Input() path;
+  @Output() update: EventEmitter<string> = new EventEmitter()
+
   constructor(private config: ConfigurationService, private analytic: AnalyticsService, private actionSheetCtrl: ActionSheetController, private router: Router) {
   }
 
@@ -58,5 +60,11 @@ export class LatestListComponent implements OnInit {
   }
   open(option) {
     this.router.navigate([this.path, option.server, option.contentUrl])
+  }
+  refresh(event) {
+    this.update.emit("");
+    setTimeout(() => {
+      event.target.complete();
+    }, 1000);
   }
 }

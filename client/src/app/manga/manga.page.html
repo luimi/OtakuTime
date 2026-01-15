@@ -2,5 +2,5 @@
   <ion-searchbar placeholder="Buscar manga..." [(ngModel)]="query" (ionChange)="search()" enterkeyhint="search"
       autocomplete="on"></ion-searchbar>
   <ion-progress-bar type="indeterminate" [hidden]="!isLoading"></ion-progress-bar>
-  <app-latest-list [data]="episodes" path="/episode"></app-latest-list>
+  <app-latest-list [data]="episodes" path="/episode" (update)="ngOnInit()"></app-latest-list>
 </ion-content>
