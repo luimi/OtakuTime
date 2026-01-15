@@ -24,6 +24,10 @@ const routes: Routes = [
         loadChildren: () => import('../manga/manga.module').then(m => m.MangaPageModule)
       },
       {
+        path: 'settings',
+        loadChildren: () => import('../settings/settings.module').then(m => m.SettingsPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/anime',
         pathMatch: 'full'

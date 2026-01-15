@@ -45,6 +45,10 @@ const routes: Routes = [
   {
     path: 'season',
     loadChildren: () => import('./season/season.module').then( m => m.SeasonPageModule)
+  },
+  {
+    path: 'settings',
+    loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
   }
 ];
 @NgModule({

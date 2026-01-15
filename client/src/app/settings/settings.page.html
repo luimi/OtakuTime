@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="dark" mode="ios">
+    <ion-title>Configuración</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header color="dark">
+      <ion-label>Anime</ion-label>
+      <ion-button (click)="update('anime')">Actualizar</ion-button>
+    </ion-list-header>
+    <ion-reorder-group [disabled]="false" (ionItemReorder)="reorder('anime', $any($event))">
+      <ion-item *ngFor="let server of anime; let i = index">
+        <ion-checkbox slot="start" aria-label="Toggle task completion" [checked]="server.enabled"
+          (ionChange)="check('anime', i, $event)"></ion-checkbox>
+        <ion-input aria-label="Task name" value="{{server.name}}"></ion-input>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+    </ion-reorder-group>
+  </ion-list>
+  <ion-list>
+    <ion-list-header color="dark">
+      <ion-label>Manga</ion-label>
+      <ion-button (click)="update('manga')">Actualizar</ion-button>
+    </ion-list-header>
+    <ion-reorder-group [disabled]="false" (ionReorderEnd)="reorder('manga', $any($event))">
+      <ion-item *ngFor="let server of manga; let i = index">
+        <ion-checkbox slot="start" aria-label="Toggle task completion" [checked]="server.enabled"
+          (ionChange)="check('manga', i, $event)"></ion-checkbox>
+        <ion-input aria-label="Task name" value="{{server.name}}"></ion-input>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+    </ion-reorder-group>
+  </ion-list>
+
+</ion-content>

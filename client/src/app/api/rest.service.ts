@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { ServersService } from './servers.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private serversCtrl: ServersService) { }
 
   async getAnimes() {
     try {
@@ -35,6 +36,9 @@ export class RestService {
   async getEpisodes(server: string, url: string) {
     return await this.postRequest({ action: 'episodes', server, url });
   }
+  async getServerList(type: string) {
+    return 
+  }
   async getAllLatest(type) {
     let latests = await this.getQueryFromServers(type, "latest")
     let result = this.joinRepeated(latests)
@@ -47,13 +51,13 @@ export class RestService {
 
   }
   async getQueryFromServers(type, query, search?) {
-    let servers: any = await this.http.get(`${environment.server}/${type}`).toPromise();
+    let servers: any = await this.serversCtrl.getServers(type)
     let result = [];
-    for (let i = 0; i < servers.data.length; i++) {
+    for (let i = 0; i < servers.length; i++) {
       //TODO agregar validacion de la configuracion
-      if (servers.data[i].enabled) {
-        let response: any = query === "latest" ? await this.getLatest(servers.data[i].server) :
-          await this.getSearch(servers.data[i].server, search);
+      if (servers[i].enabled) {
+        let response: any = query === "latest" ? await this.getLatest(servers[i].server) :
+          await this.getSearch(servers[i].server, search);
         if (response && response.success) result.push(response)
       }
     }
