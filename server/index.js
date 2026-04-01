@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const fs = require("fs").promises;
-const axios = require("axios");
 const path = require('path');
 const CryptoJS = require('crypto-js');
 const mustache = require("mustache");
@@ -28,7 +27,6 @@ const tmomanga = require("./manga/tmomanga");
 const manhwasnet = require("./manga/manhwasnet");
 const fembed = require("./streamer/fembed");
 const streamtape = require("./streamer/streamtape");
-
 require("dotenv").config();
 
 app.use(express.json());
@@ -66,20 +64,20 @@ let streamer = [
   fembed,
   streamtape
 ];
-axios.defaults.timeout = 3000
-const _axios = (url) => {
+
+
+const fetchHtml = (url) => {
   return new Promise((res, rej) => {
-    axios
-      .get(url)
-      .then((response) => {
-        let html = response.data;
-        res(html);
-      })
-      .catch((e) => {
-        rej(e.message);
-      });
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow"
+    };
+    fetch(url, requestOptions)
+      .then((response) => response.text())
+      .then((result) => res(result))
+      .catch((error) => rej(error.message));
   });
-};
+}
 
 app.get("/", async (req, res) => {
   res.json({ success: true });
@@ -149,7 +147,7 @@ app.post("/extract", async (req, res) => {
       { name: "episode", url: req.body.episode },
     ];
     for (let i = 0; i < pages.length; i++) {
-      let response = await _axios(pages[i].url);
+      let response = await fetchHtml(pages[i].url);
       if (response) {
         await fs.writeFile(`test/${pages[i].name}.html`, response);
         responses.push(`${pages[i].name} saved`);
@@ -184,19 +182,19 @@ app.get("/extract", async (req, res) => {
 
 */
 app.get("/image", async (req, res) => {
-  let {url,server} = req.query;
+  let { url, server } = req.query;
   let noImage =
     "https://www.segelectrica.com.co/wp-content/themes/consultix/images/no-image-found-360x250.png";
   try {
-    let response = await axios
-      .get(url, {
-        responseType: "arraybuffer",
-        headers: { Referer:  server}
-      });
-    res.send(Buffer.from(response.data, "binary"));
+    const headers = new Headers()
+    headers.append("Referer", server);
+    let result = await fetch(url, {method: "GET"});
+    const buffer = await result.arrayBuffer();
+    res.send(Buffer.from(buffer, "binary"));
   } catch (e) {
-    let response = await axios.get(noImage, { responseType: "arraybuffer" });
-    res.send(Buffer.from(response.data, "binary"));
+    let result = await fetch(noImage);
+    const buffer = await result.arrayBuffer();
+    res.send(Buffer.from(buffer, "binary"));
   }
 });
 /*
@@ -235,7 +233,7 @@ app.post("/", async (req, res) => {
     let animeServer = anime.find(s => s.server === body.server);
     let mangaServer = manga.find(s => s.server === body.server);
     try {
-      let html = await _axios(url);
+      let html = await fetchHtml(url);
       let response = await server[body.action](html);
       res.json({ success: true, data: response, server: animeServer ? animeServer : mangaServer });
     } catch (e) {
@@ -259,7 +257,7 @@ app.post("/", async (req, res) => {
 
 */
 app.get("/season", async (req, res) => {
-  let html = await _axios("https://myanimelist.net/anime/season")
+  let html = await fetchHtml("https://myanimelist.net/anime/season")
   let $ = cheerio.load(html)
   result = []
   $('.js-categories-seasonal').find('.seasonal-anime-list').each((index, element) => {
@@ -284,15 +282,11 @@ app.get('/html', (req, res) => {
     res.send("<h1>URL not found</h1>")
     return
   }
-  axios
-    .get(req.query.url)
-    .then((response) => {
-      let html = response.data;
-      res.send(html);
-    })
-    .catch((e) => {
-      res.send(e.message);
-    });
+  fetchHtml(req.query.url).then((result) => {
+    res.send(result)
+  }).catch((error) => {
+    res.send(error)
+  })
 })
 app.get('/debugger', (req, res) => {
   res.sendFile(path.join(__dirname + '/public/debugger.html'))
