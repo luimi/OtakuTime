@@ -65,7 +65,7 @@
             <div layout="row" layout-align="space-between center">
                 <span>Servidor</span>
                 <md-select class="md-no-underline" ng-model="ctrl.server">
-                    <md-option ng-repeat="server in ctrl.servers" value="{{server.server}}">{{server.name}}</md-option>
+                    <md-option ng-repeat="server in ctrl.servers" value="{{server.server}}">{{server.name}} {{server.enabled ? "✅" : "🚫"}}</md-option>
                 </md-select>
             </div>
             <md-divider></md-divider>
