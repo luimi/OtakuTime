@@ -1,9 +1,21 @@
 const cheerio = require('cheerio');
 const axios = require('axios');
 const root = "https://inmanga.com"
-const main = (html) => {
+const main = async (html) => {
     let result = []
-    let $ = cheerio.load(html)
+    const headers = new Headers();
+    headers.append("accept", "*/*");
+    headers.append("x-requested-with", "XMLHttpRequest");
+
+    const options = {
+        method: "GET",
+        headers: headers,
+        redirect: "follow"
+    };
+
+    let _html = await fetch(`${root}/chapter/getRecentChapters`, options);
+    _html = await _html.text()
+    let $ = cheerio.load(_html)
     $('.list-group-item').each((index, element) => {
         let a = $(element)
         let url = `${root}${a.attr('href')}`.encode()
@@ -33,7 +45,7 @@ const episodes = async (html) => {
     let extras = []
     let $ = cheerio.load(html)
     let posterPath = $('.text-center').find('img').attr('src')
-    let poster = `${root}${posterPath}`
+    let poster = `${posterPath}`
     let texts = $('.manga-index-sinopsis-detail-cover-photo-layout')
     let title = texts.find('.panel-heading').text().clearSpaces()
     let synopsis = texts.find('.panel-body').text().clearSpaces()
@@ -62,7 +74,7 @@ const episode = async (html) => {
     let $ = cheerio.load(html)
     let name = $('.ChapterDescriptionContainer').find('h1').text().clearSpaces();
     let chapter = name.split(" ").pop()
-    let title = name.replace(` Capítulo ${chapter}`,"").trim()
+    let title = name.replace(` Capítulo ${chapter}`, "").trim()
     let episodes = undefined
     let pathSegmented = undefined
     $("meta").each((index, element) => {
@@ -72,20 +84,20 @@ const episode = async (html) => {
         }
     });
     try {
-        let response = await axios.get(`https://inmanga.com/chapter/chapterIndexControls?identification=${pathSegmented[7]}`)
+        let response = await axios.get(`https://inmanga.com/chapter/chapterIndexControls?identification=${pathSegmented.at(-1)}`)
         $ = cheerio.load(response.data)
         $(".ImageContainer").each((index, element) => {
             let e = $(element)
-            pages.push(`https://pack-yak.intomanga.com/images/manga/${pathSegmented[5]}/chapter/${pathSegmented[6]}/page/${e.attr('data-pagenumber')}/${e.attr('id')}`)
+            pages.push(`https://pack-yak.intomanga.com/images/manga/${pathSegmented.at(-1)}/chapter/${pathSegmented.at(-2)}/page/${e.attr('data-pagenumber')}/${e.attr('id')}`)
         });
         episodes = `${root}${$('.list-group-item').attr('href')}`.encode();
         $('#ChapList').find('option').each((index, element) => {
             let e = $(element)
-            if (parseInt(e.text().clearSpaces()) === parseInt(pathSegmented[6]) - 1) {
-                previous = `${root}/ver/manga/${pathSegmented[5]}/${e.text().clearSpaces()}/${e.attr('value')}`.encode()
+            if (parseInt(e.text().clearSpaces()) === parseInt(pathSegmented.at(-2)) - 1) {
+                previous = `${root}/ver/manga/${pathSegmented.at(-1)}/${e.text().clearSpaces()}/${e.attr('value')}`.encode()
             }
-            if (parseInt(e.text().clearSpaces()) === parseInt(pathSegmented[6]) + 1) {
-                next = `${root}/ver/manga/${pathSegmented[5]}/${e.text().clearSpaces()}/${e.attr('value')}`.encode()
+            if (parseInt(e.text().clearSpaces()) === parseInt(pathSegmented.at(-2)) + 1) {
+                next = `${root}/ver/manga/${pathSegmented.at(-1)}/${e.text().clearSpaces()}/${e.attr('value')}`.encode()
             }
         })
     } catch (e) { }
@@ -94,7 +106,7 @@ const episode = async (html) => {
 };
 
 module.exports = {
-    mainUrl: `${root}/chapter/getRecentChapters`,
+    mainUrl: `${root}`,
     searchUrl: (text) => {
         return `${process.env.SERVER}/transfer?text=${text}`;
     },

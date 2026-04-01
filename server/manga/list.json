@@ -9,7 +9,7 @@
         "name": "Manga Templo",
         "server": "mangatemplo",
         "url": "https://manga-templo.com",
-        "enabled": true
+        "enabled": false
     },
     {
         "name": "Yugen Mangas",
