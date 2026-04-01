@@ -3,7 +3,7 @@
         "name": "LectorTMO.org (TMO)",
         "server": "lectortmoorg",
         "url": "https://lectortmo.org",
-        "enabled": true
+        "enabled": false
     },
     {
         "name": "Manga Templo",
@@ -21,7 +21,7 @@
         "name": "Nartag",
         "server": "nartag",
         "url": "https://nartag.com",
-        "enabled": false
+        "enabled": true
     },
     {
         "name": "InManga",
@@ -33,13 +33,13 @@
         "name": "Leer Manga (TMO)",
         "server": "leermanga",
         "url": "https://leermanga.net",
-        "enabled": true
+        "enabled": false
     },
     {
         "name": "TMOManga (TMO)",
         "server": "tmomanga",
         "url": "https://tmomanga.com",
-        "enabled": true
+        "enabled": false
     },
     {
         "name": "Manhwas.net (+18)",

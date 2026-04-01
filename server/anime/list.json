@@ -5,7 +5,7 @@
         "url": "http://animekb.net",
         "hasDownload": true,
         "hasStream": false,
-        "enabled": true
+        "enabled": false
     },
     {
         "name": "AnimeID",
@@ -13,7 +13,7 @@
         "url": "https://www.animeid.tv",
         "hasDownload": false,
         "hasStream": true,
-        "enabled": true
+        "enabled": false
     },
     {
         "name": "JKAnime",
@@ -21,7 +21,7 @@
         "url": "https://jkanime.net",
         "hasDownload": true,
         "hasStream": true,
-        "enabled": false
+        "enabled": true
     },
     {
         "name": "AnimeFenix",
@@ -29,7 +29,7 @@
         "url": "https://www.animefenix.com",
         "hasDownload": false,
         "hasStream": true,
-        "enabled": true
+        "enabled": false
     },
     {
         "name": "MonosChinos2",
@@ -61,7 +61,7 @@
         "url": "https://animemovil2.com",
         "hasDownload": true,
         "hasStream": true,
-        "enabled": true
+        "enabled": false
     },
     {
         "name": "TioAnime",
