@@ -17,6 +17,7 @@ const ytanime = require("./anime/ytanime");
 const animemovil2 = require("./anime/animemovil2");
 const tioanime = require("./anime/tioanime");
 const zenkimex = require("./anime/zenkimex");
+const animeflv = require("./anime/animeflv");
 const lectortmoorg = require("./manga/lectortmoorg");
 const mangatemplo = require("./manga/mangatemplo");
 const yugenmangas = require("./manga/yugenmangas");
@@ -47,6 +48,7 @@ let servers = {
   hitokin,
   animefenix,
   monoschinos2,
+  animeflv,
   lectortmoorg,
   mangatemplo,
   yugenmangas,

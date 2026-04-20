@@ -78,5 +78,13 @@
         "hasDownload": true,
         "hasStream": false,
         "enabled": false
+    },
+    {
+        "name": "AnimeFLV",
+        "server": "animeflv",
+        "url": "https://www4.animeflv.net",
+        "hasDownload": true,
+        "hasStream": true,
+        "enabled": true
     }
 ]
