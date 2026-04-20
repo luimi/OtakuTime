@@ -1,22 +1,5 @@
 [
-    {
-        "name": "LectorTMO.org (TMO)",
-        "server": "lectortmoorg",
-        "url": "https://lectortmo.org",
-        "enabled": false
-    },
-    {
-        "name": "Manga Templo",
-        "server": "mangatemplo",
-        "url": "https://manga-templo.com",
-        "enabled": false
-    },
-    {
-        "name": "Yugen Mangas",
-        "server": "yugenmangas",
-        "url": "https://yugenmangas.com",
-        "enabled": false
-    },
+
     {
         "name": "Nartag",
         "server": "nartag",
@@ -28,23 +11,5 @@
         "server": "inmanga",
         "url": "https://inmanga.com",
         "enabled": true
-    },
-    {
-        "name": "Leer Manga (TMO)",
-        "server": "leermanga",
-        "url": "https://leermanga.net",
-        "enabled": false
-    },
-    {
-        "name": "TMOManga (TMO)",
-        "server": "tmomanga",
-        "url": "https://tmomanga.com",
-        "enabled": false
-    },
-    {
-        "name": "Manhwas.net (+18)",
-        "server": "manhwasnet",
-        "url": "https://manhwas.net",
-        "enabled": false
     }
 ]
