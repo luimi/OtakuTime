@@ -24,7 +24,7 @@ const main = (html) => {
             episodiosList.find('li').each((index, element) => {
                 const link = $(element).find('a');
                 const url = `${root}${link.attr('href')}`.encode();
-                const title = link.find('strong.Title').text().trim();
+                const title = link.find('strong.Title').text().trim() + " - " + link.find(".Capi").text().replace("Episodio","").trim();
                 const poster = `${root}${link.find('.Image img').attr('src')}`;
 
                 if (title && url) {
@@ -188,7 +188,7 @@ const episode = (html) => {
     let $ = cheerio.load(html)
     let result = {}
     // 1. Extraer el título del anime
-    const title = $('.Brdcrmb a').eq(1).text().trim();
+    const title = $('.Brdcrmb strong').text().replace("Episodio","-").trim();
     result.title = title;
 
     // 2. Extraer el poster (de la imagen en el meta tag og:image)
