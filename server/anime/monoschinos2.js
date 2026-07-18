@@ -1,97 +1,256 @@
 const cheerio = require("cheerio");
-const root = "https://monoschinos2.com";
+const root = "https://monoschinos.st";
 const main = (html) => {
   let result = [];
   let $ = cheerio.load(html);
-  $(".heroarea1")
-    .find("a")
-    .each((index, element) => {
-      let a = $(element);
-      let url = a.attr("href").encode();
-      let title = a.find('.animetitles').text()
-      let chapter = a.find("p").text()
-      let poster = a.find("img").attr("data-src");
-      if(url && title && poster)
-        result.push({ title, url, poster, chapter });
+  $("section").each((_, section) => {
+    const title = $(section).find("h2").first().text().trim();
+    if (title !== "Últimos capítulos") return;
+    $(section).find("article").each((_, article) => {
+      const link = $(article).find("a.card-wrap").first();
+      const url = link.attr("href").encode() || "";
+      const poster = link.find("img.card-img").attr("data-src") || "";
+      const animeTitle = link.find("h3.card-title").text().trim();
+      const chapter = link
+        .find("div")
+        .filter((_, el) => {
+          return /^EP\s*\d+/i.test($(el).text().trim());
+        })
+        .first()
+        .text()
+        .trim()
+        .replace(/^EP\s*/i, "");
+      result.push({
+        title: animeTitle,
+        url,
+        poster,
+        chapter
+      });
     });
+  });
   return result;
 };
 const search = (html) => {
   let result = [];
   let $ = cheerio.load(html);
-  $(".heromain")
-    .find("a")
-    .each((index, element) => {
-      let a = $(element);
-      let url = a.attr("href").encode();
-      let title = $(element).find(".seristitles").text();
-      let poster = $(element).find("img").attr("src");
-      result.push({ title, url, poster });
+  $("article").each((_, article) => {
+    const card = $(article).find("a.card-wrap").first();
+
+    if (!card.length) return;
+
+    const title =
+      card.find(".card-title").first().text().trim() ||
+      card.attr("title") ||
+      "";
+
+    const url = card.attr("href").encode() || "";
+
+    const poster =
+      card.find("img").attr("data-src") ||
+      "";
+
+    result.push({
+      title,
+      url,
+      poster
     });
+  });
   return result;
 };
-const episodes = (html) => {
-  let episodes = [];
-  let categories = [];
-  let extras = [];
+const episodes = async (html) => {
   let $ = cheerio.load(html);
-  let poster = $(".herobg").find("img").attr("src");
-  let title = $(".mobh1").text();
-  $(".textComplete").find("a").remove();
-  let synopsis = $(".textComplete").text();
-  $("ol.breadcrumb:first")
-    .find("li")
-    .each((index, element) => {
-      categories.push($(element).text());
-    });
-  categories.shift();
-  $(".col-item").each((index, element) => {
-    let a = $(element).find("a");
-    episodes.push({ title: a.find("p").text().replace("Capitulo","").trim(), url: a.attr("href").encode() });
-  });
-  episodes = episodes.reverse();
-  return { poster, title, synopsis, categories, extras, episodes };
-};
-const episode = (html) => {
-  let links = [];
-  let streams = [];
-  let next = undefined;
-  let previous = undefined;
-  let poster = undefined;
-  let $ = cheerio.load(html);
-  let name = $(".heromain_h1").text().trim();
-  let chapter = name.split(" ").pop();
-  let title = name.replace("Ver","").replace(`- ${chapter}`,"").trim();
-  let episodes = undefined;
-  $("meta").each((index, element) => {
-    let e = $(element);
-    if (e.attr("property") === "og:image") {
-      poster = e.attr("content");
-    }
-  });
-  $(".downbtns").find('a').each((index, element) => {
-    let url = $(element).attr("href");
-    links.push(url);
+  let result = {
+    title: "",
+    poster: "",
+    synopsis: "",
+    episodes: [],
+    categories: [],
+    extras: []
+  };
+  result.title = $("h1").first().text().trim();
+  result.poster =
+    $("img[data-src]").first().attr("data-src") ||
+    $("img").first().attr("src") ||
+    "";
+  result.synopsis = $("p")
+    .first()
+    .text()
+    .replace(/\s+/g, " ")
+    .trim();
+
+  // -----------------------------
+  // Categorías (si existen)
+  // -----------------------------
+
+  $(".genres a, .genre a, .tags a, .categories a").each((_, el) => {
+    const name = $(el).text().trim();
+
+    if (name)
+      result.categories.push(name);
   });
 
-  $(".playother").find('p').each((index, element) => {
-    let e = $(element);
-    let buff = Buffer.from(e.attr('data-player'), 'base64');
-    let url = buff.toString('ascii');
-    url = url.replace("https://monoschinos2.com/reproductor?url=","")
-    streams.push(url);
+  // -----------------------------
+  // Extras
+  // -----------------------------
+
+  $("#tab-info dl dt").each((_, dt) => {
+
+    const title = $(dt)
+      .text()
+      .trim();
+
+    const content = $(dt)
+      .next("dd")
+      .text()
+      .replace(/\s+/g, " ")
+      .trim();
+
+    if (title && content) {
+
+      result.extras.push({
+        title,
+        content
+      });
+
+    }
+
   });
-  $(".controles").find('a').each((index,element) => {
-    let a = $(element)
-    if(a.text().includes('Anterior')){
-      previous = a.attr('href').encode()
-    } else if(a.text().includes('Siguiente')){
-      next = a.attr('href').encode()
-    } else if(a.text().includes('Lista')){
-      episodes = a.attr('href').encode()
+
+  // -----------------------------
+  // Episodios
+  // -----------------------------
+
+  const ajaxUrl = $(".caplist").attr("data-ajax");
+
+  if (ajaxUrl) {
+
+    const pagination = await fetch(ajaxUrl).then(r => r.json());
+
+    const totalEpisodes = pagination.eps.length;
+    const perPage = pagination.perpage;
+
+    const totalPages = Math.ceil(totalEpisodes / perPage);
+
+    for (let page = 1; page <= totalPages; page++) {
+
+      const data = await fetch(
+        `${pagination.paginate_url}?p=${page}`
+      ).then(r => r.json());
+
+      for (const ep of data.caps) {
+
+        result.episodes.push({
+          title: String(ep.episodio),
+          url: ep.url.encode()
+        });
+
+      }
+
+    }
+
+    // ordenar por número
+    result.episodes.sort((a, b) => Number(a.title) - Number(b.title));
+    result.episodes = result.episodes.toReversed()
+  }
+
+  return result;
+};
+const episode = (html) => {
+  let $ = cheerio.load(html);
+  const result = {
+    poster: null,
+    title: "",
+    links: [],
+    streams: [],
+    next: null,
+    previous: null,
+    episodes: null,
+    chapter: null,
+  };
+
+  // Poster (opcional)
+  result.poster =
+    $('meta[property="og:image"]').attr("content") ||
+    null;
+
+  // Título
+  result.title =
+    $("h2").first().text().trim() ||
+    $('meta[property="og:title"]')
+      .attr("content")
+      ?.replace(/ Episodio.*$/i, "")
+      .replace(/ Sub Español.*$/i, "")
+      .trim() ||
+    "";
+
+  // Capítulo
+  result.chapter =
+    $(".text-brand")
+      .filter((_, el) =>
+        /Cap[ií]tulo/i.test($(el).text())
+      )
+      .first()
+      .text()
+      .replace(/Cap[ií]tulo/i, "")
+      .trim() ||
+    $("h1")
+      .text()
+      .match(/episodio\s+(\d+)/i)?.[1] ||
+    null;
+
+  // =====================
+  // Streams
+  // =====================
+
+  $(".play-video").each((_, el) => {
+    const encoded = $(el).attr("data-player");
+    if (!encoded) return;
+
+    try {
+      const url = Buffer.from(encoded, "base64").toString("utf8");
+      result.streams.push(url);
+    } catch { }
+  });
+
+  // quitar duplicados
+  result.streams = [...new Set(result.streams)];
+
+
+  // =====================
+  // Links de descarga
+  // =====================
+
+  $("a.direct-link").each((_, el) => {
+    const url = $(el).attr("href");
+    if (url) result.links.push(url);
+  });
+
+  result.links = [...new Set(result.links)];
+
+
+  // =====================
+  // Navegación
+  // =====================
+
+  $("a").each((_, el) => {
+    const text = $(el).text().trim().toLowerCase();
+
+    if (text.includes("anterior")) {
+      result.previous = $(el).attr("href") || null;
+    }
+
+    if (text.includes("siguiente")) {
+      result.next = $(el).attr("href") || null;
+    }
+
+    if (
+      text.includes("lista de capítulos") ||
+      text.includes("lista de capitulos")
+    ) {
+      result.episodes = $(el).attr("href") || null;
     }
   });
-  return { title, poster, links, streams, next, previous, episodes, chapter};
+  return result;
 };
 
 module.exports = {
