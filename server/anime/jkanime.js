@@ -8,9 +8,9 @@ const main = (html) => {
         let url = a.attr('href').encode()
         let title_group = a.find('.anime__sidebar__comment__item__text')
         let title = a.find('.strlimit.card-title').text()
-        let episode = a.find('.badge.badge-primary').text().replace("Ep", "").clearSpaces()
+        let chapter = a.find('.badge.badge-primary').text().replace("Ep", "").clearSpaces()
         let poster = a.find('img').attr('src')
-        result.push({ title, url, poster, episode })
+        result.push({ title, url, poster, chapter })
     });
     return result;
 };
