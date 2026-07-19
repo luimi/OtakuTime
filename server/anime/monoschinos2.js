@@ -236,18 +236,18 @@ const episode = (html) => {
     const text = $(el).text().trim().toLowerCase();
 
     if (text.includes("anterior")) {
-      result.previous = $(el).attr("href") || null;
+      result.previous = $(el).attr("href").encode() || null;
     }
 
     if (text.includes("siguiente")) {
-      result.next = $(el).attr("href") || null;
+      result.next = $(el).attr("href").encode() || null;
     }
 
     if (
       text.includes("lista de capítulos") ||
       text.includes("lista de capitulos")
     ) {
-      result.episodes = $(el).attr("href") || null;
+      result.episodes = $(el).attr("href").encode() || null;
     }
   });
   return result;
