@@ -21,7 +21,7 @@
         "url": "https://animemovil2.com",
         "hasDownload": true,
         "hasStream": true,
-        "enabled": false
+        "enabled": true
     },
     {
         "name": "TioAnime",
