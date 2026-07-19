@@ -13,3 +13,18 @@ Debes devolver un objeto con este modelo {poster: string,title: string,links:[st
 # Final
 
 Usa este html como ejemplo para extraer los datos
+
+# Regex
+
+> script
+```
+<script\b[^>]*>(?:.|\r?\n)*?<\/script>
+```
+> style
+```
+<style\b[^>]*>(?:.|\r?\n)*?<\/style>
+```
+> comments
+```
+<!--(?:.|\r?\n)*?-->
+```
