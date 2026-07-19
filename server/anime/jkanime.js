@@ -7,9 +7,10 @@ const main = (html) => {
         let a = $(element)
         let url = a.attr('href').encode()
         let title_group = a.find('.anime__sidebar__comment__item__text')
-        let title = `${a.find('.strlimit.card-title').text()} - ${a.find('.badge.badge-primary').text().replace("Ep", "").clearSpaces()}`
+        let title = a.find('.strlimit.card-title').text()
+        let episode = a.find('.badge.badge-primary').text().replace("Ep", "").clearSpaces()
         let poster = a.find('img').attr('src')
-        result.push({ title, url, poster })
+        result.push({ title, url, poster, episode })
     });
     return result;
 };
@@ -172,13 +173,13 @@ const episode = (html) => {
         const text = $(el).text().trim().toLowerCase();
 
         if (text.includes("anterior"))
-            result.previous = href;
+            result.previous = href.encode();
 
         else if (text.includes("siguiente"))
-            result.next = href;
+            result.next = href.encode();
 
         else if (text.includes("episodios"))
-            result.episodes = href;
+            result.episodes = href.encode();
     });
 
     // -----------------------
