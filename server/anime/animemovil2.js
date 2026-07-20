@@ -160,7 +160,7 @@ const episodes = (html) => {
 const episode = (html) => {
     let $ = cheerio.load(html)
 
-    const title = $('h1.text-2xl').first().text().trim() || "";
+    let title = $('h1.text-2xl').first().text().trim() || "";
 
     // 2. Extraer Póster (Opcional, buscamos en las etiquetas Open Graph de imagen)
     const poster = $('meta[property="og:image"]').first().attr('content') || "";
@@ -222,6 +222,7 @@ const episode = (html) => {
     // Usamos una regex simple para identificar el número de episodio en el título
     const chapterMatch = title.match(/Episodio\s+(\d+)/i) || title.match(/episodio\s+(\d+)/i);
     const chapter = chapterMatch ? chapterMatch[1] : "";
+    title = title.replace(/Episodio\s+(\d+)/i, "").trim()
     return { title, links, streams, next, previous, episodes, chapter };
 };
 
