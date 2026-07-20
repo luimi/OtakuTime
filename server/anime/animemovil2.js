@@ -214,9 +214,9 @@ const episode = (html) => {
     }
 
     // 5. Extraer Links de Navegación (Anterior, Siguiente, Episodios)
-    const previous = $('a[aria-label="Anterior"]').attr('href').encode() || "";
-    const next = $('a[aria-label="Siguiente"]').attr('href').encode() || "";
-    const episodes = $('a[aria-label="Episodios"]').attr('href').encode() || "";
+    const previous = (root + $('a[aria-label="Anterior"]').attr('href')).encode() || "";
+    const next = (root + $('a[aria-label="Siguiente"]').attr('href')).encode() || "";
+    const episodes = (root + $('a[aria-label="Episodios"]').attr('href')).encode() || "";
 
     // 6. Extraer Capítulo y Saga/Nombre extra (Opcional, parseando el h1 o title si se requiere)
     // Usamos una regex simple para identificar el número de episodio en el título
